@@ -24,11 +24,19 @@ namespace project_management
     {
         public MainWindow()
         {
-            System.Diagnostics.Debug.WriteLine("work");
-            UserDAO dao = new UserDAO();
-            User user = new User(10, "Alen", "Hasanagic", "tim", "alenhasana@yahoo.dk", "test", 1, DateTime.Today, DateTime.Now);
+            Console.WriteLine("Vindue åbnet ");
 
-            dao.create(user);
+            UserDAO dao = new UserDAO();
+          //    User user = new User(10, "Alen", "Hasanagic", "tim", "alenhasana@yahoo.dk", "test", 1, DateTime.Today, DateTime.Now);
+           User user = new User(10, "Alennnnnn", "Hasanagic", "tim", "alenhasana@yahoo.dk", "test", 1, DateTime.Today, DateTime.Now);
+            Console.WriteLine("bruger lavet ");
+
+            //    dao.delete(10);
+            //    dao.read(10);
+            //  dao.create(user);
+            dao.update(user);
+                dao.read(10);
+            Console.WriteLine("ruger oprettet ");
 
             //Kald metoden fra dao f.eks. new user etc
             InitializeComponent();

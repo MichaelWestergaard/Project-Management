@@ -20,8 +20,8 @@ namespace project_management.DAO
             var parameters = new Dictionary<string, string>();
 
             //Tjek om email allereade findes
-            parameters.Add("@email", "michaelwestergaard@hotmail.dk");
-            //   parameters.Add("@email",  user.Email);
+            //parameters.Add("@email", "michaelwestergaard@hotmail.dk");
+               parameters.Add("@email",  user.Email);
 
             MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
 
@@ -38,20 +38,18 @@ namespace project_management.DAO
                 newUser.Add("@created_at", user.CreatedAt.ToString());
                 newUser.Add("@last_login", user.LastLogin.ToString());
 
-                bool response = mySQLConnector.Execute("INSERT INTO users VALUES (id, firstname, lastname, password, email, picture, status, created_at, last_login )", newUser);
-                Console.WriteLine("test");
-                System.Diagnostics.Debug.WriteLine("test");
+                bool response = mySQLConnector.Execute("INSERT INTO users (id, firstname, lastname, password, email, picture, status, created_at, last_login ) VALUES (@id, @firstname, @lastname, @password, @email, @picture, @status, @created_at, @last_login ) ", newUser);
+                Console.WriteLine("Inden oprettelse:");
                 if (response)
                 {
-                    Console.WriteLine("test2");
-                    System.Diagnostics.Debug.WriteLine("test2");
+                    mySQLConnector.CloseConnection();
+                    Console.WriteLine("Oprettet");
                     return true;
                 }
 
             }
             mySQLConnector.CloseConnection();
-            Console.WriteLine("test3");
-            System.Diagnostics.Debug.WriteLine("stuff");
+            Console.WriteLine("Done");
 
             return false;
         }
@@ -76,7 +74,7 @@ namespace project_management.DAO
 
             var parameters = new Dictionary<string, string>();
 
-            parameters.Add("@email", "michaelwestergaard@hotmail.dk");
+            parameters.Add("@email", "alenhasana@yahoo.dk");
 
             MySqlDataReader dataReader = mySQLConnector.GetData("DELETE FROM users WHERE email = @email", parameters);
            
@@ -96,8 +94,8 @@ namespace project_management.DAO
 
             var parameters = new Dictionary<string, string>();
 
-            parameters.Add("@email", "michaelwestergaard@hotmail.dk");
-
+              parameters.Add("@email", "alenhasana@yahoo.dk");
+           
             MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
 
             if (dataReader.Read())
@@ -109,11 +107,16 @@ namespace project_management.DAO
                 user.Email = dataReader.GetString("email");
                 user.Picture = dataReader.GetString("picture");
                 user.Status = dataReader.GetInt16("status");
-                user.CreatedAt = dataReader.GetDateTime("created_at");
-                user.LastLogin = dataReader.GetDateTime("last_login");
-
+                //   user.CreatedAt = dataReader.GetDateTime("created_at");
+                //    user.LastLogin = dataReader.GetDateTime("last_login");
+                Console.WriteLine("Id: " + dataReader.GetString("id"));
+                Console.WriteLine("Firstname: " + dataReader.GetString("firstname"));
+                Console.WriteLine("Lastname: " + dataReader.GetString("lastname"));
+                Console.WriteLine("Email: " + dataReader.GetString("email"));
+                Console.WriteLine("Picture: " + dataReader.GetString("picture"));
+                Console.WriteLine("Status: " + dataReader.GetString("status"));
+            
                 return user;
-              //  return new User("@id", "@firstname", "@lastname", "@password", "@email", "@picture", "@status", "@created_at", "@last_login");
             }
 
 
@@ -122,7 +125,33 @@ namespace project_management.DAO
 
         public bool update(User obj)
         {
-            throw new NotImplementedException();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            var parameters = new Dictionary<string, string>();
+
+            parameters.Add("@email", "alenhasana@yahoo.dk");
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+
+            var newUser = new Dictionary<string, string>();
+            newUser.Add("@id", user.Id.ToString());
+            newUser.Add("@firstname", user.Firstname);
+            newUser.Add("@lastname", user.Lastname);
+            newUser.Add("@password", user.Password);
+            newUser.Add("@email", user.Email);
+            newUser.Add("@picture", user.Picture);
+            newUser.Add("@status", user.Status.ToString());
+            newUser.Add("@created_at", user.CreatedAt.ToString());
+            newUser.Add("@last_login", user.LastLogin.ToString());
+
+            bool edit = mySQLConnector.Execute("UPDATE users SET id = @id, firstname = @firstname, lastname = @lastname, password = @password, email = @email, picture = @picture, status = @status, created_at = @created_at, last_login = @last_login", newUser);
+
+            if (edit)
+            {
+                mySQLConnector.CloseConnection();
+                return true;
+            }
+            return false;
         }
     }
 }

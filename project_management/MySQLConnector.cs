@@ -47,6 +47,7 @@ namespace project_management
 
         private MySqlCommand CreateCommand(string stmt, Dictionary<string, string> parameters)
         {
+            connection.Close();
             connection.Open();
 
             MySqlCommand cmd = connection.CreateCommand();
