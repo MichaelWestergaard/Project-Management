@@ -12,16 +12,18 @@ namespace project_management.DTO
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string Picture { get; set; }
         public int Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastLogin { get; set; }
 
-        public User(int id, string firstname, string lastname, string email, string picture, int status, DateTime createdAt, DateTime lastLogin)
+        public User(int id, string firstname, string lastname, string password, string email, string picture, int status, DateTime createdAt, DateTime lastLogin)
         {
             Id = id;
             Firstname = firstname;
             Lastname = lastname;
+            Password = password;
             Email = email;
             Picture = picture;
             Status = status;
@@ -29,5 +31,8 @@ namespace project_management.DTO
             LastLogin = lastLogin;
         }
 
+        public User()
+        {
+        }
     }
 }

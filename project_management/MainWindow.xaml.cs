@@ -1,4 +1,6 @@
-﻿using System;
+﻿using project_management.DAO;
+using project_management.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,13 @@ namespace project_management
     {
         public MainWindow()
         {
+            System.Diagnostics.Debug.WriteLine("work");
+            UserDAO dao = new UserDAO();
+            User user = new User(10, "Alen", "Hasanagic", "tim", "alenhasana@yahoo.dk", "test", 1, DateTime.Today, DateTime.Now);
+
+            dao.create(user);
+
+            //Kald metoden fra dao f.eks. new user etc
             InitializeComponent();
         }
     }
