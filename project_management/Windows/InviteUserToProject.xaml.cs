@@ -19,9 +19,11 @@ namespace project_management.Windows
     /// </summary>
     public partial class InviteUserToProject : Window
     {
+        UserDAO userDAO;
         public InviteUserToProject()
         {
             InitializeComponent();
+            userDAO = new UserDAO();
         }
         
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

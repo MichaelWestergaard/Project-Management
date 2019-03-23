@@ -24,11 +24,6 @@ namespace project_management
         public MainWindow()
         {
             InitializeComponent();
-            //var home = new Home();
-
-            //home.Show();
-            new CreateProject().Show();
-            this.Close();
         }
     }
 }
