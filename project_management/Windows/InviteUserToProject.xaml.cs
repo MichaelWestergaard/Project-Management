@@ -15,20 +15,20 @@ using System.Windows.Shapes;
 namespace project_management.Windows
 {
     /// <summary>
-    /// Interaction logic for CreateProject.xaml
+    /// Interaction logic for InviteUserToProject.xaml
     /// </summary>
-    public partial class CreateProject : Window
+    public partial class InviteUserToProject : Window
     {
-        public CreateProject()
+        public InviteUserToProject()
         {
             InitializeComponent();
         }
-
+        
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
-        
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -36,8 +36,12 @@ namespace project_management.Windows
 
         private void Add_Member_Click(object sender, RoutedEventArgs e)
         {
-            new InviteUserToProject().Show();
+            string email = this.email.Text;
+
+            if (Utilities.IsValidEmail(email))
+            {
+                if(userDAO)
+            }
         }
-        
     }
 }

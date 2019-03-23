@@ -65,7 +65,7 @@
                                     </Ellipse>
                                 </StackPanel>
                             </ScrollViewer>
-                            <Button Content="Tilføj Medlem" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
+                            <Button Name="Add_Member" Click="Add_Member_Click" Content="Tilføj Medlem" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
