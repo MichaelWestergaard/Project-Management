@@ -12,27 +12,27 @@ namespace project_management.DTO
         {
         }
 
-        public Project(int id, Project parentProject, User projectOwner, string name, string description, bool completed, DateTime createdAt, DateTime dueDate, List<Section> sectionList)
+        public Project(int id, int parentProjectID, int projectOwnerID, string name, string description, bool completed, DateTime createdAt, DateTime dueDate /*List<Section> sectionList*/)
         {
             Id = id;
-            ParentProject = parentProject;
-            ProjectOwner = projectOwner;
+            ParentProjectID = parentProjectID;
+            ProjectOwnerID = projectOwnerID;
             Name = name;
             Description = description;
             Completed = completed;
             CreatedAt = createdAt;
             DueDate = dueDate;
-            SectionList = sectionList;
+  //          SectionList = sectionList;
         }
 
         public int Id { get; set; }
-        public Project ParentProject { get; set; }
-        public User ProjectOwner { get; set; }
+        public int ParentProjectID { get; set; }
+        public int ProjectOwnerID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DueDate { get; set; }
-        public List<Section> SectionList { get; set; }
+  //      public List<Section> SectionList { get; set; }
     }
 }

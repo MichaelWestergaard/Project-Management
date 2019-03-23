@@ -53,11 +53,12 @@ namespace project_management
             MySqlCommand cmd = connection.CreateCommand();
             cmd.CommandText = stmt;
 
+            if (parameters != null) { 
             foreach (var element in parameters)
             {
                 cmd.Parameters.AddWithValue(element.Key, element.Value);
             }
-
+            }
             return cmd;
         }
 

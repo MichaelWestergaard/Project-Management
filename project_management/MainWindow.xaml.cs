@@ -34,8 +34,9 @@ namespace project_management
             //    dao.delete(10);
             //    dao.read(10);
             //  dao.create(user);
-            dao.update(user);
-                dao.read(10);
+           //  dao.update(user);
+             //      dao.read(10);
+            dao.list();
             Console.WriteLine("ruger oprettet ");
 
             //Kald metoden fra dao f.eks. new user etc

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using project_management;
 using MySql.Data.MySqlClient;
+using System.Collections;
 
 namespace project_management.DAO
 {
@@ -21,9 +22,9 @@ namespace project_management.DAO
 
             //Tjek om email allereade findes
             //parameters.Add("@email", "michaelwestergaard@hotmail.dk");
-               parameters.Add("@email",  user.Email);
+            parameters.Add("@id",  user.Id.ToString());
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE id = @id", parameters);
 
             if (dataReader.HasRows != true)
             {
@@ -39,18 +40,14 @@ namespace project_management.DAO
                 newUser.Add("@last_login", user.LastLogin.ToString());
 
                 bool response = mySQLConnector.Execute("INSERT INTO users (id, firstname, lastname, password, email, picture, status, created_at, last_login ) VALUES (@id, @firstname, @lastname, @password, @email, @picture, @status, @created_at, @last_login ) ", newUser);
-                Console.WriteLine("Inden oprettelse:");
                 if (response)
                 {
                     mySQLConnector.CloseConnection();
-                    Console.WriteLine("Oprettet");
                     return true;
                 }
 
             }
             mySQLConnector.CloseConnection();
-            Console.WriteLine("Done");
-
             return false;
         }
 
@@ -74,9 +71,9 @@ namespace project_management.DAO
 
             var parameters = new Dictionary<string, string>();
 
-            parameters.Add("@email", "alenhasana@yahoo.dk");
+            parameters.Add("@id", ID.ToString());
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("DELETE FROM users WHERE email = @email", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("DELETE FROM users WHERE id = @id", parameters);
            
             mySQLConnector.CloseConnection();
 
@@ -85,7 +82,38 @@ namespace project_management.DAO
 
         public List<User> list()
         {
-            throw new NotImplementedException();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            List<User> users = new List<User>();
+
+            //Tjek om email allereade findes
+            //parameters.Add("@email", "michaelwestergaard@hotmail.dk");
+
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users", null);
+
+           if (dataReader.HasRows) { 
+            while (dataReader.Read())
+            {
+                    int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id") ;
+                    string firstname = dataReader.IsDBNull(0) ? "" : dataReader.GetString("firstname");
+                    string lastname = dataReader.IsDBNull(0) ? "" : dataReader.GetString("lastname");
+                    string password = dataReader.IsDBNull(0) ? "" : dataReader.GetString("password");
+                    string email = dataReader.IsDBNull(0) ? "" : dataReader.GetString("email");
+                    string picture = dataReader.IsDBNull(5) ? "" : dataReader.GetString("picture");
+                    int status = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("status");
+                    DateTime created_at = (DateTime) dataReader.GetMySqlDateTime("created_at");
+                    DateTime last_login = (DateTime)dataReader.GetMySqlDateTime("last_login");
+
+                   
+                    User user = new User(id, firstname, lastname, password, email, picture, status, created_at, last_login) ;
+                    users.Add(user);
+            }
+            }
+            for (int i = 0; i < users.Count; i++)
+              Console.WriteLine(""+ users[i].Firstname);
+            
+            return users;
         }
 
         public User read(int ID)
@@ -94,28 +122,22 @@ namespace project_management.DAO
 
             var parameters = new Dictionary<string, string>();
 
-              parameters.Add("@email", "alenhasana@yahoo.dk");
+            parameters.Add("@id", ID.ToString());
            
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE id = @id", parameters);
 
             if (dataReader.Read())
             {
-                user.Id = dataReader.GetInt16("id");
-                user.Firstname = dataReader.GetString("firstname");
-                user.Lastname = dataReader.GetString("lastname");
-                user.Password = dataReader.GetString("password");
-                user.Email = dataReader.GetString("email");
-                user.Picture = dataReader.GetString("picture");
-                user.Status = dataReader.GetInt16("status");
-                //   user.CreatedAt = dataReader.GetDateTime("created_at");
-                //    user.LastLogin = dataReader.GetDateTime("last_login");
-                Console.WriteLine("Id: " + dataReader.GetString("id"));
-                Console.WriteLine("Firstname: " + dataReader.GetString("firstname"));
-                Console.WriteLine("Lastname: " + dataReader.GetString("lastname"));
-                Console.WriteLine("Email: " + dataReader.GetString("email"));
-                Console.WriteLine("Picture: " + dataReader.GetString("picture"));
-                Console.WriteLine("Status: " + dataReader.GetString("status"));
-            
+                user.Id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                user.Firstname = dataReader.IsDBNull(0) ? "" : dataReader.GetString("firstname");
+                user.Lastname = dataReader.IsDBNull(0) ? "" : dataReader.GetString("lastname");
+                user.Password = dataReader.IsDBNull(0) ? "" : dataReader.GetString("password");
+                user.Email = dataReader.IsDBNull(0) ? "" : dataReader.GetString("email");
+                user.Picture = dataReader.IsDBNull(5) ? "" : dataReader.GetString("picture");
+                user.Status = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("status");
+                user.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                user.LastLogin = (DateTime)dataReader.GetMySqlDateTime("last_login");
+
                 return user;
             }
 
@@ -123,15 +145,15 @@ namespace project_management.DAO
                 return null;
         }
 
-        public bool update(User obj)
+        public bool update(User user)
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             var parameters = new Dictionary<string, string>();
 
-            parameters.Add("@email", "alenhasana@yahoo.dk");
+            parameters.Add("@id", user.Id.ToString());
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE id = @id", parameters);
 
             var newUser = new Dictionary<string, string>();
             newUser.Add("@id", user.Id.ToString());
@@ -144,7 +166,7 @@ namespace project_management.DAO
             newUser.Add("@created_at", user.CreatedAt.ToString());
             newUser.Add("@last_login", user.LastLogin.ToString());
 
-            bool edit = mySQLConnector.Execute("UPDATE users SET id = @id, firstname = @firstname, lastname = @lastname, password = @password, email = @email, picture = @picture, status = @status, created_at = @created_at, last_login = @last_login", newUser);
+            bool edit = mySQLConnector.Execute("UPDATE users SET id = @id, firstname = @firstname, lastname = @lastname, password = @password, email = @email, picture = @picture, status = @status, created_at = @created_at, last_login = @last_login WHERE email = @email", newUser);
 
             if (edit)
             {

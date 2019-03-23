@@ -40,13 +40,11 @@ namespace project_management.DAO
                 if (response)
                 {
                     mySQLConnector.CloseConnection();
-                    Console.WriteLine("Oprettet");
                     return true;
                 }
 
             }
             mySQLConnector.CloseConnection();
-            Console.WriteLine("Done");
             return false;
         }
 
@@ -67,33 +65,68 @@ namespace project_management.DAO
 
         public List<Project> list()
         {
-            throw new NotImplementedException();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            List<Project> projects = new List<Project>();
+
+            //Tjek om email allereade findes
+            //parameters.Add("@email", "michaelwestergaard@hotmail.dk");
+
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects", null);
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                    int parent_project_id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("parent_project_id");
+                    int user_id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("user_id");
+                    string name = dataReader.IsDBNull(0) ? "" : dataReader.GetString("name");
+                    string description = dataReader.IsDBNull(0) ? "" : dataReader.GetString("description");
+                    bool completed = dataReader.IsDBNull(0) ? false : dataReader.GetBoolean("completed");
+                    DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                    DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
+
+          
+                    Project project = new Project(id, parent_project_id, user_id, name, description, completed, created_at, due_date);
+                    projects.Add(project);
+                }
+            }
+            for (int i = 0; i < projects.Count; i++)
+                Console.WriteLine("" + projects[i].Name);
+
+            return projects;
         }
 
         public Project read(int ID)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+                MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
-            var parameters = new Dictionary<string, string>();
+                var parameters = new Dictionary<string, string>();
 
-            parameters.Add("@id", project.Id.ToString());
+                parameters.Add("@id", ID.ToString());
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
+                MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
 
-            if (dataReader.Read())
-            {
-                //Alle reads skal lige skrives, gøres senere i dag                
-                //    user.DueDate = dataReader.GetDateTime("due_date");
-                //   user.CreatedAt = dataReader.GetDateTime("created_at");
-
-             
+                if (dataReader.Read())
+                {
+                 project.Id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                project.ParentProjectID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("parent_project_id");
+                project.ProjectOwnerID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("user_id");
+                project.Name = dataReader.IsDBNull(0) ? "" : dataReader.GetString("name");
+                project.Description = dataReader.IsDBNull(0) ? "" : dataReader.GetString("description");
+                project.Completed = dataReader.IsDBNull(0) ? false : dataReader.GetBoolean("completed");
+                project.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                project.DueDate = (DateTime)dataReader.GetMySqlDateTime("due_date");
 
                 return project;
+                }
+
+
+                return null;
             }
 
 
-            return null;
-        }
 
     
 
