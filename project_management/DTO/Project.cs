@@ -8,6 +8,10 @@ namespace project_management.DTO
 {
     class Project
     {
+        public Project()
+        {
+        }
+
         public Project(int id, Project parentProject, User projectOwner, string name, string description, bool completed, DateTime createdAt, DateTime dueDate, List<Section> sectionList)
         {
             Id = id;

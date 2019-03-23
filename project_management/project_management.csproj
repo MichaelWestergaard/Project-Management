@@ -77,6 +77,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DAO\BaseDAO.cs" />
+    <Compile Include="DAO\ProjectDAO.cs" />
+    <Compile Include="DAO\SectionDAO.cs" />
     <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DTO\Project.cs" />
     <Compile Include="DTO\Section.cs" />
