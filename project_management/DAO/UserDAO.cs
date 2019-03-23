@@ -175,5 +175,24 @@ namespace project_management.DAO
             }
             return false;
         }
+
+        public bool IsEmailFree(string email)
+        {
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            var parameters = new Dictionary<string, string>
+            {
+                { "@email", email }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+
+            if (dataReader.HasRows){
+                return false;
+            } else
+            {
+                return true;
+            }
+        }
     }
 }
