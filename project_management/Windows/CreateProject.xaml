@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:project_management.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="CreateProject" SizeToContent="Height" Width="400" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="CreateProject" BorderBrush="#FF222425" BorderThickness=".5" SizeToContent="Height" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,12 +22,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0">
-                <Button x:Name="ButtonClose" Click="ButtonClose_Click" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                <Button x:Name="ButtonClose" Click="ButtonClose_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                     <materialDesign:PackIcon Kind="WindowClose" Foreground="White" Width="auto" Height="auto"/>
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1" Height="Auto" VerticalAlignment="Top">
+        <Grid Grid.Row="1" VerticalAlignment="Top">
             <StackPanel>
                 <Grid Margin="10">
                     <Rectangle Fill="White" RadiusY="10" RadiusX="10">
@@ -38,9 +38,9 @@
                     <Grid>
                         <StackPanel VerticalAlignment="Bottom" Margin="10">
                             <TextBlock Text="Opret nyt projekt" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
-                            <TextBox materialDesign:HintAssist.Hint="Projektnavn" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
-                            <TextBox materialDesign:HintAssist.Hint="Beskrivelse" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
-                            <DatePicker materialDesign:HintAssist.Hint="Deadline" FontSize="16" Margin="5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                            <TextBox Name="name" materialDesign:HintAssist.Hint="Projektnavn" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
+                            <TextBox Name="description" materialDesign:HintAssist.Hint="Beskrivelse" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
+                            <DatePicker Name="deadline" materialDesign:HintAssist.Hint="Deadline" FontSize="16" Margin="5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -54,24 +54,14 @@
                         <StackPanel VerticalAlignment="Bottom" Margin="10">
                             <TextBlock Text="Projektets medlemmer" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
                             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <Ellipse Height="30" Width="30" Margin="5" ToolTip="Dig">
-                                        <Ellipse.Effect>
-                                            <DropShadowEffect Color="#FFBBBBBB" BlurRadius="6" RenderingBias="Quality" ShadowDepth="1"/>
-                                        </Ellipse.Effect>
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                </StackPanel>
+                                <StackPanel Name="MemberList" HorizontalAlignment="Center" Orientation="Horizontal"/>
                             </ScrollViewer>
                             <Button Name="Add_Member" Click="Add_Member_Click" Content="Tilføj Medlem" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Button Content="Opret projekt" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
+                <Button Name="ButtnCreateProject" Content="Opret projekt" Click="CreateProject_Click"  Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
             </StackPanel>
-
         </Grid>
     </Grid>
 </Window>

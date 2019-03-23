@@ -27,8 +27,8 @@ namespace project_management.DAO
             {
                 var newProject = new Dictionary<string, string>();
                 newProject.Add("@id", project.Id.ToString());
-                newProject.Add("@parent_project_id", project.ParentProject.ToString());
-                newProject.Add("@user_id", project.ProjectOwner.ToString());
+                //newProject.Add("@parent_project_id", project.ParentProject.ToString());
+                //newProject.Add("@user_id", project.ProjectOwner.ToString());
                 newProject.Add("@name", project.Name);
                 newProject.Add("@description", project.Description);
                 newProject.Add("@completed", project.Completed.ToString());
@@ -46,6 +46,23 @@ namespace project_management.DAO
             }
             mySQLConnector.CloseConnection();
             return false;
+        }
+
+        public int CreateProject(Project project)
+        {
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            var newProject = new Dictionary<string, string>();
+            newProject.Add("@user_id", project.ProjectOwnerID.ToString());
+            newProject.Add("@name", project.Name);
+            newProject.Add("@description", project.Description);
+            newProject.Add("@due_date", project.DueDate.ToString());
+            
+            int projectID = mySQLConnector.Insert("INSERT INTO projects (user_id, name, description, due_date) VALUES (@user_id, @name, @description, @due_date)", newProject);
+
+            mySQLConnector.CloseConnection();
+
+            return projectID;
         }
 
         public Project delete(int ID)
@@ -111,11 +128,11 @@ namespace project_management.DAO
                 if (dataReader.Read())
                 {
                  project.Id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
-                project.ParentProjectID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("parent_project_id");
-                project.ProjectOwnerID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("user_id");
-                project.Name = dataReader.IsDBNull(0) ? "" : dataReader.GetString("name");
-                project.Description = dataReader.IsDBNull(0) ? "" : dataReader.GetString("description");
-                project.Completed = dataReader.IsDBNull(0) ? false : dataReader.GetBoolean("completed");
+                project.ParentProjectID = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("parent_project_id");
+                project.ProjectOwnerID = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("user_id");
+                project.Name = dataReader.IsDBNull(3) ? "" : dataReader.GetString("name");
+                project.Description = dataReader.IsDBNull(4) ? "" : dataReader.GetString("description");
+                project.Completed = dataReader.IsDBNull(5) ? false : dataReader.GetBoolean("completed");
                 project.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
                 project.DueDate = (DateTime)dataReader.GetMySqlDateTime("due_date");
 
@@ -133,6 +150,32 @@ namespace project_management.DAO
     public bool update(Project obj)
         {
             throw new NotImplementedException();
+        }
+
+        public bool AddUserToProject(int projectID, int userID)
+        {
+            UserDAO userDAO = new UserDAO();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            if (read(projectID) != null && userDAO.read(userID) != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>
+                {
+                    { "@projectID", projectID.ToString() },
+                    { "@userID", userID.ToString() }
+                };
+                
+                bool response = mySQLConnector.Execute("INSERT INTO project_users (project_id, user_id) VALUES (@projectID, @userID)", parameters);
+
+                if (response)
+                {
+                    mySQLConnector.CloseConnection();
+                    return true;
+                }
+                return false;
+            }
+
+            return false;
         }
     }
 }

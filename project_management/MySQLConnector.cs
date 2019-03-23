@@ -43,7 +43,16 @@ namespace project_management
 
             return false;
         }
-        
+
+        public int Insert(string stmt, Dictionary<string, string> parameters)
+        {
+            MySqlCommand cmd = CreateCommand(stmt, parameters);
+            cmd.ExecuteNonQuery();
+            int id = (int) cmd.LastInsertedId;
+            connection.Close();
+
+            return id;
+        }
 
         private MySqlCommand CreateCommand(string stmt, Dictionary<string, string> parameters)
         {
