@@ -15,7 +15,7 @@ namespace project_management
 
         private MySQLConnector()
         {
-            connection = new MySqlConnection("SERVER=mysql25.unoeuro.com;DATABASE=michaelwestergaard_dk_db;UID=michaelwest_dk;PASSWORD=peyifimobi27;");
+            connection = new MySqlConnection("SERVER=mysql25.unoeuro.com;DATABASE=michaelwestergaard_dk_db;UID=michaelwest_dk;PASSWORD=tim;");
         }
 
         public static MySQLConnector Instance
@@ -47,16 +47,18 @@ namespace project_management
 
         private MySqlCommand CreateCommand(string stmt, Dictionary<string, string> parameters)
         {
+            connection.Close();
             connection.Open();
 
             MySqlCommand cmd = connection.CreateCommand();
             cmd.CommandText = stmt;
 
+            if (parameters != null) { 
             foreach (var element in parameters)
             {
                 cmd.Parameters.AddWithValue(element.Key, element.Value);
             }
-
+            }
             return cmd;
         }
 

@@ -93,6 +93,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAO\BaseDAO.cs" />
+    <Compile Include="DAO\ProjectDAO.cs" />
+    <Compile Include="DAO\SectionDAO.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="DTO\Project.cs" />
     <Compile Include="DTO\Section.cs" />
     <Compile Include="DTO\Task.cs" />
@@ -141,8 +145,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAO\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

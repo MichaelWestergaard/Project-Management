@@ -8,9 +8,14 @@ namespace project_management.DTO
 {
     class Section
     {
-        public Section(int id, string name, bool completed, DateTime createdAt, DateTime dueDate, List<Task> taskList)
+        public Section()
+        {
+        }
+
+        public Section(int id, int projectId, string name, bool completed, DateTime createdAt, DateTime dueDate, List<Task> taskList)
         {
             Id = id;
+            ProjectId = projectId;
             Name = name;
             Completed = completed;
             CreatedAt = createdAt;
@@ -19,6 +24,7 @@ namespace project_management.DTO
         }
 
         public int Id { get; set; }
+        public int ProjectId { get; set; }
         public string Name { get; set; }
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
