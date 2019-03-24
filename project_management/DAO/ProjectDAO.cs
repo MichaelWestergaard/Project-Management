@@ -27,8 +27,8 @@ namespace project_management.DAO
             {
                 var newProject = new Dictionary<string, string>();
                 newProject.Add("@id", project.Id.ToString());
-                newProject.Add("@parent_project_id", project.ParentProject.ToString());
-                newProject.Add("@user_id", project.ProjectOwner.ToString());
+                newProject.Add("@parent_project_id", project.ParentProjectID.ToString());
+                newProject.Add("@user_id", project.ProjectOwnerID.ToString());
                 newProject.Add("@name", project.Name);
                 newProject.Add("@description", project.Description);
                 newProject.Add("@completed", project.Completed.ToString());
@@ -132,7 +132,32 @@ namespace project_management.DAO
 
     public bool update(Project obj)
         {
-            throw new NotImplementedException();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            var parameters = new Dictionary<string, string>();
+
+            parameters.Add("@id", project.Id.ToString());
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
+            var newProject = new Dictionary<string, string>();
+            newProject.Add("@id", project.Id.ToString());
+            newProject.Add("@parent_project_id", project.ParentProjectID.ToString());
+            newProject.Add("@user_id", project.ProjectOwnerID.ToString());
+            newProject.Add("@name", project.Name);
+            newProject.Add("@description", project.Description);
+            newProject.Add("@completed", project.Completed.ToString());
+            newProject.Add("@created_at", project.CreatedAt.ToString());
+            newProject.Add("@due_date", project.DueDate.ToString());
+
+
+            bool edit = mySQLConnector.Execute("UPDATE projects SET id = @id, parent_project_id = @parent_project_id, user_id = @user_id, name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
+
+            if (edit)
+            {
+                mySQLConnector.CloseConnection();
+                return true;
+            }
+            return false;
         }
     }
 }
