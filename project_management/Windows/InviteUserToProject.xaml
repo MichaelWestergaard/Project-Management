@@ -52,16 +52,7 @@
                 <StackPanel VerticalAlignment="Bottom" Margin="10">
                     <TextBlock Text="Projektets medlemmer" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                        <StackPanel Name="MemberList" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Ellipse Height="30" Width="30" Margin="5" ToolTip="Dig">
-                                <Ellipse.Effect>
-                                    <DropShadowEffect Color="#FFBBBBBB" BlurRadius="6" RenderingBias="Quality" ShadowDepth="1"/>
-                                </Ellipse.Effect>
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </StackPanel>
+                        <StackPanel Name="MemberList" HorizontalAlignment="Center" Orientation="Horizontal"/>
                     </ScrollViewer>
                 </StackPanel>
             </Grid>
