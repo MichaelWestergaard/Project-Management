@@ -14,7 +14,7 @@ namespace project_management.DAO
     {
         User user = new User();
 
-        public bool create(User user)
+        public bool Create(User user)
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
@@ -48,7 +48,7 @@ namespace project_management.DAO
             return false;
         }
 
-        public User delete(int ID)
+        public User Delete(int ID)
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
@@ -64,7 +64,7 @@ namespace project_management.DAO
             return null;
         }
 
-        public List<User> list()
+        public List<User> List()
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
@@ -94,7 +94,7 @@ namespace project_management.DAO
             return users;
         }
 
-        public User read(int ID)
+        public User Read(int ID)
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
@@ -123,7 +123,7 @@ namespace project_management.DAO
             return null;
         }
 
-        public bool update(User user)
+        public bool Update(User user)
         {
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 

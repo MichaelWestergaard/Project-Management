@@ -8,11 +8,11 @@ namespace project_management.DAO
 {
     public interface BaseDAO<T>
     {
-        bool create(T obj);
-        T read(int ID);
-        bool update(T obj);
-        List<T> list();
-        T delete(int ID);
+        bool Create(T obj);
+        T Read(int ID);
+        bool Update(T obj);
+        List<T> List();
+        T Delete(int ID);
  
 
     }

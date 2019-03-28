@@ -12,14 +12,14 @@ namespace project_management.DTO
         {
         }
 
-        public Task(int id, Task parentTask, Task requiresTask, User assignedUser, string name, string description, double estimatedTime, int priority, bool completed, DateTime startDate, DateTime dueDate, DateTime createdAt)
+        public Task(int id, Task parentTask, Task requiresTask, User assignedUser, Section sectionId, string name, string description, double estimatedTime, int priority, bool completed, DateTime startDate, DateTime dueDate, DateTime createdAt)
         {
             Id = id;
             ParentTask = parentTask;
             RequiresTask = requiresTask;
             AssignedUser = assignedUser;
             Name = name;
-            SectionId = SectionId;
+            SectionId = sectionId;
             Description = description;
             EstimatedTime = estimatedTime;
             Priority = priority;
