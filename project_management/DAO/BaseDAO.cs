@@ -12,7 +12,7 @@ namespace project_management.DAO
         T Read(int ID);
         bool Update(T obj);
         List<T> List();
-        T Delete(int ID);
+        bool Delete(int ID);
  
 
     }

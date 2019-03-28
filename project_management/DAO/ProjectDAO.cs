@@ -10,68 +10,51 @@ namespace project_management.DAO
 {
     class ProjectDAO : BaseDAO<Project>
     {
+        MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
-        Project project = new Project();
-
-        public bool create(Project project)
+        public bool Create(Project project)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
-
-            var parameters = new Dictionary<string, string>();
-
-            parameters.Add("@id", project.Id.ToString());
-
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
-
-            if (dataReader.HasRows != true)
+            Dictionary<string, string> newProject = new Dictionary<string, string>
             {
-                var newProject = new Dictionary<string, string>();
-                newProject.Add("@id", project.Id.ToString());
-                newProject.Add("@parent_project_id", project.ParentProjectID.ToString());
-                newProject.Add("@user_id", project.ProjectOwnerID.ToString());
-                newProject.Add("@name", project.Name);
-                newProject.Add("@description", project.Description);
-                newProject.Add("@completed", project.Completed.ToString());
-                newProject.Add("@created_at", project.CreatedAt.ToString());
-                newProject.Add("@due_date", project.DueDate.ToString());
+                { "@parent_project_id", project.ParentProjectID.ToString() },
+                { "@user_id", project.ProjectOwnerID.ToString() },
+                { "@name", project.Name },
+                { "@description", project.Description },
+                { "@due_date", project.DueDate.ToString() }
+            };
 
 
-                bool response = mySQLConnector.Execute("INSERT INTO projects (id, parent_project_id, user_id , name, description, completed, created_at, due_date) VALUES (@id, @parent_project_id, @user_id , @name, @description, @completed, @created_at, @due_date ) ", newProject);
-                if (response)
-                {
-                    mySQLConnector.CloseConnection();
-                    return true;
-                }
-
+            bool response = mySQLConnector.Execute("INSERT INTO projects (parent_project_id, user_id , name, description, due_date) VALUES (@parent_project_id, @user_id , @name, @description, @due_date)", newProject);
+            if (response)
+            {
+                mySQLConnector.CloseConnection();
+                return true;
             }
+
             mySQLConnector.CloseConnection();
             return false;
         }
 
-        public Project delete(int ID)
+        public bool Delete(int id)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+            var parameters = new Dictionary<string, string>
+            {
+                { "@id", id.ToString() }
+            };
 
-            var parameters = new Dictionary<string, string>();
-
-            parameters.Add("@id", project.Id.ToString());
-
-            MySqlDataReader dataReader = mySQLConnector.GetData("DELETE FROM projects WHERE id = @id", parameters);
+            bool response = mySQLConnector.Execute("DELETE FROM projects WHERE id = @id", parameters);
 
             mySQLConnector.CloseConnection();
 
-            return null;
+            if (response)
+                return true;
+
+            return false;
         }
 
-        public List<Project> list()
+        public List<Project> List()
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
-
             List<Project> projects = new List<Project>();
-
-            //Tjek om email allereade findes
-            //parameters.Add("@email", "michaelwestergaard@hotmail.dk");
-
 
             MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects", null);
             if (dataReader.HasRows)
@@ -79,66 +62,54 @@ namespace project_management.DAO
                 while (dataReader.Read())
                 {
                     int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
-                    int parent_project_id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("parent_project_id");
-                    int user_id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("user_id");
-                    string name = dataReader.IsDBNull(0) ? "" : dataReader.GetString("name");
-                    string description = dataReader.IsDBNull(0) ? "" : dataReader.GetString("description");
-                    bool completed = dataReader.IsDBNull(0) ? false : dataReader.GetBoolean("completed");
+                    int parent_project_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("parent_project_id");
+                    int user_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("user_id");
+                    string name = dataReader.IsDBNull(3) ? "" : dataReader.GetString("name");
+                    string description = dataReader.IsDBNull(4) ? "" : dataReader.GetString("description");
+                    bool completed = dataReader.IsDBNull(5) ? false : dataReader.GetBoolean("completed");
                     DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
                     DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
 
-          
+
                     Project project = new Project(id, parent_project_id, user_id, name, description, completed, created_at, due_date);
                     projects.Add(project);
                 }
             }
-            for (int i = 0; i < projects.Count; i++)
-                Console.WriteLine("" + projects[i].Name);
 
             return projects;
         }
 
-        public Project read(int ID)
+        public Project Read(int ID)
         {
-                MySQLConnector mySQLConnector = MySQLConnector.Instance;
-
-                var parameters = new Dictionary<string, string>();
-
-                parameters.Add("@id", ID.ToString());
-
-                MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
-
-                if (dataReader.Read())
-                {
-                 project.Id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
-                project.ParentProjectID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("parent_project_id");
-                project.ProjectOwnerID = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("user_id");
-                project.Name = dataReader.IsDBNull(0) ? "" : dataReader.GetString("name");
-                project.Description = dataReader.IsDBNull(0) ? "" : dataReader.GetString("description");
-                project.Completed = dataReader.IsDBNull(0) ? false : dataReader.GetBoolean("completed");
-                project.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
-                project.DueDate = (DateTime)dataReader.GetMySqlDateTime("due_date");
-
-                return project;
-                }
-
-
-                return null;
-            }
-
-
-
-    
-
-    public bool update(Project obj)
-        {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
-
-            var parameters = new Dictionary<string, string>();
-
-            parameters.Add("@id", project.Id.ToString());
+            var parameters = new Dictionary<string, string>
+            {
+                { "@id", ID.ToString() }
+            };
 
             MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
+
+            if (dataReader.Read())
+            {
+                int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                int parent_project_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("parent_project_id");
+                int user_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("user_id");
+                string name = dataReader.IsDBNull(3) ? "" : dataReader.GetString("name");
+                string description = dataReader.IsDBNull(4) ? "" : dataReader.GetString("description");
+                bool completed = dataReader.IsDBNull(5) ? false : dataReader.GetBoolean("completed");
+                DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
+                
+                Project project = new Project(id, parent_project_id, user_id, name, description, completed, created_at, due_date);
+
+                return project;
+            }
+            
+            return null;
+        }
+        
+        public bool Update(Project project)
+        {
+
             var newProject = new Dictionary<string, string>();
             newProject.Add("@id", project.Id.ToString());
             newProject.Add("@parent_project_id", project.ParentProjectID.ToString());
@@ -148,13 +119,13 @@ namespace project_management.DAO
             newProject.Add("@completed", project.Completed.ToString());
             newProject.Add("@created_at", project.CreatedAt.ToString());
             newProject.Add("@due_date", project.DueDate.ToString());
+            
+            bool edit = mySQLConnector.Execute("UPDATE projects SET parent_project_id = @parent_project_id, user_id = @user_id, name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
 
-
-            bool edit = mySQLConnector.Execute("UPDATE projects SET id = @id, parent_project_id = @parent_project_id, user_id = @user_id, name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
+            mySQLConnector.CloseConnection();
 
             if (edit)
             {
-                mySQLConnector.CloseConnection();
                 return true;
             }
             return false;

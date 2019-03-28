@@ -8,18 +8,14 @@ namespace project_management.DTO
 {
     class Task
     {
-        public Task()
-        {
-        }
-
-        public Task(int id, Task parentTask, Task requiresTask, User assignedUser, Section sectionId, string name, string description, double estimatedTime, int priority, bool completed, DateTime startDate, DateTime dueDate, DateTime createdAt)
+        public Task(int id, Task parentTask, Task requiresTask, User assignedUser, int sectionID, string name, string description, double estimatedTime, int priority, bool completed, DateTime startDate, DateTime dueDate, DateTime createdAt)
         {
             Id = id;
             ParentTask = parentTask;
             RequiresTask = requiresTask;
             AssignedUser = assignedUser;
             Name = name;
-            SectionId = sectionId;
+            SectionID = sectionID;
             Description = description;
             EstimatedTime = estimatedTime;
             Priority = priority;
@@ -33,7 +29,7 @@ namespace project_management.DTO
         public Task ParentTask { get; set; }
         public Task RequiresTask { get; set; }
         public User AssignedUser { get; set; }
-        public Section SectionId { get; set; }
+        public int SectionID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double EstimatedTime { get; set; }
