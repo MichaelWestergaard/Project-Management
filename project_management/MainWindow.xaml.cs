@@ -11,7 +11,7 @@ namespace project_management
         public MainWindow()
         {
             InitializeComponent();
-            new login().Show();
+            new Home().Show();
             this.Close();
         }
     }
