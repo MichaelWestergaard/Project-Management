@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using project_management.Elements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +27,15 @@ namespace project_management.Windows
             InitializeComponent();
         }
 
+        private void NewTask_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)e.Source;
+            StackPanel currentSection = (StackPanel)FindName(button.Uid.ToString());
+
+
+            new NewTask(currentSection).Show();
+
+        }
+        
     }
 }

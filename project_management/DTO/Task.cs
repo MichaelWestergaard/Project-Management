@@ -24,6 +24,18 @@ namespace project_management.DTO
             CreatedAt = createdAt;
         }
 
+        public Task(Task parentTask, Task requiresTask, User assignedUser, string name, string description, double estimatedTime, int priority, DateTime dueDate)
+        {
+            ParentTask = parentTask;
+            RequiresTask = requiresTask;
+            AssignedUser = assignedUser;
+            Name = name;
+            Description = description;
+            EstimatedTime = estimatedTime;
+            Priority = priority;
+            DueDate = dueDate;
+        }
+
         public int Id { get; set; }
         public Task ParentTask { get; set; }
         public Task RequiresTask { get; set; }
