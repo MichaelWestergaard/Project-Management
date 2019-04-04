@@ -65,7 +65,8 @@ namespace project_management.DAO
                     DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
                     DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
 
-                    Section section = new Section(id, project_id, name, completed, created_at, due_date);
+                    //TODO: Get task list
+                    Section section = new Section(id, project_id, name, completed, created_at, due_date, null);
                     sections.Add(section);
                 }
             }
@@ -87,14 +88,13 @@ namespace project_management.DAO
 
             if (dataReader.Read())
             {
-                int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
                 int project_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("project_id");
                 string name = dataReader.IsDBNull(2) ? "" : dataReader.GetString("name");
                 bool completed = dataReader.IsDBNull(3) ? false : dataReader.GetBoolean("completed");
                 DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
                 DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
 
-                Section section = new Section(id, project_id, name, completed, created_at, due_date);
+                Section section = new Section(id, project_id, name, completed, created_at, due_date, null);
 
                 return section;
             }

@@ -21,9 +21,12 @@ namespace project_management.Windows
     /// <summary>
     /// Interaction logic for NewTask.xaml
     /// </summary>
+    
     public partial class NewTask : Window
     {
+        private TaskDAO taskDAO = new TaskDAO();
         private StackPanel currentSection;
+        private int sectionID;
 
 
         public NewTask()
@@ -35,7 +38,20 @@ namespace project_management.Windows
         {
             this.currentSection = currentSection;
 
+            string sectionName = currentSection.Name;
+
+            sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
+
+            Console.WriteLine("Section id " + sectionID);
+
             InitializeComponent();
+
+            Task task = new Task(null, null, new UserDAO().Read(1), sectionID, "test", "gg", 12.0, 10, new DateTime());
+
+            Console.WriteLine(task);
+
+            if (taskDAO.Create(task))
+                currentSection.Children.Add(new TaskElement());
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -55,9 +71,12 @@ namespace project_management.Windows
 
         private void ButtnCreateTask_Click(object sender, RoutedEventArgs e)
         {
-            
-            Task task = new Task(null, null, new UserDAO().read(1), title.Text, description.Text, Double.Parse(estimation.Text), priority.Text, deadline.Text);
-            currentSection.Children.Add(new TaskElement());
+            Task task = new Task(null, null, new UserDAO().Read(1), sectionID, title.Text, description.Text, Double.Parse(estimation.Text), int.Parse(priority.Text), DateTime.Parse(deadline.Text));
+
+            Console.WriteLine(task);
+
+            if (taskDAO.Create(task))
+                currentSection.Children.Add(new TaskElement());
         }
     }
 }

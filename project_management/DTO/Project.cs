@@ -22,7 +22,7 @@ namespace project_management.DTO
             Completed = completed;
             CreatedAt = createdAt;
             DueDate = dueDate;
-  //          SectionList = sectionList;
+            //          SectionList = sectionList;
         }
 
         public int Id { get; set; }
@@ -33,14 +33,6 @@ namespace project_management.DTO
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DueDate { get; set; }
-        //      public List<Section> SectionList { get; set; }
-        bool edit = mySQLConnector.Execute("UPDATE users SET id = @id, firstname = @firstname, lastname = @lastname, password = @password, email = @email, picture = @picture, status = @status, created_at = @created_at, last_login = @last_login WHERE email = @email", newUser);
 
-            if (edit)
-            {
-                mySQLConnector.CloseConnection();
-                return true;
-            }
-            return false;
-        }
+    }
 }

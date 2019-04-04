@@ -22,13 +22,12 @@ namespace project_management.DAO
                 { "@user_id", task.AssignedUser.Id.ToString() },
                 { "@name", task.Name },
                 { "@description", task.Description },
-                { "@start_date", task.StartDate.ToString() },
                 { "@due_date", task.DueDate.ToString() },
                 { "@estimated_time", task.EstimatedTime.ToString() },
                 { "@priority", task.Priority.ToString() }
             };
             
-            bool response = mySQLConnector.Execute("INSERT INTO tasks (parent_task_id, requires_task_id, section_id, user_id, name, description, start_date, due_date, completed, estimated_time, priority, created_at) VALUES (@parent_task_id, @requires_task_id , @section_id, @user_id, @name, @description, @start_date, @due_date, @completed, @estimated_time, @priority,  @created_at ) ", newTask);
+            bool response = mySQLConnector.Execute("INSERT INTO tasks (parent_task_id, requires_task_id, section_id, user_id, name, description, due_date, completed, estimated_time, priority, created_at) VALUES (@parent_task_id, @requires_task_id , @section_id, @user_id, @name, @description, @due_date, @completed, @estimated_time, @priority,  @created_at ) ", newTask);
 
             mySQLConnector.CloseConnection();
 

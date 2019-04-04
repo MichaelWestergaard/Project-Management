@@ -35,7 +35,7 @@ namespace project_management.Windows
             InitializeComponent();
             userDAO = new UserDAO();
             projectDAO = new ProjectDAO();
-            user = userDAO.read(1);
+            user = userDAO.Read(1);
 
 
             Ellipse ellipse = new Ellipse

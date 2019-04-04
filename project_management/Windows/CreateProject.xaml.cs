@@ -35,7 +35,7 @@ namespace project_management.Windows
 
             deadline.SelectedDate = DateTime.Today;
             AddInvitedUser(1);
-            user = new UserDAO().read(1);
+            user = new UserDAO().Read(1);
 
             Ellipse ellipse = new Ellipse
             {
