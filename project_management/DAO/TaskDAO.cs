@@ -18,7 +18,7 @@ namespace project_management.DAO
             {
                 { "@parent_task_id", task.ParentTask.Id.ToString() },
                 { "@requires_task_id", task.RequiresTask.Id.ToString() },
-                { "@section_id", task.Section.Id.ToString() },
+                { "@section_id", task.SectionID.ToString() },
                 { "@user_id", task.AssignedUser.Id.ToString() },
                 { "@name", task.Name },
                 { "@description", task.Description },
