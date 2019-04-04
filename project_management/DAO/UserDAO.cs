@@ -178,5 +178,36 @@ namespace project_management.DAO
                 return true;
             }
         }
+
+        public User GetUserByEmail(string email)
+        {
+            User user = new User();
+
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "@email", email }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM users WHERE email = @email", parameters);
+
+            if (dataReader.Read())
+            {
+                user.Id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                user.Firstname = dataReader.IsDBNull(1) ? "" : dataReader.GetString("firstname");
+                user.Lastname = dataReader.IsDBNull(2) ? "" : dataReader.GetString("lastname");
+                user.Password = dataReader.IsDBNull(3) ? "" : dataReader.GetString("password");
+                user.Email = dataReader.IsDBNull(4) ? "" : dataReader.GetString("email");
+                user.Picture = dataReader.IsDBNull(5) ? "" : dataReader.GetString("picture");
+                user.Status = dataReader.IsDBNull(6) ? 0 : dataReader.GetInt16("status");
+                user.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                user.LastLogin = (DateTime)dataReader.GetMySqlDateTime("last_login");
+
+                return user;
+            }
+
+            return null;
+        }
     }
 }

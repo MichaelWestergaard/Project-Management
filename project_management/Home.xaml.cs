@@ -1,4 +1,5 @@
-﻿using System;
+﻿using project_management.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,11 @@ namespace project_management
                     AppContent.Background = Brushes.Brown;
                     break;
             }
+        }
+
+        private void ButtonCreateProject_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateProject().Show();
         }
     }
 }

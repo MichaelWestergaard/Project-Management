@@ -34,7 +34,7 @@ namespace project_management.DAO
             mySQLConnector.CloseConnection();
             return false;
         }
-
+        
         public bool Delete(int id)
         {
             var parameters = new Dictionary<string, string>
@@ -87,7 +87,7 @@ namespace project_management.DAO
             };
 
             MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id = @id", parameters);
-
+            
             if (dataReader.Read())
             {
                 int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
@@ -128,6 +128,32 @@ namespace project_management.DAO
             {
                 return true;
             }
+            return false;
+        }
+
+        public bool AddUserToProject(int projectID, int userID)
+        {
+            UserDAO userDAO = new UserDAO();
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            if (read(projectID) != null && userDAO.read(userID) != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>
+                {
+                    { "@projectID", projectID.ToString() },
+                    { "@userID", userID.ToString() }
+                };
+                
+                bool response = mySQLConnector.Execute("INSERT INTO project_users (project_id, user_id) VALUES (@projectID, @userID)", parameters);
+
+                if (response)
+                {
+                    mySQLConnector.CloseConnection();
+                    return true;
+                }
+                return false;
+            }
+
             return false;
         }
     }
