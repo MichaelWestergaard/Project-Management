@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAO\TaskDAO.cs" />
     <Compile Include="Elements\TaskElement.xaml.cs">
       <DependentUpon>TaskElement.xaml</DependentUpon>
     </Compile>
