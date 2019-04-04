@@ -55,7 +55,7 @@ namespace project_management
                     break;
 
                 case 1:
-                    AppContent.Background = Brushes.Azure;
+                    AppContent.Content = new Board();
                     break;
 
                 case 2:
