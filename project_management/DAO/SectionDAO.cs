@@ -31,6 +31,17 @@ namespace project_management.DAO
             return false;
         }
 
+        public int CreateSection(Section section)
+        {
+            Dictionary<string, string> newSection = new Dictionary<string, string>();
+
+            newSection.Add("@project_id", section.ProjectId.ToString());
+            newSection.Add("@name", section.Name);
+            newSection.Add("@due_date", section.DueDate.ToString("yyyy/MM/dd HH:mm:ss"));
+
+            return mySQLConnector.Insert("INSERT INTO sections (project_id, name, due_date) VALUES (@project_id, @name, @due_date)", newSection);
+
+        }
 
         public bool Delete(int id)
         {
@@ -38,7 +49,7 @@ namespace project_management.DAO
 
             parameters.Add("@id", id.ToString());
 
-            bool reponse = mySQLConnector.Execute("DELETE FROM section WHERE id = @id", parameters);
+            bool reponse = mySQLConnector.Execute("DELETE FROM sections WHERE id = @id", parameters);
 
             mySQLConnector.CloseConnection();
 
@@ -53,7 +64,7 @@ namespace project_management.DAO
         {
             List<Section> sections = new List<Section>();
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM section", null);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM sections", null);
             if (dataReader.HasRows)
             {
                 while (dataReader.Read())
@@ -74,6 +85,35 @@ namespace project_management.DAO
             return sections;
         }
 
+        public List<Section> GetAll(int ID)
+        {
+            List<Section> sections = new List<Section>();
+
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "@id", ID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM sections WHERE project_id = @id", parameters);
+            
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                    int project_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("project_id");
+                    string name = dataReader.IsDBNull(2) ? "" : dataReader.GetString("name");
+                    bool completed = dataReader.IsDBNull(3) ? false : dataReader.GetBoolean("completed");
+                    DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
+                    DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                    
+                    Section section = new Section(id, project_id, name, completed, created_at, due_date, new TaskDAO().GetAll(id));
+                    sections.Add(section);
+                }
+            }
+            return sections;
+        }
 
         public Section Read(int id)
         {
@@ -84,7 +124,7 @@ namespace project_management.DAO
 
             parameters.Add("@id", id.ToString());
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM section WHERE id = @id", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM sections WHERE id = @id", parameters);
 
             if (dataReader.Read())
             {
@@ -115,7 +155,7 @@ namespace project_management.DAO
                 { "@due_date", section.DueDate.ToString() }
             };
 
-            bool edit = mySQLConnector.Execute("UPDATE section SET project_id = @project_id, name = @name, completed = @completed, due_date = @due_date WHERE id = @id", newSection);
+            bool edit = mySQLConnector.Execute("UPDATE sections SET project_id = @project_id, name = @name, completed = @completed, due_date = @due_date WHERE id = @id", newSection);
 
             mySQLConnector.CloseConnection();
 

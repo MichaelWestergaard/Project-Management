@@ -56,6 +56,7 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -81,6 +82,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAO\TaskDAO.cs" />
+    <Compile Include="Elements\NewSectionElement.xaml.cs">
+      <DependentUpon>NewSectionElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\SectionElement.xaml.cs">
+      <DependentUpon>SectionElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\TaskElement.xaml.cs">
       <DependentUpon>TaskElement.xaml</DependentUpon>
     </Compile>
@@ -97,9 +104,20 @@
     <Compile Include="Windows\InviteUserToProject.xaml.cs">
       <DependentUpon>InviteUserToProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\NewSection.xaml.cs">
+      <DependentUpon>NewSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\NewTask.xaml.cs">
       <DependentUpon>NewTask.xaml</DependentUpon>
     </Compile>
+    <Page Include="Elements\NewSectionElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\SectionElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Elements\TaskElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\InviteUserToProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\NewSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

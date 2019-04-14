@@ -11,16 +11,8 @@
 
     <Grid Background="White">
         <ScrollViewer HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <StackPanel Name="Section1" Orientation="Vertical" Width="250" Height="Auto">
-                    <materialDesign:Card Width="Auto" Background="White" Margin="5">
-                        <TextBlock Text="Sektion her" TextAlignment="Center" Margin="5" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-                    </materialDesign:Card>
-                    <Button Name="NewTask" Uid="Section1" Width="30" Height="30" Margin="5" Style="{StaticResource MaterialDesignFloatingActionButton}" Click="NewTask_Click">
-                        <materialDesign:PackIcon Kind="Plus" Height="20" Width="20"/>
-                    </Button>
-
-                </StackPanel>
+            <StackPanel Name="SectionList" Orientation="Horizontal" Margin="10">
+                
             </StackPanel>
         </ScrollViewer>
     </Grid>
