@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -55,6 +56,24 @@ namespace project_management.Elements
                     break;
                 }
             }
+        }
+
+        private void SectionCard_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DoubleAnimation doubleAnimation = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
+
+            Button button = (Button) FindName("DeleteSection");
+
+            button.BeginAnimation(OpacityProperty, doubleAnimation);
+        }
+
+        private void SectionCard_MouseLeave(object sender, MouseEventArgs e)
+        {
+            DoubleAnimation doubleAnimation = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.5));
+
+            Button button = (Button)FindName("DeleteSection");
+
+            button.BeginAnimation(OpacityProperty, doubleAnimation);
         }
     }
 }
