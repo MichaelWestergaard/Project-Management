@@ -1,17 +1,8 @@
 ﻿using project_management.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace project_management
 {
@@ -20,9 +11,14 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
+
+        Board board;
+
         public Home()
         {
             InitializeComponent();
+
+            board = new Board();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -55,7 +51,7 @@ namespace project_management
                     break;
 
                 case 1:
-                    AppContent.Content = new Board();
+                    AppContent.Content = board;
                     break;
 
                 case 2:
