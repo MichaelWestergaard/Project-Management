@@ -46,7 +46,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Grid Margin="10">
+                <Grid Margin="10, 20">
                     <Rectangle Fill="White" RadiusY="10" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect Color="#FFBBBBBB" BlurRadius="10" RenderingBias="Quality" ShadowDepth="3"/>
@@ -56,14 +56,8 @@
                         <StackPanel VerticalAlignment="Bottom" Margin="10">
                             <TextBlock Text="Ansvarlig" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
                             <materialDesign:PopupBox HorizontalAlignment="Center" Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" ToolTipService.Placement="Bottom" PlacementMode="BottomAndAlignCentres">
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Uid="1" Name="AssignMemberToTask" Click="AssignMemberToTask_Click" ToolTip="Michael Westergaard" Background="White">
-                                        <Ellipse Width="30" Height="30">
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"/>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                    </Button>
+                                <StackPanel Name="ProjectUsers" Orientation="Horizontal">
+                                    
                                 </StackPanel>
                             </materialDesign:PopupBox>
                         </StackPanel>

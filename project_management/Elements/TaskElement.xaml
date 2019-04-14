@@ -20,10 +20,10 @@
                 </Grid.RowDefinitions>
                 <TextBlock Name="title" Grid.Row="0" Grid.ColumnSpan="2" Text="Opgave 1" TextAlignment="Left" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
                 <TextBlock Name="description" Grid.Row="1" Grid.ColumnSpan="2" Text="Lorem ipsum" TextAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Grid.RowSpan="2"/>
-                <Button Name="UserButton" Grid.Column="1" Grid.RowSpan="2" Background="White" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" HorizontalAlignment="Center" ToolTip="Michael Westergaard">
+                <Button Name="UserButton" Grid.Column="1" Grid.RowSpan="2" Background="White" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" HorizontalAlignment="Center">
                     <Ellipse Width="36" Height="36">
                         <Ellipse.Fill>
-                            <ImageBrush x:Name="avatar" ImageSource="https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"/>
+                            <ImageBrush x:Name="avatar"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </Button>

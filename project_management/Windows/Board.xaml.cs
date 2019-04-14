@@ -36,8 +36,12 @@ namespace project_management.Windows
 
                     taskElement.title.Text = task.Name;
                     taskElement.description.Text = task.Description;
-                    taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
-                    taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
+
+                    if(task.AssignedUser != null)
+                    {
+                        taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
+                        taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
+                    }
 
                     ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
                 }
