@@ -1,19 +1,11 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using project_management.DAO;
+using project_management.DTO;
 using project_management.Elements;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace project_management.Windows
 {
@@ -24,18 +16,43 @@ namespace project_management.Windows
     {
         public Board()
         {
+            SectionDAO sectionDAO = new SectionDAO();
+
+            List<Section> sections = sectionDAO.GetAll(7);
+
             InitializeComponent();
+
+            StackPanel sectionList = (StackPanel) FindName("SectionList");
+
+            foreach (Section section in sections)
+            {
+                SectionElement sectionElement = new SectionElement(sectionList);
+                
+                foreach (Task task in section.TaskList)
+                {
+                    TaskElement taskElement = new TaskElement();
+
+                    taskElement.TaskID.Name = "Task" + task.Id;
+
+                    taskElement.title.Text = task.Name;
+                    taskElement.description.Text = task.Description;
+                    taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
+                    taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
+
+                    ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
+                }
+
+
+                sectionElement.SectionID.Name = "Section" + section.Id;
+                sectionElement.SectionName.Text = section.Name;
+
+                sectionList.Children.Add(sectionElement);
+
+            }
+
+            sectionList.Children.Add(new NewSectionElement(sectionList));
+
         }
-
-        private void NewTask_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)e.Source;
-            StackPanel currentSection = (StackPanel)FindName(button.Uid.ToString());
-
-
-            new NewTask(currentSection).Show();
-
-        }
-        
+                
     }
 }

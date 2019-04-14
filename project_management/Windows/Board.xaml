@@ -11,39 +11,8 @@
 
     <Grid Background="White">
         <ScrollViewer HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <StackPanel Name="Section1" Orientation="Vertical" Width="250" Height="Auto">
-                    <materialDesign:Card Width="Auto" Background="White" Margin="5">
-                        <TextBlock Text="Sektion her" TextAlignment="Center" Margin="5" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-                    </materialDesign:Card>
-                    <Button Name="NewTask" Uid="Section1" Width="30" Height="30" Margin="5" Style="{StaticResource MaterialDesignFloatingActionButton}" Click="NewTask_Click">
-                        <materialDesign:PackIcon Kind="Plus" Height="20" Width="20"/>
-                    </Button>
-                    <materialDesign:Card Background="White" Margin="5">
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25"/>
-                                <RowDefinition Height="25"/>
-                                <RowDefinition Height="1"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Opgave 1" TextAlignment="Left" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="Lorem ipsum" TextAlignment="Left" Style="{StaticResource MaterialDesignBody1TextBlock}" Grid.RowSpan="2"/>
-                            <Button Grid.Column="1" Grid.RowSpan="2" Background="White" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" HorizontalAlignment="Center" ToolTip="Michael Westergaard">
-                                <Ellipse Width="36" Height="36">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                            </Button>
-                            <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="-5,0,-5,-5" Height="Auto" Foreground="#FF00C853" Background="Transparent" BorderBrush="Transparent" Value="50" />
-                        </Grid>
-                    </materialDesign:Card>
-
-                </StackPanel>
+            <StackPanel Name="SectionList" Orientation="Horizontal" Margin="10">
+                
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -131,12 +131,29 @@ namespace project_management.DAO
             return false;
         }
 
+        public int CreateProject(Project project)
+        {
+            var newProject = new Dictionary<string, string>
+            {
+                { "@user_id", project.ProjectOwnerID.ToString() },
+                { "@name", project.Name },
+                { "@description", project.Description },
+                { "@due_date", project.DueDate.ToString() }
+            };
+
+            int projectID = mySQLConnector.Insert("INSERT INTO projects (user_id, name, description, due_date) VALUES (@user_id, @name, @description, @due_date)", newProject);
+
+            mySQLConnector.CloseConnection();
+
+            return projectID;
+        }
+
         public bool AddUserToProject(int projectID, int userID)
         {
             UserDAO userDAO = new UserDAO();
             MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
-            if (read(projectID) != null && userDAO.read(userID) != null)
+            if (Read(projectID) != null && userDAO.Read(userID) != null)
             {
                 Dictionary<string, string> parameters = new Dictionary<string, string>
                 {

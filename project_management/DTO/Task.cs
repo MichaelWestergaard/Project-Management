@@ -25,11 +25,12 @@ namespace project_management.DTO
             CreatedAt = createdAt;
         }
 
-        public Task(Task parentTask, Task requiresTask, User assignedUser, string name, string description, double estimatedTime, int priority, DateTime dueDate)
+        public Task(Task parentTask, Task requiresTask, User assignedUser, int sectionID, string name, string description, double estimatedTime, int priority, DateTime dueDate)
         {
             ParentTask = parentTask;
             RequiresTask = requiresTask;
             AssignedUser = assignedUser;
+            SectionID = sectionID;
             Name = name;
             Description = description;
             EstimatedTime = estimatedTime;
@@ -50,6 +51,6 @@ namespace project_management.DTO
         public DateTime StartDate { get; set; }
         public DateTime DueDate { get; set; }
         public DateTime CreatedAt { get; set; }
-
+        
     }
 }
