@@ -42,7 +42,7 @@
                             <TextBox Name="description" materialDesign:HintAssist.Hint="Beskrivelse" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
                             <DatePicker Name="deadline" materialDesign:HintAssist.Hint="Deadline" FontSize="16" Margin="5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
                             <TextBox Name="estimation" materialDesign:HintAssist.Hint="Estimeret tid" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
-                            <TextBox Name="priority" materialDesign:HintAssist.Hint="Prioritet" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
+                            <TextBox Name="priority" PreviewTextInput="Priority_PreviewTextInput" materialDesign:HintAssist.Hint="Prioritet" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
