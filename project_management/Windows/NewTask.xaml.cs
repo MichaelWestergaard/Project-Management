@@ -31,6 +31,8 @@ namespace project_management.Windows
         private StackPanel currentSection;
         private int sectionID;
 
+        private int assignedUserID = 0;
+        private UserAvatar assignedUserAvatar = null;
 
         public NewTask()
         {
@@ -46,6 +48,21 @@ namespace project_management.Windows
             sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
             
             InitializeComponent();
+
+            StackPanel projectUsers = (StackPanel) FindName("ProjectUsers");
+
+            List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(sectionID).ProjectId);
+
+            foreach (User user in users)
+            {
+                UserAvatar userAvatar = new UserAvatar(this, user.Id);
+
+                userAvatar.Uid = user.Id.ToString();
+                userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
+                userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
+                projectUsers.Children.Add(userAvatar);
+            }
+
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -58,9 +75,14 @@ namespace project_management.Windows
             this.Close();
         }
 
-        private void AssignMemberToTask_Click(object sender, RoutedEventArgs e)
+        public void AssignUser(UserAvatar userAvatar, int id)
         {
+            if(assignedUserAvatar != null)
+                ((Button)assignedUserAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF2196F3");
 
+            ((Button) userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
+            assignedUserAvatar = userAvatar;
+            assignedUserID = id;
         }
 
         private bool ValidateInput()
@@ -122,8 +144,8 @@ namespace project_management.Windows
                 double taskEstimation = Double.Parse(estimation.Text);
                 int taskPriority = int.Parse(priority.Text);
                 DateTime taskDeadline = DateTime.Parse(deadline.Text);
-
-                User assignedUser = new UserDAO().Read(1);
+                
+                User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
 
 
                 Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
@@ -139,8 +161,12 @@ namespace project_management.Windows
 
                     taskElement.title.Text = taskName;
                     taskElement.description.Text = taskDescription;
-                    taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
-                    taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
+
+                    if (assignedUser != null)
+                    {
+                        taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
+                        taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
+                    }
 
                     currentSection.Children.Add(taskElement);
                     this.Close();

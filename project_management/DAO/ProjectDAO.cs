@@ -173,5 +173,29 @@ namespace project_management.DAO
 
             return false;
         }
+
+        public List<User> GetProjectUsers(int projectID)
+        {
+            List<User> users = new List<User>();
+            UserDAO userDAO = new UserDAO();
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "@projectID", projectID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM project_users WHERE project_id = @projectID", parameters);
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    int id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("user_id");
+
+                    users.Add(userDAO.Read(id));
+                }
+            }
+            
+            return users;
+        }
     }
 }
