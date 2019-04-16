@@ -42,10 +42,9 @@ namespace project_management
 
             foreach (Project project in mainController.UserProjects())
             {
-                ProjectSidebarElement projectSidebarElement = new ProjectSidebarElement
-                {
-                    Content = project.Name.ToCharArray()[0]
-                };
+                ProjectSidebarElement projectSidebarElement = new ProjectSidebarElement();
+                
+                //projectSidebarElement.Content = project.Name.ToCharArray()[0];
 
                 projectList.Children.Insert(projectList.Children.Count - 1, projectSidebarElement);
             }
