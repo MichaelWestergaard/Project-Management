@@ -11,7 +11,7 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
-
+        Overview overview;
         Board board;
 
         public Home()
@@ -19,6 +19,7 @@ namespace project_management
             InitializeComponent();
 
             board = new Board();
+            overview = new Overview();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -47,7 +48,7 @@ namespace project_management
             switch (i)
             {
                 case 0:
-                    AppContent.Background = Brushes.AliceBlue;
+                    AppContent.Content = overview;
                     break;
 
                 case 1:
