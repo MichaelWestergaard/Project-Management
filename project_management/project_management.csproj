@@ -81,9 +81,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAO\TaskDAO.cs" />
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\ProjectSidebarElement.xaml.cs">
+      <DependentUpon>ProjectSidebarElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\SectionElement.xaml.cs">
       <DependentUpon>SectionElement.xaml</DependentUpon>
@@ -114,6 +118,10 @@
       <DependentUpon>NewTask.xaml</DependentUpon>
     </Compile>
     <Page Include="Elements\NewSectionElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\ProjectSidebarElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

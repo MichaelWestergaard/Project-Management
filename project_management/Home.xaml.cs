@@ -1,4 +1,8 @@
-﻿using project_management.Windows;
+﻿using project_management.Controllers;
+using project_management.DAO;
+using project_management.DTO;
+using project_management.Elements;
+using project_management.Windows;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,14 +15,41 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
-
+        MainController mainController = MainController.Instance;
         Board board;
 
         public Home()
         {
-            InitializeComponent();
+            //Skal gøres når man logger ind
+            mainController.User = new UserDAO().Read(1);
 
-            board = new Board();
+            if (mainController.IsLoggedIn())
+            {
+                InitializeComponent();
+
+                GetProjectList();
+                board = new Board();
+
+            } else
+            {
+               //Go to login again
+            }
+        }
+
+        private void GetProjectList()
+        {
+            StackPanel projectList = (StackPanel) FindName("ProjectList");
+
+            foreach (Project project in mainController.UserProjects())
+            {
+                ProjectSidebarElement projectSidebarElement = new ProjectSidebarElement
+                {
+                    Content = project.Name.ToCharArray()[0]
+                };
+
+                projectList.Children.Insert(projectList.Children.Count - 1, projectSidebarElement);
+            }
+                      
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

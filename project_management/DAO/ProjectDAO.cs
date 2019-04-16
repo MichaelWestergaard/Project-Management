@@ -79,6 +79,37 @@ namespace project_management.DAO
             return projects;
         }
 
+        public List<Project> UserProjects(int userID)
+        {
+            List<Project> projects = new List<Project>();
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "@userID", userID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM projects WHERE id in (SELECT `project_id` FROM `project_users` WHERE `user_id` = @userID)", parameters);
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                    int parent_project_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("parent_project_id");
+                    int user_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("user_id");
+                    string name = dataReader.IsDBNull(3) ? "" : dataReader.GetString("name");
+                    string description = dataReader.IsDBNull(4) ? "" : dataReader.GetString("description");
+                    bool completed = dataReader.IsDBNull(5) ? false : dataReader.GetBoolean("completed");
+                    DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
+                    DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
+                    
+                    Project project = new Project(id, parent_project_id, user_id, name, description, completed, created_at, due_date);
+                    projects.Add(project);
+                }
+            }
+
+            return projects;
+        }
+
         public Project Read(int ID)
         {
             var parameters = new Dictionary<string, string>
