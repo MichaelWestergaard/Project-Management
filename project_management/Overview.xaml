@@ -14,7 +14,10 @@
                      FontSize="18" Text="Nuværende projekt" Foreground="White" Background="ForestGreen" TextAlignment="Center" >
         </TextBlock>
         <Grid HorizontalAlignment="Left" Height="138" VerticalAlignment="Top" Width="384" Margin="24,82,0,0" RenderTransformOrigin="0.5,0.5" Background="AliceBlue">
-
+            <Canvas Name="canGraph" Background="DarkGray"
+              Width="384" Height="200"
+            
+              VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-31"/>
 
 
 
@@ -25,8 +28,25 @@
         </Grid>
         <Grid HorizontalAlignment="Left" Height="138" Margin="24,254,0,0" VerticalAlignment="Top" Width="384" Background="Beige"/>
         <Grid HorizontalAlignment="Left" Height="138" Margin="476,82,0,0" VerticalAlignment="Top" Width="294" Background="CadetBlue">
-            <TextBox Background="DimGray" Foreground="Wheat" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="294"/>
-            <ListView Margin="10,27,10,60" Name="yourTasks"></ListView>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="16*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListView Margin="0,20,0,0" Name="yourTasks" Grid.ColumnSpan="2">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Opgave" Width="150" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Frist" Width="150" DisplayMemberBinding="{Binding Age}" />
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
 
 
         </Grid>
@@ -34,6 +54,7 @@
 
         <Grid HorizontalAlignment="Left" Height="138" Margin="476,254,0,0" VerticalAlignment="Top" Width="126" Background="Bisque"/>
         <Grid  x:Name="Oversigt" HorizontalAlignment="Left" Height="138" Margin="644,254,0,0" VerticalAlignment="Top" Width="126" Background="CornflowerBlue"/>
+        <TextBlock HorizontalAlignment="Left" Margin="476,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="20" Width="294"/>
 
 
 
