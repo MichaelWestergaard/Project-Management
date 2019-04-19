@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"        
         xmlns:local="clr-namespace:project_management.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
@@ -16,8 +17,8 @@
         <Grid HorizontalAlignment="Left" Height="138" VerticalAlignment="Top" Width="384" Margin="24,82,0,0" RenderTransformOrigin="0.5,0.5" Background="AliceBlue">
             <Canvas Name="canGraph" Background="DarkGray"
               Width="384" Height="200"
-            
-              VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-31"/>
+
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-31"/>
 
 
 
@@ -26,7 +27,10 @@
 
 
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="138" Margin="24,254,0,0" VerticalAlignment="Top" Width="384" Background="Beige"/>
+        <Grid HorizontalAlignment="Left" Height="138" Margin="24,254,0,0" VerticalAlignment="Top" Width="384" Background="Beige">
+            <oxy:PlotView x:Name="Burndown" Model="{Binding Burndown}">
+            </oxy:PlotView>
+        </Grid>
         <Grid HorizontalAlignment="Left" Height="138" Margin="476,82,0,0" VerticalAlignment="Top" Width="294" Background="CadetBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
@@ -52,7 +56,10 @@
         </Grid>
 
 
-        <Grid HorizontalAlignment="Left" Height="138" Margin="476,254,0,0" VerticalAlignment="Top" Width="126" Background="Bisque"/>
+        <Grid HorizontalAlignment="Left" Height="138" Margin="476,254,0,0" VerticalAlignment="Top" Width="126" Background="Bisque">
+            <oxy:PlotView x:Name="Piechart" Model="{Binding Piechart}">
+            </oxy:PlotView>
+        </Grid>
         <Grid  x:Name="Oversigt" HorizontalAlignment="Left" Height="138" Margin="644,254,0,0" VerticalAlignment="Top" Width="126" Background="CornflowerBlue"/>
         <TextBlock HorizontalAlignment="Left" Margin="476,82,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="20" Width="294"/>
 

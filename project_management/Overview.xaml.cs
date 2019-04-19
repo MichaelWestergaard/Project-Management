@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OxyPlot;
+using OxyPlot.Series;
 
 namespace project_management
 {
@@ -20,8 +23,12 @@ namespace project_management
     /// </summary>
     public partial class Overview : Page
     {
+        private ViewModels.OverviewModel viewModel;
         public Overview()
         {
+            viewModel = new ViewModels.OverviewModel();
+            DataContext = viewModel;
+            
             InitializeComponent();
             List<Userss> items = new List<Userss>();
             items.Add(new Userss() { Name = "John Doe", Age = 42 });
@@ -96,11 +103,23 @@ namespace project_management
 
                     canGraph.Children.Add(polyline);
                 
-            }
+                }
+         
+
+
+
+
+
+
 
 
 
         }
+
+
+    
+
+
     }
 
 
@@ -119,6 +138,7 @@ namespace project_management
 
         public string Mail { get; set; }
     }
+
 
 
 
