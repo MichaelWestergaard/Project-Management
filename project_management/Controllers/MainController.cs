@@ -30,6 +30,7 @@ namespace project_management.Controllers
         }
 
         internal User User { get => user; set => user = value; }
+        internal Project Project { get => project; set => project = value; }
 
         public bool IsLoggedIn()
         {
