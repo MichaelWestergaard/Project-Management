@@ -25,7 +25,6 @@ namespace project_management.Windows
             this.taskElement = taskElement;
             task = new TaskDAO().Read(taskElement.taskID);
             InitializeComponent();
-            this.Activate();
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

@@ -35,5 +35,24 @@ namespace project_management.Elements
             viewTask.Show();
             viewTask.Activate();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+
+
+
+            //TODO: add different windows here
+            switch (menuItem.Uid)
+            {
+                case "1":
+                    EditTask editTask = new EditTask(this);
+                    editTask.Show();
+                    break;
+
+                case "2":
+                    break;
+            }
+        }
     }
 }

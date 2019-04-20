@@ -8,6 +8,12 @@
              d:DesignWidth="250">
     <Grid>
         <materialDesign:Card Name="TaskID" Background="White" Margin="5" MouseDoubleClick="TaskID_MouseDoubleClick">
+            <materialDesign:Card.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Uid="1" Header="Rediger" Click="MenuItem_Click"/>
+                    <MenuItem Uid="1" Header="Registrér Arbejde" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </materialDesign:Card.ContextMenu>
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
