@@ -1,67 +1,61 @@
-﻿using project_management.Elements;
+﻿
+using project_management.DAO;
+using project_management.DTO;
+using project_management.Elements;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using project_management.DTO;
-using project_management.DAO;
-using Task = project_management.DTO.Task;
-using System.Text.RegularExpressions;
-using ToastNotifications;
 using ToastNotifications.Messages;
 
 namespace project_management.Windows
 {
     /// <summary>
-    /// Interaction logic for NewTask.xaml
+    /// Interaction logic for EditTask.xaml
     /// </summary>
-    
-    public partial class NewTask : Window
+    public partial class EditTask : Window
     {
+
         private TaskDAO taskDAO = new TaskDAO();
-        private StackPanel currentSection;
-        private int sectionID;
+        private TaskElement taskElement;
+        private Task task;
 
         private int assignedUserID = 0;
         private UserAvatar assignedUserAvatar = null;
-
-        public NewTask()
+        
+        public EditTask(TaskElement taskElement)
         {
-            InitializeComponent();
-        }
-
-        public NewTask(StackPanel currentSection)
-        {
-            this.currentSection = currentSection;
-
-            string sectionName = currentSection.Name;
-
-            sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
-            
+            this.taskElement = taskElement;
+            task = taskDAO.Read(taskElement.taskID);
             InitializeComponent();
 
-            StackPanel projectUsers = (StackPanel) FindName("ProjectUsers");
+            title.Text = task.Name;
+            description.Text = task.Description;
+            deadline.Text = task.DueDate.ToString("dd-MM-yyyy");
+            estimation.Text = task.EstimatedTime.ToString();
+            priority.Text = task.Priority.ToString();
 
-            List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(sectionID).ProjectId);
-            
+
+            StackPanel projectUsers = (StackPanel)FindName("ProjectUsers");
+
+            List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(task.SectionID).ProjectId);
+
             foreach (User user in users)
             {
-                Console.WriteLine("User " + user.Id);
-
                 UserAvatar userAvatar = new UserAvatar(this, user.Id);
 
                 userAvatar.Uid = user.Id.ToString();
                 userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
                 userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
+
+                if(task.AssignedUser != null)
+                    if (task.AssignedUser.Equals(user))
+                        AssignUser(userAvatar, user.Id);
+
                 projectUsers.Children.Add(userAvatar);
             }
 
@@ -79,10 +73,10 @@ namespace project_management.Windows
 
         public void AssignUser(UserAvatar userAvatar, int id)
         {
-            if(assignedUserAvatar != null)
+            if (assignedUserAvatar != null)
                 ((Button)assignedUserAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF2196F3");
 
-            ((Button) userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
+            ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
             assignedUserAvatar = userAvatar;
             assignedUserID = id;
         }
@@ -140,27 +134,23 @@ namespace project_management.Windows
         {
             if (ValidateInput())
             {
-
                 string taskName = title.Text;
                 string taskDescription = description.Text;
                 double taskEstimation = Double.Parse(estimation.Text);
                 int taskPriority = int.Parse(priority.Text);
                 DateTime taskDeadline = DateTime.Parse(deadline.Text);
-                
+
                 User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
 
-
-                Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
-
-                int taskID = taskDAO.CreateTask(task);
-                 
-
-                if (taskDAO.Read(taskID) != null)
+                task.Name = taskName;
+                task.AssignedUser = assignedUser;
+                task.Description = taskDescription;
+                task.EstimatedTime = taskEstimation;
+                task.Priority = taskPriority;
+                task.DueDate = taskDeadline;
+                
+                if (taskDAO.Update(task))
                 {
-                    TaskElement taskElement = new TaskElement(taskID);
-
-                    taskElement.TaskID.Name = "Task" + taskID;
-
                     taskElement.title.Text = taskName;
                     taskElement.description.Text = taskDescription;
 
@@ -168,9 +158,12 @@ namespace project_management.Windows
                     {
                         taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
                         taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
+                    } else
+                    {
+                        taskElement.avatar.ImageSource = null;
+                        taskElement.UserButton.ToolTip = "";
                     }
-
-                    currentSection.Children.Add(taskElement);
+                    
                     this.Close();
                 }
             }
@@ -180,6 +173,14 @@ namespace project_management.Windows
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
         }
-        
+
+        private void ButtonDeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (taskDAO.Delete(task.Id))
+            {
+                this.Close();
+                ((StackPanel) taskElement.Parent).Children.Remove(taskElement);
+            }
+        }
     }
 }

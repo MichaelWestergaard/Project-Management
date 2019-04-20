@@ -21,19 +21,21 @@ namespace project_management.Elements
     /// </summary>
     public partial class UserAvatar : UserControl
     {
-        NewTask newTask;
+        Object senderObject;
         int userID;
-        public UserAvatar(NewTask newTask, int userID)
+        public UserAvatar(Object senderObject, int userID)
         {
-            this.newTask = newTask;
+            this.senderObject = senderObject;
             this.userID = userID;
             InitializeComponent();
         }
 
         private void AssignMemberToTask_Click(object sender, RoutedEventArgs e)
         {
-            
-            newTask.AssignUser(this, userID);
+            if(senderObject is NewTask)
+                ((NewTask)senderObject).AssignUser(this, userID);
+            if (senderObject is EditTask)
+                ((EditTask)senderObject).AssignUser(this, userID);
         }
     }
 }
