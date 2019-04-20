@@ -21,7 +21,7 @@ namespace project_management
         Board board;
         List<string> colors = new List<string>();
         StackPanel projectList;
-
+        
         public Home()
         {
 

@@ -23,7 +23,7 @@ namespace project_management.Windows
     /// </summary>
     public partial class NewSection : Window
     {
-        private int projectID = 7;
+        private int projectID;
         private StackPanel sectionList;
 
         public NewSection(int projectID, StackPanel sectionList)

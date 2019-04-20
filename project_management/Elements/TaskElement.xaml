@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignWidth="250">
     <Grid>
-        <materialDesign:Card Name="TaskID" Background="White" Margin="5">
+        <materialDesign:Card Name="TaskID" Background="White" Margin="5" MouseDoubleClick="TaskID_MouseDoubleClick">
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
