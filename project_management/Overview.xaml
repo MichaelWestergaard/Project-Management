@@ -15,17 +15,8 @@
                      FontSize="18" Text="Nuværende projekt" Foreground="White" Background="ForestGreen" TextAlignment="Center" >
         </TextBlock>
         <Grid HorizontalAlignment="Left" Height="138" VerticalAlignment="Top" Width="384" Margin="24,82,0,0" RenderTransformOrigin="0.5,0.5" Background="AliceBlue">
-            <Canvas Name="canGraph" Background="DarkGray"
-              Width="384" Height="200"
-
-                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-31"/>
-
-
-
-
-
-
-
+            <oxy:PlotView x:Name="Burnup" Model="{Binding Burnup}">
+            </oxy:PlotView>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="138" Margin="24,254,0,0" VerticalAlignment="Top" Width="384" Background="Beige">
             <oxy:PlotView x:Name="Burndown" Model="{Binding Burndown}">
