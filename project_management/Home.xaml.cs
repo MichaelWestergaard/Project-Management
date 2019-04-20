@@ -19,7 +19,7 @@ namespace project_management
     {
         MainController mainController = MainController.Instance;
         Board board;
-        List<string> colors;
+        List<string> colors = new List<string>();
 
         public Home()
         {
@@ -29,8 +29,6 @@ namespace project_management
 
             if (mainController.IsLoggedIn())
             {
-                AddColors();
-
                 InitializeComponent();
 
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
@@ -123,14 +121,15 @@ namespace project_management
             int projectID = int.Parse(source.Uid);
             mainController.Project = new ProjectDAO().Read(projectID);
 
-            if (AppContent.Content.Equals(board))
-            {
-                board = new Board();
-                AppContent.Content = board;
-            } else
-            {
-                board = new Board();
-            }
+            Board boardNew = new Board();
+
+            if(AppContent.Content != null)
+                if (AppContent.Content.Equals(board))
+                {
+                    AppContent.Content = boardNew;
+                }
+
+            board = boardNew;
 
         }
 
