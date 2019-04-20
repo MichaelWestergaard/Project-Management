@@ -20,6 +20,7 @@ namespace project_management
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
+        StackPanel projectList;
 
         public Home()
         {
@@ -30,7 +31,7 @@ namespace project_management
             if (mainController.IsLoggedIn())
             {
                 InitializeComponent();
-
+                projectList = (StackPanel)FindName("ProjectList");
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
                 GetProjectList();
@@ -48,7 +49,7 @@ namespace project_management
                 {
                     "#4CAF50",
                     "#3F51B5",
-                    "##F44336",
+                    "#F44336",
                     "#009688",
                     "#ff9800",
                     "#673ab7",
@@ -59,8 +60,6 @@ namespace project_management
 
         private void GetProjectList()
         {
-            StackPanel projectList = (StackPanel) FindName("ProjectList");
-
             List<Project> projects = mainController.UserProjects();
 
             if (projects.Count > 0)
@@ -69,50 +68,51 @@ namespace project_management
 
                 foreach (Project project in projects)
                 {
-                    char[] name = project.Name.ToCharArray();
-                    string content = "";
-
-                    content += name[0];
-
-                    if (name.Length > 1)
-                        content += name[1];
-
-                    // Kunne måske gemme farve ved oprettede, men w/e
-
-                    Random random = new Random();
-
-                    if (colors.Count == 0)
-                        AddColors();
-
-                    int index = random.Next(colors.Count);
-
-                    Brush color = (Brush)new BrushConverter().ConvertFrom(colors[index]);
-                    colors.RemoveAt(index);
-
-                    Button projectButton = new Button
-                    {
-                        Uid = project.Id.ToString(),
-                        Content = content.ToUpper(),
-                        Margin = new Thickness(5),
-                        Width = 50,
-                        Height = 50,
-                        FontSize = 18,
-                        Padding = new Thickness(4),
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        ToolTip = project.Name,
-                        Background = color,
-                        BorderBrush = color,
-                    };
-
-                    projectButton.Click += ChangeProject_Click;
-
-                    //projectSidebarElement.Content = project.Name.ToCharArray()[0];
-
-                    projectList.Children.Insert(projectList.Children.Count - 1, projectButton);
+                    NewProjectElement(project.Id, project.Name);
                 }
             }
-     
+        }
+
+        public void NewProjectElement(int projectID, string nameStr)
+        {
+            char[] name = nameStr.ToCharArray();
+            string content = "";
+
+            content += name[0];
+
+            if (name.Length > 1)
+                content += name[1];
+
+            // Kunne måske gemme farve ved oprettede, men w/e
+            Random random = new Random();
+
+            if (colors.Count == 0)
+                AddColors();
+
+            int index = random.Next(colors.Count);
+
+            Brush color = (Brush)new BrushConverter().ConvertFrom(colors[index]);
+            colors.RemoveAt(index);
+
+            Button projectButton = new Button
+            {
+                Uid = projectID.ToString(),
+                Content = content.ToUpper(),
+                Margin = new Thickness(5),
+                Width = 50,
+                Height = 50,
+                FontSize = 18,
+                Padding = new Thickness(4),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                ToolTip = nameStr,
+                Background = color,
+                BorderBrush = color,
+            };
+
+            projectButton.Click += ChangeProject_Click;
+
+            projectList.Children.Insert(projectList.Children.Count - 1, projectButton);
         }
         
         private void ChangeProject_Click(object sender, RoutedEventArgs e)
@@ -179,7 +179,7 @@ namespace project_management
 
         private void ButtonCreateProject_Click(object sender, RoutedEventArgs e)
         {
-            new CreateProject().Show();
+            new CreateProject(this).Show();
         }
     }
 }
