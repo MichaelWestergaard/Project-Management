@@ -183,9 +183,31 @@ namespace project_management.DAO
             return null;
         }
 
-        public bool Update(Task obj)
+        public bool Update(Task task)
         {
-            throw new NotImplementedException();
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "@id", task.Id.ToString() },
+                { "@parent_task_id", task.ParentTask?.Id.ToString() },
+                { "@requires_task_id", task.RequiresTask?.Id.ToString() },
+                { "@section_id", task.SectionID.ToString() },
+                { "@user_id", task.AssignedUser?.Id.ToString() },
+                { "@name", task.Name },
+                { "@description", task.Description },
+                { "@due_date", task.DueDate.ToString("yyyy/MM/dd HH:mm:ss") },
+                { "@estimated_time", task.EstimatedTime.ToString() },
+                { "@priority", task.Priority.ToString() }
+            };
+
+            bool response = mySQLConnector.Execute("UPDATE tasks SET parent_task_id = @parent_task_id, requires_task_id = @requires_task_id, section_id = @section_id, user_id = @user_id, name = @name, description = @description, due_date = @due_date, estimated_time = @estimated_time, priority = @priority WHERE id = @id", parameters);
+
+            mySQLConnector.CloseConnection();
+
+            if (response)
+                return true;
+
+            return false;
+
         }
     }
 }

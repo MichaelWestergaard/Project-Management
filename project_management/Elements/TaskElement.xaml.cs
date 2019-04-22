@@ -1,4 +1,5 @@
-﻿using System;
+﻿using project_management.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,38 @@ namespace project_management.Elements
     /// </summary>
     public partial class TaskElement : UserControl
     {
-        public TaskElement()
+        public int taskID;
+
+        public TaskElement(int taskID)
         {
+            this.taskID = taskID;
             InitializeComponent();
+        }
+
+        private void TaskID_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ViewTask viewTask = new ViewTask(this);
+            viewTask.Show();
+            viewTask.Activate();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+
+
+
+            //TODO: add different windows here
+            switch (menuItem.Uid)
+            {
+                case "1":
+                    EditTask editTask = new EditTask(this);
+                    editTask.Show();
+                    break;
+
+                case "2":
+                    break;
+            }
         }
     }
 }

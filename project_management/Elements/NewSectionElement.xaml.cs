@@ -1,4 +1,5 @@
-﻿using project_management.Windows;
+﻿using project_management.Controllers;
+using project_management.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace project_management.Elements
         {
             Button button = (Button)e.Source;
             
-            new NewSection(7, sectionList).Show();
+            new NewSection(MainController.Instance.Project.Id, sectionList).Show();
         }
     }
 }

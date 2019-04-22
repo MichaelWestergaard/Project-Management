@@ -1,4 +1,5 @@
-﻿using project_management.DAO;
+﻿using project_management.Controllers;
+using project_management.DAO;
 using project_management.DTO;
 using project_management.Elements;
 using System;
@@ -16,46 +17,53 @@ namespace project_management.Windows
     {
         public Board()
         {
-            SectionDAO sectionDAO = new SectionDAO();
-
-            List<Section> sections = sectionDAO.GetAll(7);
 
             InitializeComponent();
 
-            StackPanel sectionList = (StackPanel) FindName("SectionList");
+            MainController mainController = MainController.Instance;
+            SectionDAO sectionDAO = new SectionDAO();
 
-            foreach (Section section in sections)
+            if(mainController.Project != null)
             {
-                SectionElement sectionElement = new SectionElement(sectionList);
-                
-                foreach (Task task in section.TaskList)
+                List<Section> sections = sectionDAO.GetAll(mainController.Project.Id);
+
+
+                StackPanel sectionList = (StackPanel) FindName("SectionList");
+
+                foreach (Section section in sections)
                 {
-                    TaskElement taskElement = new TaskElement();
-
-                    taskElement.TaskID.Name = "Task" + task.Id;
-
-                    taskElement.title.Text = task.Name;
-                    taskElement.description.Text = task.Description;
-
-                    if(task.AssignedUser != null)
+                    SectionElement sectionElement = new SectionElement(sectionList);
+                
+                    foreach (Task task in section.TaskList)
                     {
-                        taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
-                        taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
+                        TaskElement taskElement = new TaskElement(task.Id);
+
+                        taskElement.TaskID.Name = "Task" + task.Id;
+
+                        taskElement.title.Text = task.Name;
+                        taskElement.description.Text = task.Description;
+
+                        if(task.AssignedUser != null)
+                        {
+                            taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
+                            taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
+                        }
+                        
+                        ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
                     }
 
-                    ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
+
+                    sectionElement.SectionID.Name = "Section" + section.Id;
+                    sectionElement.SectionName.Text = section.Name;
+
+                    sectionList.Children.Add(sectionElement);
+
                 }
 
+                sectionList.Children.Add(new NewSectionElement(sectionList));
 
-                sectionElement.SectionID.Name = "Section" + section.Id;
-                sectionElement.SectionName.Text = section.Name;
-
-                sectionList.Children.Add(sectionElement);
 
             }
-
-            sectionList.Children.Add(new NewSectionElement(sectionList));
-
         }
                 
     }
