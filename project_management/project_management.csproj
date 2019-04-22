@@ -89,6 +89,8 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAO\TaskDAO.cs" />
+    <Compile Include="DAO\WorkLogDAO.cs" />
+    <Compile Include="DTO\WorkLog.cs" />
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
