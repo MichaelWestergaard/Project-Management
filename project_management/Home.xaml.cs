@@ -37,7 +37,7 @@ namespace project_management
                 GetProjectList();
                 board = new Board();
                 overview = new Overview();
-
+                AppContent.Content = overview;
             } else
             {
                //Go to login again

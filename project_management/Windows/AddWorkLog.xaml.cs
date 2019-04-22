@@ -15,13 +15,28 @@ using System.Windows.Shapes;
 namespace project_management.Windows
 {
     /// <summary>
-    /// Interaction logic for WorkLog.xaml
+    /// Interaction logic for AddWorkLog.xaml
     /// </summary>
-    public partial class WorkLog : Window
+    public partial class AddWorkLog : Window
     {
-        public WorkLog()
+        public AddWorkLog()
         {
             InitializeComponent();
+        }
+
+        private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ButtnUpdateWork_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
