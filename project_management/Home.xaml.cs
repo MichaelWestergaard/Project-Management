@@ -17,6 +17,7 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
+        Overview overview;
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
@@ -24,7 +25,6 @@ namespace project_management
         
         public Home()
         {
-
             //Skal gøres når man logger ind
             mainController.User = new UserDAO().Read(1);
 
@@ -36,6 +36,7 @@ namespace project_management
 
                 GetProjectList();
                 board = new Board();
+                overview = new Overview();
 
             } else
             {
@@ -130,7 +131,6 @@ namespace project_management
                 }
 
             board = boardNew;
-
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -159,7 +159,7 @@ namespace project_management
             switch (i)
             {
                 case 0:
-                    AppContent.Background = Brushes.AliceBlue;
+                    AppContent.Content = overview;
                     break;
 
                 case 1:
