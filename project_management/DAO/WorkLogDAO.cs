@@ -19,8 +19,10 @@ namespace project_management.DAO
             newWorkLog.Add("@user_id", workLog.AssignedUser?.Id.ToString());
             newWorkLog.Add("@task_id", workLog.TaskID.ToString());
             newWorkLog.Add("@work", workLog.Work.ToString());
+            newWorkLog.Add("@created_at", workLog.CreatedAt.ToString("yyyy/MM/dd HH:mm:ss"));
 
-            bool response = mySQLConnector.Execute("INSERT INTO work_log (user_id, task_id, work) VALUES (@user_id, @task_id , @work)", newWorkLog);
+
+            bool response = mySQLConnector.Execute("INSERT INTO work_log (user_id, task_id, work, created_at) VALUES (@user_id, @task_id , @work, @created_at)", newWorkLog);
 
             mySQLConnector.CloseConnection();
 
@@ -34,6 +36,23 @@ namespace project_management.DAO
             return false;
 
         }
+
+        public int CreateWork(WorkLog workLog)
+        {
+            Dictionary<string, string> newWorkLog = new Dictionary<string, string>();
+
+            newWorkLog.Add("@user_id", workLog.AssignedUser?.Id.ToString());
+            newWorkLog.Add("@task_id", workLog.TaskID.ToString());
+            newWorkLog.Add("@work", workLog.Work.ToString());
+            newWorkLog.Add("@created_at", workLog.CreatedAt.ToString("yyyy/MM/dd HH:mm:ss"));
+
+            return mySQLConnector.Insert("INSERT INTO work_log (user_id, task_id, work, created_at) VALUES (@user_id, @task_id , @work, @created_at)", newWorkLog);
+        }
+
+
+
+
+
 
         public bool Delete(int id)
         {

@@ -18,14 +18,12 @@ namespace project_management.Windows
     public partial class ViewTask : Window
     {
         TaskElement taskElement;
-        AddWorkLog addWorkLog;
         Task task;
 
         public ViewTask(TaskElement taskElement)
         {
             this.taskElement = taskElement;
             task = new TaskDAO().Read(taskElement.taskID);
-            addWorkLog = new AddWorkLog();
             InitializeComponent();
         }
 
@@ -52,6 +50,7 @@ namespace project_management.Windows
                     break;
 
                 case "WorkLoad":
+                    AddWorkLog addWorkLog = new AddWorkLog(taskElement);
                     addWorkLog.Show();
                     break;
             }

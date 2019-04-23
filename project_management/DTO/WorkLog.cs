@@ -17,6 +17,15 @@ namespace project_management.DTO
             CreatedAt = createdAt;
         }
 
+        public WorkLog(User assignedUser, int taskID, double work, DateTime createdAt)
+        {
+            AssignedUser = assignedUser;
+            TaskID = taskID;
+            Work = work;
+            CreatedAt = createdAt;
+        }
+
+
         public int Id { get; set; }
         public User AssignedUser { get; set; }
         public int TaskID { get; set; }
