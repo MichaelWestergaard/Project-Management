@@ -51,6 +51,24 @@ namespace project_management.DAO
             return false;
         }
 
+        public int CreateUser(User user)
+        {
+            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+
+            var newUser = new Dictionary<string, string>();
+            newUser.Add("@firstName", user.Firstname);
+            newUser.Add("@lastName", user.Lastname);
+            newUser.Add("@email", user.Email);
+            newUser.Add("@password", user.Password);
+            newUser.Add("@picture", user.Picture);
+
+            int userID = mySQLConnector.Insert("INSERT INTO users (firstName, lastName, email, password, picture) VALUES (@firstName, @lastName, @email, @password, @picture)", newUser);
+
+            mySQLConnector.CloseConnection();
+
+            return userID;
+        }
+
         /*    while (dataReader.Read())
             {
                 Console.WriteLine("Id: " + dataReader.GetString("id"));
@@ -63,7 +81,7 @@ namespace project_management.DAO
                 Console.WriteLine("LastLogin: " + dataReader.GetString("lastLogin"));
             }
             */
-        
+
 
         public User delete(int ID)
         {

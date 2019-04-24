@@ -80,6 +80,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="createUser.xaml.cs">
+      <DependentUpon>createUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="login.xaml.cs">
       <DependentUpon>login.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,10 @@
     <Compile Include="Windows\InviteUserToProject.xaml.cs">
       <DependentUpon>InviteUserToProject.xaml</DependentUpon>
     </Compile>
+    <Page Include="createUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

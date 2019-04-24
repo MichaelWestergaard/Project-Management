@@ -24,6 +24,12 @@ namespace project_management
             InitializeComponent();
         }
 
+        private void Create_Click(object sender, RoutedEventArgs e)
+        {
+            new createUser().Show();
+            this.Close();
+        }
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -35,7 +41,6 @@ namespace project_management
         }
         private void ForgotClick(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Hey");
         }
     }
 }

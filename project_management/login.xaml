@@ -48,7 +48,7 @@
                 <TextBlock Name="forgot" TextWrapping="Wrap" Text="Har du glemt din adgangskode?" FontSize="13" FontWeight="Medium" Foreground="#FF2196F3" Margin="10,10,10,0"/>
                 <Grid Margin="5"/>
                 <Button Name="buttonLogin" Click="ForgotClick" Content="Log på" Background="#FF2196F3" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10,4,10,4" Height="45" FontSize="15"/>
-                <Button x:Name="buttonCreateUser" Content="Opret bruger" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10,10,10,20" Height="45" FontSize="15" BorderBrush="#FF00C853"/>
+                <Button x:Name="buttonCreateUser" Click="Create_Click" Content="Opret bruger" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10,10,10,20" Height="45" FontSize="15" BorderBrush="#FF00C853"/>
             </StackPanel>
         </Grid>
     </Grid>
