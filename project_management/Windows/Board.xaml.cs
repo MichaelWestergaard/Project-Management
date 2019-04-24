@@ -49,7 +49,13 @@ namespace project_management.Windows
                             taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
                         }
                         
-                        ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
+                        StackPanel completedTaskList = (StackPanel)((StackPanel)sectionElement.SectionID).FindName("CompletedTaskList");
+
+                        completedTaskList.Children.Add(taskElement);
+
+                        StackPanel taskList = (StackPanel)sectionElement.SectionID;
+
+                        taskList.Children.Insert(taskList.Children.Count-1, taskElement);
                     }
 
 

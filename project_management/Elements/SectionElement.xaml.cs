@@ -1,4 +1,5 @@
-﻿using project_management.DAO;
+﻿using MaterialDesignThemes.Wpf;
+using project_management.DAO;
 using project_management.Windows;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,26 @@ namespace project_management.Elements
             Button button = (Button)FindName("DeleteSection");
 
             button.BeginAnimation(OpacityProperty, doubleAnimation);
+        }
+
+        private void ShowCompletedTasks_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)e.Source;
+            StackPanel completedTaskList = (StackPanel)((Grid)button.Parent).FindName("CompletedTaskList");
+
+            PackIcon icon = (PackIcon) button.FindName("CompletedIcon");
+
+            if (icon.Kind.Equals(PackIconKind.ArrowDropDown))
+            {
+                icon.Kind = PackIconKind.ArrowDropUp;
+                completedTaskList.Visibility = Visibility.Visible;
+            } else
+            {
+                icon.Kind = PackIconKind.ArrowDropDown;
+                completedTaskList.Visibility = Visibility.Hidden;
+            }
+
+
         }
     }
 }

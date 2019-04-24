@@ -52,8 +52,8 @@ namespace project_management.Windows
                 userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
                 userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
 
-                if(task.AssignedUser != null)
-                    if (task.AssignedUser.Equals(user))
+                if (task.AssignedUser != null)
+                    if (task.AssignedUser.Id == user.Id)
                         AssignUser(userAvatar, user.Id);
 
                 projectUsers.Children.Add(userAvatar);

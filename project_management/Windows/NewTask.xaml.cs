@@ -140,7 +140,6 @@ namespace project_management.Windows
         {
             if (ValidateInput())
             {
-
                 string taskName = title.Text;
                 string taskDescription = description.Text;
                 double taskEstimation = Double.Parse(estimation.Text);
@@ -148,12 +147,10 @@ namespace project_management.Windows
                 DateTime taskDeadline = DateTime.Parse(deadline.Text);
                 
                 User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
-
-
+                
                 Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
 
                 int taskID = taskDAO.CreateTask(task);
-                 
 
                 if (taskDAO.Read(taskID) != null)
                 {
