@@ -10,10 +10,8 @@
       Title="Board">
 
     <Grid Background="White">
-        <ScrollViewer HorizontalAlignment="Left" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <StackPanel Name="SectionList" Orientation="Horizontal" Margin="10">
-                
-            </StackPanel>
+        <ScrollViewer HorizontalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="SectionList" Orientation="Horizontal" Margin="10"/>
         </ScrollViewer>
     </Grid>
 </Page>
