@@ -52,8 +52,8 @@ namespace project_management.Windows
                 userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
                 userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
 
-                if(task.AssignedUser != null)
-                    if (task.AssignedUser.Equals(user))
+                if (task.AssignedUser != null)
+                    if (task.AssignedUser.Id == user.Id)
                         AssignUser(userAvatar, user.Id);
 
                 projectUsers.Children.Add(userAvatar);
@@ -76,9 +76,16 @@ namespace project_management.Windows
             if (assignedUserAvatar != null)
                 ((Button)assignedUserAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF2196F3");
 
-            ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
-            assignedUserAvatar = userAvatar;
-            assignedUserID = id;
+            if (assignedUserID != id)
+            {
+                ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
+                assignedUserAvatar = userAvatar;
+                assignedUserID = id;
+            } else
+            {
+                assignedUserID = 0;
+                assignedUserAvatar = null;
+            }
         }
 
         private bool ValidateInput()
@@ -161,7 +168,7 @@ namespace project_management.Windows
                     } else
                     {
                         taskElement.avatar.ImageSource = null;
-                        taskElement.UserButton.ToolTip = "";
+                        taskElement.UserButton.ToolTip = null;
                     }
                     
                     this.Close();

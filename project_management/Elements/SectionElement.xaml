@@ -18,5 +18,14 @@
         <Button Name="NewTask" Uid="Section1" Width="30" Height="30" Margin="5" Style="{StaticResource MaterialDesignFloatingActionButton}" Click="NewTask_Click">
             <materialDesign:PackIcon Kind="Plus" Height="20" Width="20"/>
         </Button>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Button Name="ShowCompletedTasks" Click="ShowCompletedTasks_Click" Style="{StaticResource MaterialDesignFlatButton}" Foreground="Black" FontSize="12">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Afsluttede Opgaver</TextBlock>
+                    <materialDesign:PackIcon Name="CompletedIcon" Kind="ArrowDropDown"/>
+                </StackPanel>
+            </Button>
+            <StackPanel Name="CompletedTaskList" Visibility="Hidden" Orientation="Vertical" Height="Auto"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>

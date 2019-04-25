@@ -79,12 +79,20 @@ namespace project_management.Windows
 
         public void AssignUser(UserAvatar userAvatar, int id)
         {
-            if(assignedUserAvatar != null)
+            if (assignedUserAvatar != null)
                 ((Button)assignedUserAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF2196F3");
 
-            ((Button) userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
-            assignedUserAvatar = userAvatar;
-            assignedUserID = id;
+            if (assignedUserID != id)
+            {
+                ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
+                assignedUserAvatar = userAvatar;
+                assignedUserID = id;
+            }
+            else
+            {
+                assignedUserID = 0;
+                assignedUserAvatar = null;
+            }
         }
 
         private bool ValidateInput()
@@ -140,7 +148,6 @@ namespace project_management.Windows
         {
             if (ValidateInput())
             {
-
                 string taskName = title.Text;
                 string taskDescription = description.Text;
                 double taskEstimation = Double.Parse(estimation.Text);
@@ -148,12 +155,10 @@ namespace project_management.Windows
                 DateTime taskDeadline = DateTime.Parse(deadline.Text);
                 
                 User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
-
-
+                
                 Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
 
                 int taskID = taskDAO.CreateTask(task);
-                 
 
                 if (taskDAO.Read(taskID) != null)
                 {
@@ -170,7 +175,7 @@ namespace project_management.Windows
                         taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
                     }
 
-                    currentSection.Children.Add(taskElement);
+                    currentSection.Children.Insert(currentSection.Children.Count - 1, taskElement);
                     this.Close();
                 }
             }

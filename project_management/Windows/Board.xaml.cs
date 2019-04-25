@@ -33,7 +33,10 @@ namespace project_management.Windows
                 foreach (Section section in sections)
                 {
                     SectionElement sectionElement = new SectionElement(sectionList);
-                
+
+                    StackPanel taskList = (StackPanel)sectionElement.SectionID;
+                    StackPanel completedTaskList = (StackPanel)sectionElement.CompletedTaskList;
+
                     foreach (Task task in section.TaskList)
                     {
                         TaskElement taskElement = new TaskElement(task.Id);
@@ -48,21 +51,26 @@ namespace project_management.Windows
                             taskElement.avatar.ImageSource = new BitmapImage(new Uri(task.AssignedUser.Picture));
                             taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
                         }
+
+                        if (task.Completed)
+                        {
+                            taskElement.Opacity = 0.5;
+                            completedTaskList.Children.Add(taskElement);
+                        } else
+                        {
+                            Console.WriteLine("Children " + taskList.Children.Count);
+                            taskList.Children.Insert(taskList.Children.Count-1, taskElement);
+                        }
                         
-                        ((StackPanel) sectionElement.SectionID).Children.Add(taskElement);
                     }
-
-
+                    
                     sectionElement.SectionID.Name = "Section" + section.Id;
                     sectionElement.SectionName.Text = section.Name;
 
                     sectionList.Children.Add(sectionElement);
-
                 }
 
                 sectionList.Children.Add(new NewSectionElement(sectionList));
-
-
             }
         }
                 
