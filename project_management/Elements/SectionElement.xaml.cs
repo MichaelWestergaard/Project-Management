@@ -80,7 +80,7 @@ namespace project_management.Elements
         private void ShowCompletedTasks_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)e.Source;
-            StackPanel completedTaskList = (StackPanel)((Grid)button.Parent).FindName("CompletedTaskList");
+            StackPanel completedTaskList = (StackPanel) ((StackPanel)button.Parent).FindName("CompletedTaskList");
 
             PackIcon icon = (PackIcon) button.FindName("CompletedIcon");
 

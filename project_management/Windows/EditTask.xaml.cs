@@ -76,9 +76,16 @@ namespace project_management.Windows
             if (assignedUserAvatar != null)
                 ((Button)assignedUserAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF2196F3");
 
-            ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
-            assignedUserAvatar = userAvatar;
-            assignedUserID = id;
+            if (assignedUserID != id)
+            {
+                ((Button)userAvatar.FindName("AssignMemberToTask")).BorderBrush = (Brush)new BrushConverter().ConvertFrom("#d32f2f");
+                assignedUserAvatar = userAvatar;
+                assignedUserID = id;
+            } else
+            {
+                assignedUserID = 0;
+                assignedUserAvatar = null;
+            }
         }
 
         private bool ValidateInput()
@@ -161,7 +168,7 @@ namespace project_management.Windows
                     } else
                     {
                         taskElement.avatar.ImageSource = null;
-                        taskElement.UserButton.ToolTip = "";
+                        taskElement.UserButton.ToolTip = null;
                     }
                     
                     this.Close();
