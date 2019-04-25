@@ -1,4 +1,5 @@
-﻿using project_management.DAO;
+﻿using project_management.Controllers;
+using project_management.DAO;
 using project_management.DTO;
 using System;
 using System.Collections.Generic;
@@ -23,19 +24,22 @@ namespace project_management.Windows
     /// </summary>
     public partial class CreateProject : Window
     {
+        Home home;
+        MainController mainController = MainController.Instance;
         private List<int> userList = new List<int>();
 
         User user;
         InviteUserToProject inviteUserToProject;
         Utilities utilities = new Utilities();
 
-        public CreateProject()
+        public CreateProject(Home home)
         {
+            this.home = home;
+            user = mainController.User;
             InitializeComponent();
 
             deadline.SelectedDate = DateTime.Today;
-            AddInvitedUser(1);
-            user = new UserDAO().read(1);
+            AddInvitedUser(user.Id);
 
             Ellipse ellipse = new Ellipse
             {
@@ -108,8 +112,8 @@ namespace project_management.Windows
                 if(inviteUserToProject != null)
                     inviteUserToProject.Close();
 
-
                 utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
+                home.NewProjectElement(projectID, name);
 
             } else
             {
