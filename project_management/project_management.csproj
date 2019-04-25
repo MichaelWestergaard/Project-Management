@@ -124,7 +124,6 @@
     <Compile Include="Windows\InviteUserToProject.xaml.cs">
       <DependentUpon>InviteUserToProject.xaml</DependentUpon>
     </Compile>
-    <Page Include="createUser.xaml">
     <Compile Include="Windows\NewSection.xaml.cs">
       <DependentUpon>NewSection.xaml</DependentUpon>
     </Compile>
@@ -134,6 +133,10 @@
     <Compile Include="Windows\ViewTask.xaml.cs">
       <DependentUpon>ViewTask.xaml</DependentUpon>
     </Compile>
+    <Page Include="createUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Elements\NewSectionElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
