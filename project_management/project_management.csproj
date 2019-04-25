@@ -87,6 +87,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="createUser.xaml.cs">
+      <DependentUpon>createUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAO\TaskDAO.cs" />
     <Compile Include="Elements\NewSectionElement.xaml.cs">
@@ -121,6 +124,7 @@
     <Compile Include="Windows\InviteUserToProject.xaml.cs">
       <DependentUpon>InviteUserToProject.xaml</DependentUpon>
     </Compile>
+    <Page Include="createUser.xaml">
     <Compile Include="Windows\NewSection.xaml.cs">
       <DependentUpon>NewSection.xaml</DependentUpon>
     </Compile>
