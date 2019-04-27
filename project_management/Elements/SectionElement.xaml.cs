@@ -87,7 +87,7 @@ namespace project_management.Elements
             } else
             {
                 icon.Kind = PackIconKind.ArrowDropDown;
-                completedTaskList.Visibility = Visibility.Hidden;
+                completedTaskList.Visibility = Visibility.Collapsed;
             }
 
 
