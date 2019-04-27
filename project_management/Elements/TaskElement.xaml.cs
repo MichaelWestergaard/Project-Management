@@ -40,8 +40,6 @@ namespace project_management.Elements
         {
             MenuItem menuItem = sender as MenuItem;
 
-
-
             //TODO: add different windows here
             switch (menuItem.Uid)
             {
@@ -53,6 +51,19 @@ namespace project_management.Elements
                 case "2":
                     break;
             }
+        }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Grid taskElementGrid = sender as Grid;
+            DataObject dataObject = new DataObject();
+            dataObject.SetData("Task", this);
+            dataObject.SetData("SectionFrom", this.Parent);
+            DragDrop.DoDragDrop(taskElementGrid, dataObject, DragDropEffects.Move);
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
         }
     }
 }

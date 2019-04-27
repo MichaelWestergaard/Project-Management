@@ -1,21 +1,12 @@
 ﻿using MaterialDesignThemes.Wpf;
 using project_management.DAO;
+using project_management.DTO;
 using project_management.Windows;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace project_management.Elements
 {
@@ -24,7 +15,12 @@ namespace project_management.Elements
     /// </summary>
     public partial class SectionElement : UserControl
     {
+
+        string name;
         StackPanel sectionList;
+
+        public string Name { get => name; set => name = value; }
+
         public SectionElement(StackPanel sectionList)
         {
             this.sectionList = sectionList;
@@ -95,6 +91,31 @@ namespace project_management.Elements
             }
 
 
+        }
+
+        private void SectionID_Drop(object sender, DragEventArgs e)
+        {
+            if(e.Data != null)
+            {
+                InsertDroppedTask(e.Data);
+            }
+        }
+
+        public void InsertDroppedTask(IDataObject dataObject)
+        {
+            TaskElement element = (TaskElement) dataObject.GetData("Task");
+            StackPanel sectionFrom = (StackPanel) dataObject.GetData("SectionFrom");
+            sectionFrom.Children.Remove(element);
+            SectionElement currentSection = this;
+            StackPanel taskList = ((StackPanel)currentSection.Content);
+            taskList.Children.Insert(taskList.Children.Count - 1, element);
+
+            TaskDAO taskDAO = new TaskDAO();
+
+            Task task = taskDAO.Read(element.taskID);
+            task.SectionID = int.Parse(currentSection.Name.Replace("Section", ""));
+
+            taskDAO.Update(task);
         }
     }
 }
