@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignWidth="250">
-    <Grid>
+    <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" AllowDrop="True" Drop="Grid_Drop">
         <materialDesign:Card Name="TaskID" Background="White" Margin="5" MouseDoubleClick="TaskID_MouseDoubleClick">
             <materialDesign:Card.ContextMenu>
                 <ContextMenu>

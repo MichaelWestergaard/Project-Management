@@ -58,7 +58,6 @@ namespace project_management.Windows
                             completedTaskList.Children.Add(taskElement);
                         } else
                         {
-                            Console.WriteLine("Children " + taskList.Children.Count);
                             taskList.Children.Insert(taskList.Children.Count-1, taskElement);
                         }
                         
@@ -66,6 +65,7 @@ namespace project_management.Windows
                     
                     sectionElement.SectionID.Name = "Section" + section.Id;
                     sectionElement.SectionName.Text = section.Name;
+                    sectionElement.Name = "Section" + section.Id;
 
                     sectionList.Children.Add(sectionElement);
                 }
