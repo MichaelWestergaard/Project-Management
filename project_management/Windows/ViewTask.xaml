@@ -14,6 +14,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Name="Toolbar" MouseDown="Toolbar_MouseDown" Grid.ColumnSpan="2" Background="#FF222425">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0">
@@ -26,7 +27,26 @@
                 </Button>
             </StackPanel>
         </Grid>
+
+
         <Grid Grid.Row="1">
+            <ListView Margin="5,5,5,5" Name="workloads" Grid.ColumnSpan="3">
+                <ListView.Resources>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Work done" Width="130" DisplayMemberBinding="{Binding Work}" />
+                        <GridViewColumn Header="Navn" Width="130" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Dato" Width="130" DisplayMemberBinding="{Binding Date}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        
+        <Grid Grid.Row="2">
             <Button Name="EditTask" BorderBrush="DarkOrange" Background="DarkOrange" Click="Button_Click" Content="Rediger" Margin="5,5,0,5" HorizontalAlignment="Left" Width="190"/>
             <Button Name="WorkLoad" BorderBrush="Green" Background="Green" Click="Button_Click" Content="Registrér Arbejde" Margin="0,5,5,5" HorizontalAlignment="Right" Width="190"/>
         </Grid>

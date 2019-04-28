@@ -92,6 +92,8 @@
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAO\TaskDAO.cs" />
+    <Compile Include="DAO\WorkLogDAO.cs" />
+    <Compile Include="DTO\WorkLog.cs" />
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
@@ -112,6 +114,9 @@
     </Compile>
     <Compile Include="Utilities.cs" />
     <Compile Include="ViewModels\OverviewModel.cs" />
+    <Compile Include="Windows\AddWorkLog.xaml.cs">
+      <DependentUpon>AddWorkLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Board.xaml.cs">
       <DependentUpon>Board.xaml</DependentUpon>
     </Compile>
@@ -185,6 +190,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Overview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddWorkLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
