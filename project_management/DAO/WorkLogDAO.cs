@@ -85,8 +85,6 @@ namespace project_management.DAO
                     int user_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("user_id");
                     int task_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("task_id");
                     double work = dataReader.IsDBNull(3) ? 0.0 : dataReader.GetDouble("work");
-
-
                     DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
 
 
@@ -98,6 +96,38 @@ namespace project_management.DAO
             }
             return workLogs;
         }
+
+        public List<WorkLog> GetList(int taskID)
+        {
+            List<WorkLog> workLogs = new List<WorkLog>();
+
+            Dictionary<String, String> parameters = new Dictionary<String, String>
+            {
+                { "@task_id", taskID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM work_log where task_id = @task_id", parameters);
+
+            if (dataReader.HasRows)
+            {
+                while (dataReader.Read())
+                {
+                    int id = dataReader.IsDBNull(0) ? 0 : dataReader.GetInt16("id");
+                    int user_id = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("user_id");
+                    int task_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("task_id");
+                    double work = dataReader.IsDBNull(3) ? 0.0 : dataReader.GetDouble("work");
+                    DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
+
+
+
+                    WorkLog workLog = new WorkLog(id, new UserDAO().Read(user_id), task_id, work, created_at);
+
+                    workLogs.Add(workLog);
+                }
+            }
+            return workLogs;
+        }
+
 
         public WorkLog Read(int id)
         {
