@@ -37,6 +37,12 @@
     <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.5.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -95,6 +101,12 @@
     <Compile Include="DAO\TaskDAO.cs" />
     <Compile Include="DAO\WorkLogDAO.cs" />
     <Compile Include="DTO\WorkLog.cs" />
+    <Compile Include="Elements\DashboardQuickStats.xaml.cs">
+      <DependentUpon>DashboardQuickStats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\GraphCard.xaml.cs">
+      <DependentUpon>GraphCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
@@ -112,6 +124,9 @@
     </Compile>
     <Compile Include="Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
     <Compile Include="ViewModels\OverviewModel.cs" />
@@ -143,6 +158,14 @@
       <DependentUpon>ViewTask.xaml</DependentUpon>
     </Compile>
     <Page Include="createUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\DashboardQuickStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\GraphCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,6 +217,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Overview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Dashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

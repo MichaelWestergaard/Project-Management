@@ -2,6 +2,7 @@
 using project_management.DAO;
 using project_management.DTO;
 using project_management.Elements;
+using project_management.Pages;
 using project_management.Windows;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
-        Overview overview;
+        Dashboard overview;
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
@@ -32,8 +33,8 @@ namespace project_management
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
                 GetProjectList();
-                board = new Board();
-                overview = new Overview();
+                //board = new Board();
+                overview = new Dashboard();
                 AppContent.Content = overview;
             } else
             {
