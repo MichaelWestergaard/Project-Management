@@ -147,6 +147,10 @@ namespace project_management
         {
             DragMove();
         }
+        private void Profile_Click(object sender, RoutedEventArgs e)
+        {
+            new Profile(this).Show();
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -181,5 +185,6 @@ namespace project_management
         {
             new CreateProject(this).Show();
         }
+
     }
 }

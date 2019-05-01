@@ -1,5 +1,10 @@
-﻿using project_management.Windows;
+﻿using project_management.Controllers;
+using project_management.DAO;
+using project_management.DTO;
+using project_management.Windows;
+using System;
 using System.Windows;
+using ToastNotifications.Messages;
 
 namespace project_management
 {
@@ -8,11 +13,44 @@ namespace project_management
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Utilities utilities = new Utilities();
+
         public MainWindow()
         {
             InitializeComponent();
-            //new createUser().Show();
-            new Home().Show();
+            if(MainController.Instance.User != null)
+            {
+                new Home().Show();
+            } else
+            {
+                Console.WriteLine(Properties.Settings.Default.AutoLogin);
+                if (Properties.Settings.Default.AutoLogin == true)
+                {
+
+
+                    string email = Properties.Settings.Default.Email;
+                    string password = Properties.Settings.Default.Password;
+
+                    if (!email.Equals("") && !password.Equals(""))
+                    {
+                        User user = new UserDAO().GetUserByEmail(email);
+
+                        if (user != null)
+                        {
+                            if (user.Password.Equals(password))
+                            {
+                                MainController.Instance.User = user;
+                                new Home().Show();
+                                this.Close();
+                            }
+                        }
+                    }
+                } else
+                {
+                    new Login().Show();
+                }
+            }
             this.Close();
         }
     }

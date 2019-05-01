@@ -1,0 +1,50 @@
+﻿<Window x:Class="project_management.Windows.Profile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:project_management.Windows"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Home" BorderBrush="#FF222425" BorderThickness=".5" SizeToContent="Height" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="Toolbar" MouseDown="Toolbar_MouseDown" Grid.ColumnSpan="2" Background="#FF222425">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0">
+                <TextBlock FontSize="18" Text="Project Manager" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0">
+                <Button x:Name="ButtonClose" Click="ButtonClose_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                    <materialDesign:PackIcon Kind="WindowClose" Foreground="White" Width="auto" Height="auto"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Margin="5">
+            <StackPanel Orientation="Vertical">
+                <materialDesign:Card Margin="5" Padding="5">
+                    <TextBlock HorizontalAlignment="Center" Name="UserName">Hej</TextBlock>
+                </materialDesign:Card>
+                <Button Name="Edit" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            Rediger
+                        </TextBlock>
+                        <materialDesign:PackIcon Margin="4 2 0 0" Kind="Edit"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="LogOut" Margin="5" Click="LogOut_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            Log Ud
+                        </TextBlock>
+                        <materialDesign:PackIcon Margin="4 2 0 0" Kind="Logout"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</Window>

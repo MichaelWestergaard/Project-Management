@@ -64,7 +64,7 @@ namespace project_management
 
         private void ButtonBack_Click(object sender, RoutedEventArgs e)
         {
-            new login().Show();
+            new Login().Show();
             this.Close();
         }
 
@@ -113,7 +113,7 @@ namespace project_management
                 UserDAO userDAO = new UserDAO();
                 int userID = userDAO.CreateUser(user);
 
-                new login().Show();
+                new Login().Show();
                 this.Close();
             } else
             {

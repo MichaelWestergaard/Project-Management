@@ -1,4 +1,7 @@
-﻿using System;
+﻿using project_management.Controllers;
+using project_management.DAO;
+using project_management.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +14,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ToastNotifications.Messages;
 
 namespace project_management
 {
     /// <summary>
     /// Interaction logic for login.xaml
     /// </summary>
-    public partial class login : Window
+    public partial class Login : Window
     {
-        public login()
+
+        Utilities utilities = new Utilities();
+
+        public Login()
         {
             InitializeComponent();
         }
@@ -39,8 +46,49 @@ namespace project_management
         {
             DragMove();
         }
-        private void ForgotClick(object sender, RoutedEventArgs e)
+
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
+
+            string email = EmailInput.Text.ToString();
+            string password = PasswordInput.Password.ToString();
+            
+            if(email.Length != 0 && password.Length != 0)
+            {
+                User user = new UserDAO().GetUserByEmail(email);
+
+                if(user != null)
+                {
+                    if (user.Password.Equals(password))
+                    {
+                        MainController.Instance.User = user;
+                        if (SaveLogin.IsChecked == true)
+                        {
+                            Properties.Settings.Default.Email = email;
+                            Properties.Settings.Default.Password = password;
+                            Properties.Settings.Default.AutoLogin = true;
+                            Properties.Settings.Default.Save();
+                        } else
+                        {
+                            Properties.Settings.Default.Email = "";
+                            Properties.Settings.Default.Password = "";
+                            Properties.Settings.Default.AutoLogin = false;
+                            Properties.Settings.Default.Save();
+                        }
+                        new Home().Show();
+
+                        utilities.GetNotifier().ShowSuccess("Velkommen, " + user.Firstname + "!");
+                        this.Close();
+
+                    } else
+                    {
+                        utilities.GetNotifier().ShowError("Email eller adgangskode er forkert");
+                    }
+                } else
+                {
+                    utilities.GetNotifier().ShowError("Email eller adgangskode er forkert");
+                }
+            }
         }
     }
 }
