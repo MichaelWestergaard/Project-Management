@@ -49,6 +49,8 @@ namespace project_management.Elements
                     break;
 
                 case "2":
+                    AddWorkLog addWorkLog = new AddWorkLog(this);
+                    addWorkLog.Show();
                     break;
             }
         }

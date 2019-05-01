@@ -195,11 +195,12 @@ namespace project_management.DAO
                 { "@name", task.Name },
                 { "@description", task.Description },
                 { "@due_date", task.DueDate.ToString("yyyy/MM/dd HH:mm:ss") },
+                { "@completed", task.Completed? "1" : "0" },
                 { "@estimated_time", task.EstimatedTime.ToString() },
                 { "@priority", task.Priority.ToString() }
             };
 
-            bool response = mySQLConnector.Execute("UPDATE tasks SET parent_task_id = @parent_task_id, requires_task_id = @requires_task_id, section_id = @section_id, user_id = @user_id, name = @name, description = @description, due_date = @due_date, estimated_time = @estimated_time, priority = @priority WHERE id = @id", parameters);
+            bool response = mySQLConnector.Execute("UPDATE tasks SET parent_task_id = @parent_task_id, requires_task_id = @requires_task_id, section_id = @section_id, user_id = @user_id, name = @name, description = @description, due_date = @due_date, completed = @completed, estimated_time = @estimated_time, priority = @priority WHERE id = @id", parameters);
 
             mySQLConnector.CloseConnection();
 

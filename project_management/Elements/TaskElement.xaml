@@ -11,7 +11,7 @@
             <materialDesign:Card.ContextMenu>
                 <ContextMenu>
                     <MenuItem Uid="1" Header="Rediger" Click="MenuItem_Click"/>
-                    <MenuItem Uid="1" Header="Registrér Arbejde" Click="MenuItem_Click"/>
+                    <MenuItem Uid="2" Header="Registrér Arbejde" Click="MenuItem_Click"/>
                 </ContextMenu>
             </materialDesign:Card.ContextMenu>
             <Grid Margin="5">

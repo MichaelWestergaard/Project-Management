@@ -29,7 +29,7 @@
         </Grid>
 
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" >
             <ListView Margin="5,5,5,5" Name="workloads" Grid.ColumnSpan="3">
                 <ListView.Resources>
                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -37,10 +37,11 @@
                     </Style>
                 </ListView.Resources>
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Work done" Width="130" DisplayMemberBinding="{Binding Work}" />
-                        <GridViewColumn Header="Navn" Width="130" DisplayMemberBinding="{Binding Name}" />
-                        <GridViewColumn Header="Dato" Width="130" DisplayMemberBinding="{Binding Date}" />
+                    <GridView >
+                        
+                        <GridViewColumn Header="Timer brugt" Width="90" DisplayMemberBinding="{Binding Work}"  />
+                        <GridViewColumn Header="Navn" Width="170" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Dato" Width="Auto" DisplayMemberBinding="{Binding Date}" />
                     </GridView>
                 </ListView.View>
             </ListView>
