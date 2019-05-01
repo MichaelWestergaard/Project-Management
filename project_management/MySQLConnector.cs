@@ -22,8 +22,7 @@ namespace project_management
         {
            get
            {
-                if (connector == null || connector.connection == null)
-                    connector = new MySQLConnector();
+                connector = new MySQLConnector();
                 return connector;
            }
         }

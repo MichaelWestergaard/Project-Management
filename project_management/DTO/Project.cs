@@ -22,7 +22,7 @@ namespace project_management.DTO
             Completed = completed;
             CreatedAt = createdAt;
             DueDate = dueDate;
-  //          SectionList = sectionList;
+            //          SectionList = sectionList;
         }
 
         public int Id { get; set; }
@@ -33,6 +33,6 @@ namespace project_management.DTO
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DueDate { get; set; }
-  //      public List<Section> SectionList { get; set; }
+
     }
 }
