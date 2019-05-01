@@ -43,6 +43,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+                <Button Name="CompleteTask" Click="ButtnComplete_Click" Content="Afslut task" Background="#FF808080" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
 
                 <Button Name="ButtnUpdateWork" Click="ButtnUpdateWork_Click" Content="Opdater arbejde" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
             </StackPanel>

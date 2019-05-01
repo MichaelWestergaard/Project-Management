@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using project_management.DTO;
 using project_management.Elements;
 using project_management.DAO;
-
+using ToastNotifications.Messages;
 
 namespace project_management.Windows
 {
@@ -26,22 +26,25 @@ namespace project_management.Windows
         private WorkLogDAO workLogDAO = new WorkLogDAO();
         private TaskElement taskElement;
         private int assignedUserID = 1;
-        private int taskID = 0;
+        private Board board = new Board();
+
+        StackPanel taskList;
+        StackPanel completedTaskList;
 
 
         public AddWorkLog(TaskElement taskElement)
         {
             this.taskElement = taskElement;
-
-
-
             InitializeComponent();
 
+            taskList = (StackPanel)taskElement.Parent;
+            StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
+            completedTaskList = ((StackPanel)lastStackPanel.Children[lastStackPanel.Children.Count - 1]);
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -68,9 +71,65 @@ namespace project_management.Windows
             }
         }
 
+        private void ButtnComplete_Click(object sender, RoutedEventArgs e)
+        {
+            Task task = taskDAO.Read(taskElement.taskID);
+
+            if (task.Completed == false) {
+                task.Completed = true;
+                taskDAO.Update(task);
+                taskElement.Opacity = 0.5;
+                taskList.Children.Remove(taskElement);
+                completedTaskList.Children.Add(taskElement);
+
+
+            }
+            else
+            {
+                task.Completed = false;
+                taskDAO.Update(task);
+                taskElement.Opacity = 1;
+                completedTaskList.Children.Remove(taskElement);
+                //  taskList.Children.Insert(taskList.Children.Count - 1, taskElement);
+                taskList.Children.Add(taskElement);
+
+
+            }
+
+
+
+            this.Close();
+        }
+
+
+
+
         private bool ValidateInput()
         {
-            return true;
+            if (estimation.Text != "" && double.TryParse(estimation.Text, out double resultEstimation))
+            {
+                if (dato.Text != "")
+                {
+                    if (DateTime.TryParse(dato.Text, out DateTime result))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                    }
+                }
+                else
+                {
+                    new Utilities().GetNotifier().ShowError("Udfyld deadline dato");
+                }
+            }
+            else
+            {
+                new Utilities().GetNotifier().ShowError("Udfyld estimation");
+            }
+            return false;
         }
     }
 }
+           
