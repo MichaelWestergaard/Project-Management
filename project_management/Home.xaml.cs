@@ -25,9 +25,6 @@ namespace project_management
         
         public Home()
         {
-            //Skal gøres når man logger ind
-            mainController.User = new UserDAO().Read(1);
-
             if (mainController.IsLoggedIn())
             {
                 InitializeComponent();
@@ -40,7 +37,8 @@ namespace project_management
                 AppContent.Content = overview;
             } else
             {
-               //Go to login again
+                new Login().Show();
+                Close();
             }
         }
 
