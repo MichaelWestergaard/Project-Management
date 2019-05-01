@@ -57,11 +57,14 @@ namespace project_management
             {
                 User user = new UserDAO().GetUserByEmail(email);
 
+                Console.WriteLine(user.Firstname + " " + user.Id);
+
                 if(user != null)
                 {
                     if (user.Password.Equals(password))
                     {
                         MainController.Instance.User = user;
+                        Console.WriteLine(MainController.Instance.User.Firstname + " " + MainController.Instance.User.Id);
                         if (SaveLogin.IsChecked == true)
                         {
                             Properties.Settings.Default.Email = email;

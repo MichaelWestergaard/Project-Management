@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -27,7 +28,8 @@ namespace project_management
     {
         Utilities utilities = new Utilities();
 
-
+        string filename, filePath;
+            
         public createUser()
         {
             InitializeComponent();
@@ -58,7 +60,16 @@ namespace project_management
                 imageBox.Source = new BitmapImage(new Uri(dlg.FileName, UriKind.Absolute));
                 this.imageBox.Visibility = Visibility.Visible;
                 this.delPic.Visibility = Visibility.Visible;
-                Console.WriteLine(imageBox.Source);
+
+                filename = string.Format(@"{0}.png", Guid.NewGuid());
+
+                filePath = "https://projectmanagement.michaelwestergaard.dk/images/" + filename;
+
+                WebClient client = new WebClient
+                {
+                    Credentials = new NetworkCredential("michaelwestergaa.dk", "tim")
+                };
+                client.UploadFile("ftp://michaelwestergaard.dk/projectmanagement/images/" + filename, dlg.FileName);
             }
         }
 
@@ -108,7 +119,7 @@ namespace project_management
                 user.Lastname = lastName;
                 user.Email = email;
                 user.Password = password;
-                user.Picture = "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png";
+                user.Picture = filename.Equals("") ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : filePath;
 
                 UserDAO userDAO = new UserDAO();
                 int userID = userDAO.CreateUser(user);
