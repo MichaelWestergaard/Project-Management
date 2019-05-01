@@ -142,7 +142,7 @@ namespace project_management.Windows
 
                 ellipse2.Fill = new ImageBrush
                 {
-                    ImageSource = new BitmapImage(new Uri("https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png"))
+                    ImageSource = new BitmapImage(new Uri((user.Picture == "" || user.Picture == null) ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : user.Picture))
                 };
 
                 ((CreateProject)openedBy).MemberList.Children.Add(ellipse2);
