@@ -1,4 +1,5 @@
-﻿using project_management.DAO;
+﻿using project_management.Controllers;
+using project_management.DAO;
 using project_management.DTO;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace project_management.Windows
             InitializeComponent();
             userDAO = new UserDAO();
             projectDAO = new ProjectDAO();
-            user = userDAO.Read(1);
+            user = MainController.Instance.User;
 
 
             Ellipse ellipse = new Ellipse
