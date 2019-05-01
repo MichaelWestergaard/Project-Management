@@ -1,7 +1,9 @@
-﻿using project_management.DAO;
+﻿using Microsoft.Win32;
+using project_management.DAO;
 using project_management.DTO;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,12 +31,35 @@ namespace project_management
         public createUser()
         {
             InitializeComponent();
+        }
+
+        private void delPicClick(object sender, RoutedEventArgs e)
+        {
+            this.imageBox.Visibility = Visibility.Collapsed;
+            this.delPic.Visibility = Visibility.Collapsed;
+            imageBox.Source = null;
 
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void pictureUploadClick(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            
+            dlg.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+        "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+        "Portable Network Graphic (*.png)|*.png";
+            if (dlg.ShowDialog() == true)
+            {
+                imageBox.Source = new BitmapImage(new Uri(dlg.FileName, UriKind.Absolute));
+                this.imageBox.Visibility = Visibility.Visible;
+                this.delPic.Visibility = Visibility.Visible;
+                Console.WriteLine(imageBox.Source);
+            }
         }
 
         private void ButtonBack_Click(object sender, RoutedEventArgs e)

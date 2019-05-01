@@ -27,13 +27,13 @@
                     <materialDesign:PackIcon Kind="WindowClose" Foreground="White" Width="auto" Height="auto"/>
                 </Button>
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="35,0">
                 <Button x:Name="ButtonClose" Click="ButtonBack_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                     <materialDesign:PackIcon Kind="ArrowBack" Foreground="White" Width="auto" Height="auto"/>
                 </Button>
             </StackPanel>
-            
+
         </Grid>
         <Grid Grid.Row="1" VerticalAlignment="Top">
             <StackPanel>
@@ -56,6 +56,26 @@
                             <TextBox Name="email" materialDesign:HintAssist.Hint="E-mailadresse" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
                             <PasswordBox Name="password" materialDesign:HintAssist.Hint="Adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5" AllowDrop="True"/>
                             <PasswordBox Name="repassword" materialDesign:HintAssist.Hint="Gentag adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5" AllowDrop="True"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <Grid Margin="10">
+                    <Rectangle Fill="White" RadiusY="10" RadiusX="10">
+                        <Rectangle.Effect>
+                            <DropShadowEffect Color="#FFBBBBBB" BlurRadius="10" RenderingBias="Quality" ShadowDepth="3"/>
+                        </Rectangle.Effect>
+                    </Rectangle>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="151*"/>
+                            <RowDefinition Height="17*"/>
+                            <RowDefinition Height="134*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel VerticalAlignment="Bottom" Margin="10,0,9.667,9.666" Grid.RowSpan="3">
+                            <TextBlock Text="Upload profilbillede" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
+                            <Button Name="pictureUpload" Click="pictureUploadClick" Content="Vælg billede" HorizontalAlignment="Center" Background="#FF2196F3" Style="{StaticResource MaterialDesignRaisedButton}" Margin="5" Height="32" FontSize="12"/>
+                            <Image Name="imageBox" Visibility="Collapsed" Height="123" Margin="54,5,54.667,5" VerticalAlignment="Top" Width="250"/>
+                            <Button Name="delPic" Click="delPicClick" Visibility="Collapsed" Content="Slet" HorizontalAlignment="Center" Background="#FFF32121" Style="{StaticResource MaterialDesignRaisedButton}" Margin="153,5,152.667,5" Height="26" FontSize="12" BorderBrush="#FFF32121"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
