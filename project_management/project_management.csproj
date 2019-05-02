@@ -110,6 +110,9 @@
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements\PieChart.xaml.cs">
+      <DependentUpon>PieChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\SectionElement.xaml.cs">
       <DependentUpon>SectionElement.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\NewSectionElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\PieChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
