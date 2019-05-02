@@ -15,59 +15,11 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Grid Height="Auto" Width="225" >
-                    <Grid Margin="10">
-                        <materialDesign:Card Background="#0091ea" Height="75">
-                            <Grid ClipToBounds="True">
-                                <materialDesign:PackIcon Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
-                                <StackPanel Orientation="Horizontal" Height="44" HorizontalAlignment="Right">
-                                    <TextBlock Foreground="White" FontSize="32" Text="10"/>
-                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Bottom" Margin="8, 6">Opgaver</TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:Card>
-                    </Grid>
-                </Grid>
-                <Grid Height="Auto" Width="225" >
-                    <Grid Margin="10">
-                        <materialDesign:Card Background="#ff6d00" Height="75">
-                            <Grid ClipToBounds="True">
-                                <materialDesign:PackIcon Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
-                                <StackPanel Orientation="Horizontal" Height="44" HorizontalAlignment="Right">
-                                    <TextBlock Foreground="White" FontSize="32" Text="10"/>
-                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Bottom" Margin="8, 6">Opgaver</TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:Card>
-                    </Grid>
-                </Grid>
-                <Grid Height="Auto" Width="225" >
-                    <Grid Margin="10">
-                        <materialDesign:Card Background="#00b8d4" Height="75">
-                            <Grid ClipToBounds="True">
-                                <materialDesign:PackIcon Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
-                                <StackPanel Orientation="Horizontal" Height="44" HorizontalAlignment="Right">
-                                    <TextBlock Foreground="White" FontSize="32" Text="10"/>
-                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Bottom" Margin="8, 6">Opgaver</TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:Card>
-                    </Grid>
-                </Grid>
-                <Grid Height="Auto" Width="225" >
-                    <Grid Margin="10">
-                        <materialDesign:Card Background="#00bfa5" Height="75">
-                            <Grid ClipToBounds="True">
-                                <materialDesign:PackIcon Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
-                                <StackPanel Orientation="Horizontal" Height="44" HorizontalAlignment="Right">
-                                    <TextBlock Foreground="White" FontSize="32" Text="10"/>
-                                    <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Bottom" Margin="8, 6">Opgaver</TextBlock>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:Card>
-                    </Grid>
-                </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Name="QuickStatsList">
+                <elements:DashboardQuickStats x:Name="TasksLeft"/>
+                <elements:DashboardQuickStats x:Name="CompletedTask"/>
+                <elements:DashboardQuickStats x:Name="YourTasks"/>
+                <elements:DashboardQuickStats x:Name="Deadline"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" >

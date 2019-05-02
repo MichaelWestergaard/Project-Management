@@ -228,5 +228,22 @@ namespace project_management.DAO
             
             return users;
         }
+
+        public MySqlDataReader GetDashboardStats(int ID)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "@id", ID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectDashboardStats WHERE ProjectID = @id", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
+        }
     }
 }

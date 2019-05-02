@@ -122,14 +122,20 @@ namespace project_management
             mainController.Project = new ProjectDAO().Read(projectID);
 
             Board boardNew = new Board();
+            Dashboard overviewNew = new Dashboard();
 
-            if(AppContent.Content != null)
+            if (AppContent.Content != null)
                 if (AppContent.Content.Equals(board))
                 {
                     AppContent.Content = boardNew;
+                } else if (AppContent.Content.Equals(overview))
+                {
+                    AppContent.Content = overviewNew;
                 }
 
+
             board = boardNew;
+            overview = overviewNew;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

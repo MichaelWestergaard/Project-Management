@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
-using ToastNotifications.Messages;
 using System.Windows;
+using System.Windows.Media;
 
 namespace project_management
 {
@@ -36,6 +32,11 @@ namespace project_management
                 cfg.Dispatcher = Application.Current.Dispatcher;
             });
             return notifier;
+        }
+
+        public Brush GetColor(string hex)
+        {
+            return (Brush)new BrushConverter().ConvertFrom(hex);
         }
     }
 }

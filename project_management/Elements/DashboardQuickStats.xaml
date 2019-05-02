@@ -6,17 +6,15 @@
              xmlns:local="clr-namespace:project_management.Elements"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" >
-    <Grid Height="Auto" Width="225" >
-        <Grid Margin="10">
-            <materialDesign:Card Background="#0091ea" Height="75">
-                <Grid ClipToBounds="True">
-                    <materialDesign:PackIcon Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
-                    <StackPanel Orientation="Horizontal" Height="44" HorizontalAlignment="Right">
-                        <TextBlock Foreground="White" FontSize="32" Text="10"/>
-                        <TextBlock Foreground="White" FontSize="15" VerticalAlignment="Bottom" Margin="8, 6">Opgaver</TextBlock>
-                    </StackPanel>
+    <Grid Height="Auto" Width="225">
+        <materialDesign:Card Name="StatCard" Background="#0091ea" Height="75" Margin="10">
+            <Grid ClipToBounds="True">
+                <materialDesign:PackIcon Name="Icon" Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
+                <Grid HorizontalAlignment="Right" Margin="10 15">
+                    <TextBlock Name="Value" Foreground="White" FontSize="26" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" HorizontalAlignment="Left">value</TextBlock>
+                    <TextBlock Name="Title" Foreground="White" FontSize="14" VerticalAlignment="Bottom" FontFamily="Roboto" FontWeight="Light" Typography.Capitals="SmallCaps">text</TextBlock>
                 </Grid>
-            </materialDesign:Card>
-        </Grid>
+            </Grid>
+        </materialDesign:Card>
     </Grid>
 </UserControl>
