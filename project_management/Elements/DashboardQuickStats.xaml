@@ -11,8 +11,8 @@
             <Grid ClipToBounds="True">
                 <materialDesign:PackIcon Name="Icon" Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
                 <Grid HorizontalAlignment="Right" Margin="10 15">
-                    <TextBlock Name="Value" Foreground="White" FontSize="26" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" HorizontalAlignment="Left">value</TextBlock>
-                    <TextBlock Name="Title" Foreground="White" FontSize="14" VerticalAlignment="Bottom" FontFamily="Roboto" FontWeight="Light" Typography.Capitals="SmallCaps">text</TextBlock>
+                    <TextBlock Name="Value" Foreground="White" FontSize="26" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" HorizontalAlignment="Right">value</TextBlock>
+                    <TextBlock Name="Title" Foreground="White" FontSize="14" VerticalAlignment="Bottom" FontFamily="Roboto" FontWeight="Light" HorizontalAlignment="Right" Typography.Capitals="SmallCaps">text</TextBlock>
                 </Grid>
             </Grid>
         </materialDesign:Card>
