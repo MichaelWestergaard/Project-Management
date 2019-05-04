@@ -174,6 +174,24 @@ namespace project_management.DAO
 
             return false;
         }
+
+        public MySqlDataReader GetWorkLogByProject(int projectID)
+        {
+            Dictionary<String, String> parameters = new Dictionary<String, String>
+            {
+                { "@projectID", projectID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("select sum(work) as Work, created_at as Date from work_log WHERE task_id in (SELECT id from tasks WHERE section_id in (select id from sections WHERE project_id = @projectID)) GROUP BY created_at ORDER BY created_at asc", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
+        }
+
     }
 }
         

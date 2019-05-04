@@ -24,7 +24,7 @@
         </Grid>
         <Grid Grid.Row="1" >
             <StackPanel Name="ChartList" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Margin="5">
-                <elements:GraphCard/>
+                
             </StackPanel>
         </Grid>
     </Grid>

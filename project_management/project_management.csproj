@@ -107,6 +107,9 @@
     <Compile Include="Elements\GraphCard.xaml.cs">
       <DependentUpon>GraphCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements\BurndownChart.xaml.cs">
+      <DependentUpon>BurndownChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\GraphCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\BurndownChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

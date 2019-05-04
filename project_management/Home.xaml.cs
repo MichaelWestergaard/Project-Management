@@ -33,7 +33,7 @@ namespace project_management
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
                 GetProjectList();
-                //board = new Board();
+                board = new Board();
                 overview = new Dashboard();
                 AppContent.Content = overview;
             } else

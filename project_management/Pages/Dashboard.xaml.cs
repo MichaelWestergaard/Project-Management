@@ -52,6 +52,7 @@ namespace project_management.Pages
 
         private void SetupCharts()
         {
+            ChartList.Children.Add(new BurndownChart());
             ChartList.Children.Add(new PieChart(tasksLeft, tasksCompleted));
         }
 
