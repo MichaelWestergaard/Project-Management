@@ -22,7 +22,7 @@
             <TextBlock Grid.Row="0" TextAlignment="Center" Padding="10" Foreground="Black" FontSize="20">
                 Projekt Overblik
             </TextBlock>
-            <lvc:PieChart Name="PieChartElement" Grid.Row="1" LegendLocation="Bottom" Hoverable="True" DataTooltip="{x:Null}" Margin="10" FontSize="14">
+            <lvc:PieChart Name="PieChartElement" FontFamily="Open Sans" Typography.Capitals="AllSmallCaps" FontWeight="Light" FontSize="18" Grid.Row="1" LegendLocation="Bottom" Hoverable="True" DataTooltip="{x:Null}" Margin="10">
                 <lvc:PieChart.Series>
                     <lvc:PieSeries Title="Udførte Opgaver" Values="10" DataLabels="True" 
                                LabelPoint="{Binding PointLabel}"/>
