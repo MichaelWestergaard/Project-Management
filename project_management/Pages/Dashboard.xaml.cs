@@ -36,18 +36,22 @@ namespace project_management.Pages
         {
             InitializeComponent();
 
-            MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
-
-            if (dataReader.Read())
+            if(mainController.Project != null)
             {
-                tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
-                tasksCompleted = dataReader.IsDBNull(3) ?0 : dataReader.GetInt16("TasksCompleted");
-                yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
-                daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
+
+                if (dataReader.Read())
+                {
+                    tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                    tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                    yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                    daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                }
+
+                SetupQuickStats();
+                SetupCharts();
             }
 
-            SetupQuickStats();
-            SetupCharts();
         }
 
         private void SetupCharts()

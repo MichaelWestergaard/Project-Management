@@ -50,21 +50,27 @@ namespace project_management.Controllers
 
         public void ChangeProject()
         {
-            Board boardNew = new Board();
-            Dashboard overviewNew = new Dashboard();
+            if(Project != null)
+            {
+                Board boardNew = new Board();
+                Dashboard overviewNew = new Dashboard();
 
-            if (home.AppContent.Content != null)
-                if (home.AppContent.Content.Equals(home.Board))
-                {
-                    home.AppContent.Content = boardNew;
-                }
-                else if (home.AppContent.Content.Equals(home.Overview))
-                {
-                    home.AppContent.Content = overviewNew;
-                }
+                if (home.AppContent.Content != null)
+                    if (home.AppContent.Content.Equals(home.Board))
+                    {
+                        home.AppContent.Content = boardNew;
+                    }
+                    else if (home.AppContent.Content.Equals(home.Overview))
+                    {
+                        home.AppContent.Content = overviewNew;
+                    }
 
-            home.Board = boardNew;
-            home.Overview = overviewNew;
+                home.Board = boardNew;
+                home.Overview = overviewNew;
+            } else
+            {
+                home.AppContent.Content = new WelcomePage();
+            }
         }
     }
 }

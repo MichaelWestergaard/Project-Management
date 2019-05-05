@@ -1,0 +1,17 @@
+﻿<Page x:Class="project_management.Pages.WelcomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:project_management.Pages"
+      mc:Ignorable="d" 
+      Title="WelcomePage"
+      d:DesignHeight="450" d:DesignWidth="900">
+    <Grid Background="#E9E9E9">
+        <Image Source="https://cdn0.iconfinder.com/data/icons/arrow-ui-2/64/arrows_rotate_anti_dashed-512.png" Margin="0,0,759,340"/>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock Name="Title" TextAlignment="Center" Style="{StaticResource MaterialDesignDisplay2TextBlock}" Margin="0 20">Hej NAVN</TextBlock>
+            <TextBlock Margin="5" Width="700" TextWrapping="WrapWithOverflow" TextAlignment="Center" Style="{StaticResource MaterialDesignHeadlineTextBlock}">Du har ikke oprettet eller er blevet inviteret til et projekt endnu. For at komme i gang, kan du blot oprette et nyt projekt i menuen i venstre side</TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

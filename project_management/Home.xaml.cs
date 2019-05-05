@@ -37,9 +37,15 @@ namespace project_management
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
                 GetProjectList();
-                board = new Board();
-                overview = new Dashboard();
-                AppContent.Content = overview;
+                if(mainController.Project != null)
+                {
+                    board = new Board();
+                    overview = new Dashboard();
+                    AppContent.Content = overview;
+                } else
+                {
+                    AppContent.Content = new WelcomePage();
+                }
             } else
             {
                 new Login().Show();
@@ -175,25 +181,27 @@ namespace project_management
 
             MenuTabIndicator.Margin = new Thickness(150*i, 0, 0, 0);
 
-            //TODO: add different windows here
-            switch (i)
+            if (mainController.Project != null)
             {
-                case 0:
-                    AppContent.Content = overview;
-                    break;
+                switch (i)
+                {
+                    case 0:
+                        AppContent.Content = overview;
+                        break;
 
-                case 1:
-                    AppContent.Content = board;
-                    break;
+                    case 1:
+                        AppContent.Content = board;
+                        break;
 
-                case 2:
+                    case 2:
 
-                    AppContent.Background = Brushes.Blue;
-                    break;
+                        AppContent.Background = Brushes.Blue;
+                        break;
 
-                case 3:
-                    AppContent.Background = Brushes.Brown;
-                    break;
+                    case 3:
+                        AppContent.Background = Brushes.Brown;
+                        break;
+                }
             }
         }
 
