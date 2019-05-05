@@ -23,12 +23,16 @@ namespace project_management
         Board board;
         List<string> colors = new List<string>();
         StackPanel projectList;
-        
+
+        public Board Board { get => board; set => board = value; }
+        public Dashboard Overview { get => overview; set => overview = value; }
+
         public Home()
         {
             if (mainController.IsLoggedIn())
             {
                 InitializeComponent();
+                mainController.Home = this;
                 projectList = (StackPanel)FindName("ProjectList");
                 AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
@@ -107,35 +111,42 @@ namespace project_management
                 VerticalAlignment = VerticalAlignment.Center,
                 ToolTip = nameStr,
                 Background = color,
-                BorderBrush = color,
+                BorderBrush = color
             };
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem menuItem = new MenuItem
+            {
+                Name = "EditProject",
+                Header = "Rediger Projekt",
+                Uid = projectID.ToString()
+            };
+
+            menuItem.Click += new RoutedEventHandler(EditProject);
+
+            contextMenu.Items.Add(menuItem);
+
+            projectButton.ContextMenu = contextMenu;
 
             projectButton.Click += ChangeProject_Click;
 
             projectList.Children.Insert(projectList.Children.Count - 1, projectButton);
         }
-        
+
+        private void EditProject(object sender, RoutedEventArgs e)
+        {
+            int projectID = int.Parse(((MenuItem)sender).Uid);
+
+            new EditProject(projectID, projectList).Show();
+        }
+
         private void ChangeProject_Click(object sender, RoutedEventArgs e)
         {
             Button source = (Button)e.Source;
             int projectID = int.Parse(source.Uid);
             mainController.Project = new ProjectDAO().Read(projectID);
-
-            Board boardNew = new Board();
-            Dashboard overviewNew = new Dashboard();
-
-            if (AppContent.Content != null)
-                if (AppContent.Content.Equals(board))
-                {
-                    AppContent.Content = boardNew;
-                } else if (AppContent.Content.Equals(overview))
-                {
-                    AppContent.Content = overviewNew;
-                }
-
-
-            board = boardNew;
-            overview = overviewNew;
+            mainController.ChangeProject();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
