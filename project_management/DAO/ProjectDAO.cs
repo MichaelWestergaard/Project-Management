@@ -140,18 +140,15 @@ namespace project_management.DAO
         
         public bool Update(Project project)
         {
-
             var newProject = new Dictionary<string, string>();
             newProject.Add("@id", project.Id.ToString());
-            newProject.Add("@parent_project_id", project.ParentProjectID.ToString());
-            newProject.Add("@user_id", project.ProjectOwnerID.ToString());
             newProject.Add("@name", project.Name);
             newProject.Add("@description", project.Description);
             newProject.Add("@completed", project.Completed.ToString());
-            newProject.Add("@created_at", project.CreatedAt.ToString());
-            newProject.Add("@due_date", project.DueDate.ToString());
+            newProject.Add("@created_at", project.CreatedAt.ToString("yyyy/MM/dd HH:mm:ss"));
+            newProject.Add("@due_date", project.DueDate.ToString("yyyy/MM/dd HH:mm:ss"));
             
-            bool edit = mySQLConnector.Execute("UPDATE projects SET parent_project_id = @parent_project_id, user_id = @user_id, name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
+            bool edit = mySQLConnector.Execute("UPDATE projects SET name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
 
             mySQLConnector.CloseConnection();
 

@@ -43,8 +43,8 @@ namespace project_management.Elements
 
                 if (dataReader.Read())
                 {
-                    days = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("ProjectLength");
-                    totalWork = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TotalWork");
+                    days = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("ProjectLength");
+                    totalWork = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("TotalWork");
                     daysFromStart = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("DaysFromStart");
                 }
 
@@ -146,7 +146,6 @@ namespace project_management.Elements
                     new Axis
                     {
                         MinValue = 0,
-                        MaxValue = 7,
                         Title = "Tidslinje",
                         Separator = new Separator { Step = 1, Stroke = new Utilities().GetColor("#546e7a") },
                         FontSize = 14

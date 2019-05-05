@@ -1,5 +1,7 @@
 ﻿using project_management.DAO;
 using project_management.DTO;
+using project_management.Pages;
+using project_management.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace project_management.Controllers
     {
         private User user;
         private Project project;
+        private Home home;
 
         private ProjectDAO projectDAO = new ProjectDAO();
 
@@ -31,6 +34,7 @@ namespace project_management.Controllers
 
         internal User User { get => user; set => user = value; }
         internal Project Project { get => project; set => project = value; }
+        public Home Home { get => home; set => home = value; }
 
         public bool IsLoggedIn()
         {
@@ -42,6 +46,25 @@ namespace project_management.Controllers
         public List<Project> UserProjects()
         {
             return projectDAO.UserProjects(user.Id);
+        }
+
+        public void ChangeProject()
+        {
+            Board boardNew = new Board();
+            Dashboard overviewNew = new Dashboard();
+
+            if (home.AppContent.Content != null)
+                if (home.AppContent.Content.Equals(home.Board))
+                {
+                    home.AppContent.Content = boardNew;
+                }
+                else if (home.AppContent.Content.Equals(home.Overview))
+                {
+                    home.AppContent.Content = overviewNew;
+                }
+
+            home.Board = boardNew;
+            home.Overview = overviewNew;
         }
     }
 }

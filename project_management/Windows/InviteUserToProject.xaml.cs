@@ -85,6 +85,8 @@ namespace project_management.Windows
                     {
                         if (openedBy is CreateProject)
                             ((CreateProject)openedBy).AddInvitedUser(user.Id);
+                        if (openedBy is EditProject)
+                            ((EditProject)openedBy).AddInvitedUser(user.Id);
                         AddUserPicture(user);
                     } else
                     {
@@ -123,30 +125,34 @@ namespace project_management.Windows
             };
 
             this.MemberList.Children.Add(ellipse);
+            Ellipse ellipse2 = new Ellipse
+            {
+                Height = 30,
+                Width = 30,
+                Margin = new Thickness(5),
+                ToolTip = user.Firstname + " " + user.Lastname
+            };
+
+            ellipse2.Effect = new DropShadowEffect
+            {
+                Color = (Color)ColorConverter.ConvertFromString("#FFBBBBBB"),
+                BlurRadius = 6,
+                ShadowDepth = 1
+            };
+
+            ellipse2.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri((user.Picture == "" || user.Picture == null) ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : user.Picture))
+            };
+
             if (openedBy is CreateProject)
             {
-                Ellipse ellipse2 = new Ellipse
-                {
-                    Height = 30,
-                    Width = 30,
-                    Margin = new Thickness(5),
-                    ToolTip = user.Firstname + " " + user.Lastname
-                };
-
-                ellipse2.Effect = new DropShadowEffect
-                {
-                    Color = (Color)ColorConverter.ConvertFromString("#FFBBBBBB"),
-                    BlurRadius = 6,
-                    ShadowDepth = 1
-                };
-
-                ellipse2.Fill = new ImageBrush
-                {
-                    ImageSource = new BitmapImage(new Uri((user.Picture == "" || user.Picture == null) ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : user.Picture))
-                };
-
                 ((CreateProject)openedBy).MemberList.Children.Add(ellipse2);
+            } else if (openedBy is EditProject)
+            {
+                ((EditProject)openedBy).MemberList.Children.Add(ellipse2);
             }
+
         }
     }
 }
