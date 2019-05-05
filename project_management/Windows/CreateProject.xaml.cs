@@ -108,12 +108,18 @@ namespace project_management.Windows
                     projectDAO.AddUserToProject(projectID, userID);
                 }
                 this.Close();
-
+                
                 if(inviteUserToProject != null)
                     inviteUserToProject.Close();
 
                 utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
                 home.NewProjectElement(projectID, name);
+
+                if (mainController.Project == null)
+                {
+                    mainController.Project = projectDAO.Read(projectID);
+                    mainController.ChangeProject();
+                }
 
             } else
             {

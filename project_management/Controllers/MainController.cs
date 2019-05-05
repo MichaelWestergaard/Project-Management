@@ -56,6 +56,7 @@ namespace project_management.Controllers
                 Dashboard overviewNew = new Dashboard();
 
                 if (home.AppContent.Content != null)
+                {
                     if (home.AppContent.Content.Equals(home.Board))
                     {
                         home.AppContent.Content = boardNew;
@@ -64,6 +65,11 @@ namespace project_management.Controllers
                     {
                         home.AppContent.Content = overviewNew;
                     }
+                    else if (home.AppContent.Content is WelcomePage)
+                    {
+                        home.AppContent.Content = overviewNew;
+                    }
+                }
 
                 home.Board = boardNew;
                 home.Overview = overviewNew;

@@ -176,30 +176,31 @@ namespace project_management.Windows
 
             if (mainController.Project.Id.Equals(project.Id))
             {
-                List<Project> projects = mainController.UserProjects();
+                if (projectDAO.Delete(project.Id))
+                {
+                    List<Project> projects = mainController.UserProjects();
 
-                if (projects.Count > 0)
-                {
-                    mainController.Project = projects[0];               
-                } else
-                {
-                    mainController.Project = null;
-                }
-
-                mainController.ChangeProject();
-            }
-            
-            if (projectDAO.Delete(project.Id))
-            {
-                foreach (UIElement element in projectList.Children)
-                {
-                    if (element.Uid.Equals(project.Id.ToString()))
+                    if (projects.Count > 0)
                     {
-                        projectList.Children.Remove(element);
-                        break;
+                        mainController.Project = projects[0];
                     }
+                    else
+                    {
+                        mainController.Project = null;
+                    }
+
+                    mainController.ChangeProject();
+
+                    foreach (UIElement element in projectList.Children)
+                    {
+                        if (element.Uid.Equals(project.Id.ToString()))
+                        {
+                            projectList.Children.Remove(element);
+                            break;
+                        }
+                    }
+                    Close();
                 }
-                Close();
             }
         }
     }
