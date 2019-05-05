@@ -52,8 +52,11 @@ namespace project_management.Pages
 
         private void SetupCharts()
         {
-            ChartList.Children.Add(new BurndownChart());
-            ChartList.Children.Add(new PieChart(tasksLeft, tasksCompleted));
+            Grid grid = new Grid();
+            grid.Width = 900;
+            grid.Children.Add(new BurndownChart());
+            grid.Children.Add(new PieChart(tasksLeft, tasksCompleted));
+            ChartList.Children.Add(grid);
         }
 
         private void SetupQuickStats()

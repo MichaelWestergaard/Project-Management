@@ -30,6 +30,7 @@ namespace project_management.Elements
         public BurndownChart()
         {
             InitializeComponent();
+            HorizontalAlignment = HorizontalAlignment.Left;
 
             Project project = MainController.Instance.Project;
             int days = 0, daysFromStart = 0;
@@ -135,8 +136,9 @@ namespace project_management.Elements
                     new Axis
                     {
                         MinValue = 0,
-                        Title = "Project Estimat (dage)",
+                        Title = "Estimat",
                         Separator = new Separator { Stroke = new Utilities().GetColor("#546e7a") },
+                        FontSize = 14
                     });
 
                 Chart.AxisX.Clear();
@@ -145,8 +147,9 @@ namespace project_management.Elements
                     {
                         MinValue = 0,
                         MaxValue = 7,
-                        Title = "Tid (dage)",
+                        Title = "Tidslinje",
                         Separator = new Separator { Step = 1, Stroke = new Utilities().GetColor("#546e7a") },
+                        FontSize = 14
                     });
 
 

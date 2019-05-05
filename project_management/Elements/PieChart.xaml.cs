@@ -25,7 +25,10 @@ namespace project_management.Elements
         public PieChart(int tasksLeft, int tasksCompleted)
         {
             InitializeComponent();
-            PointLabel = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+
+            HorizontalAlignment = HorizontalAlignment.Right;
+
+            PointLabel = chartPoint => string.Format("{0} ({1}%)", chartPoint.Y, Math.Round(chartPoint.Participation*100));
 
             DataContext = this;
             
@@ -37,7 +40,7 @@ namespace project_management.Elements
                     Values = new ChartValues<int> { tasksCompleted },
                     DataLabels = true,
                     LabelPoint = PointLabel,
-                    FontSize = 16,
+                    FontSize = 14,
                     ToolTip = "Udførte opgaver"
                 },
                 new PieSeries
@@ -46,7 +49,7 @@ namespace project_management.Elements
                     Values = new ChartValues<int> { tasksLeft },
                     DataLabels = true,
                     LabelPoint = PointLabel,
-                    FontSize = 16,
+                    FontSize = 14,
                     ToolTip = "Opgaver tilbage"
                 }
             };
