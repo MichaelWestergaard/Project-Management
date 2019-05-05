@@ -188,9 +188,7 @@ namespace project_management.Windows
 
                 mainController.ChangeProject();
             }
-
-            Close();
-            /*
+            
             if (projectDAO.Delete(project.Id))
             {
                 foreach (UIElement element in projectList.Children)
@@ -203,7 +201,6 @@ namespace project_management.Windows
                 }
                 Close();
             }
-            */
         }
     }
 }
