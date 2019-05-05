@@ -22,6 +22,7 @@ namespace project_management.Windows
     /// </summary>
     public partial class AddWorkLog : Window
     {
+        private Task task;
         private TaskDAO taskDAO = new TaskDAO();
         private WorkLogDAO workLogDAO = new WorkLogDAO();
         private TaskElement taskElement;
@@ -35,7 +36,9 @@ namespace project_management.Windows
         public AddWorkLog(TaskElement taskElement)
         {
             this.taskElement = taskElement;
+            task = taskDAO.Read(taskElement.taskID);
             InitializeComponent();
+            date.Text = DateTime.Now.Date.ToString();
 
             taskList = (StackPanel)taskElement.Parent;
             StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
@@ -44,7 +47,7 @@ namespace project_management.Windows
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            DragMove();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -58,14 +61,15 @@ namespace project_management.Windows
             {
 
                 double workLoad = Double.Parse(estimation.Text);
-                DateTime workDato = DateTime.Parse(dato.Text);
+                DateTime workDato = DateTime.Parse(date.Text);
 
                 User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
-                int taskID = taskElement.taskID;
 
-                WorkLog workLog = new WorkLog(assignedUser, taskID, workLoad, workDato);
+                WorkLog workLog = new WorkLog(assignedUser, task.Id, workLoad, workDato);
 
                 int workLogID = workLogDAO.CreateWork(workLog);
+
+                taskElement.UpdateProgress((workLogDAO.GetWorkSum(task.Id) / task.EstimatedTime) * 100);
 
                 this.Close();
             }
@@ -73,8 +77,6 @@ namespace project_management.Windows
 
         private void ButtnComplete_Click(object sender, RoutedEventArgs e)
         {
-            Task task = taskDAO.Read(taskElement.taskID);
-
             if (task.Completed == false) {
                 task.Completed = true;
                 taskDAO.Update(task);
@@ -108,9 +110,9 @@ namespace project_management.Windows
         {
             if (estimation.Text != "" && double.TryParse(estimation.Text, out double resultEstimation))
             {
-                if (dato.Text != "")
+                if (date.Text != "")
                 {
-                    if (DateTime.TryParse(dato.Text, out DateTime result))
+                    if (DateTime.TryParse(date.Text, out DateTime result))
                     {
                         return true;
                     }

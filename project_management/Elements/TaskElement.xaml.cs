@@ -64,6 +64,12 @@ namespace project_management.Elements
             DragDrop.DoDragDrop(taskElementGrid, dataObject, DragDropEffects.Move);
         }
 
+        public void UpdateProgress(double percentage)
+        {
+            Progress.Value = percentage;
+            Progress.ToolTip = percentage + "% færdig";
+        }
+
         private void Grid_Drop(object sender, DragEventArgs e)
         {
         }
