@@ -37,8 +37,7 @@ namespace project_management.Windows
             this.home = home;
             user = mainController.User;
             InitializeComponent();
-
-            deadline.SelectedDate = DateTime.Today;
+            
             AddInvitedUser(user.Id);
 
             Ellipse ellipse = new Ellipse
@@ -62,6 +61,7 @@ namespace project_management.Windows
             };
 
             this.MemberList.Children.Add(ellipse);
+
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

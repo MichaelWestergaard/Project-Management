@@ -29,6 +29,7 @@ namespace project_management.Windows
 
 
                 StackPanel sectionList = (StackPanel) FindName("SectionList");
+                WorkLogDAO workLogDAO = new WorkLogDAO();
 
                 foreach (Section section in sections)
                 {
@@ -52,6 +53,9 @@ namespace project_management.Windows
                             taskElement.UserButton.ToolTip = task.AssignedUser.Firstname + " " + task.AssignedUser.Lastname;
                         }
 
+
+                        taskElement.UpdateProgress((workLogDAO.GetWorkSum(task.Id) / task.EstimatedTime) * 100);
+
                         if (task.Completed)
                         {
                             taskElement.Opacity = 0.5;
@@ -60,7 +64,7 @@ namespace project_management.Windows
                         {
                             taskList.Children.Insert(taskList.Children.Count-1, taskElement);
                         }
-                        
+                                                
                     }
                     
                     sectionElement.SectionID.Name = "Section" + section.Id;

@@ -2,6 +2,7 @@
 using project_management.DAO;
 using project_management.DTO;
 using project_management.Elements;
+using project_management.Pages;
 using project_management.Windows;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace project_management
     /// </summary>
     public partial class Home : Window
     {
-        Overview overview;
+        Dashboard overview;
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
@@ -33,7 +34,7 @@ namespace project_management
 
                 GetProjectList();
                 board = new Board();
-                overview = new Overview();
+                overview = new Dashboard();
                 AppContent.Content = overview;
             } else
             {
@@ -121,14 +122,20 @@ namespace project_management
             mainController.Project = new ProjectDAO().Read(projectID);
 
             Board boardNew = new Board();
+            Dashboard overviewNew = new Dashboard();
 
-            if(AppContent.Content != null)
+            if (AppContent.Content != null)
                 if (AppContent.Content.Equals(board))
                 {
                     AppContent.Content = boardNew;
+                } else if (AppContent.Content.Equals(overview))
+                {
+                    AppContent.Content = overviewNew;
                 }
 
+
             board = boardNew;
+            overview = overviewNew;
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

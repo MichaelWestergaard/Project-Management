@@ -24,7 +24,7 @@ namespace project_management.DAO
             };
 
 
-            bool response = mySQLConnector.Execute("INSERT INTO projects (parent_project_id, user_id , name, description, due_date) VALUES (@parent_project_id, @user_id , @name, @description, @due_date)", newProject);
+            bool response = mySQLConnector.Execute("INSERT INTO projects (parent_project_id, user_id , name, description, due_date) VALUES (@parent_project_id, @user_id, @name, @description, @due_date)", newProject);
             if (response)
             {
                 mySQLConnector.CloseConnection();
@@ -169,7 +169,7 @@ namespace project_management.DAO
                 { "@user_id", project.ProjectOwnerID.ToString() },
                 { "@name", project.Name },
                 { "@description", project.Description },
-                { "@due_date", project.DueDate.ToString() }
+                { "@due_date", project.DueDate.ToString("yyyy/MM/dd HH:mm:ss") }
             };
 
             int projectID = mySQLConnector.Insert("INSERT INTO projects (user_id, name, description, due_date) VALUES (@user_id, @name, @description, @due_date)", newProject);
@@ -227,6 +227,40 @@ namespace project_management.DAO
             }
             
             return users;
+        }
+
+        public MySqlDataReader GetDashboardStats(int ID)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "@id", ID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectDashboardStats WHERE ProjectID = @id", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
+        }
+
+        public MySqlDataReader GetBurndwonChartData(int ID)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "@id", ID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectBurndownInfo WHERE id = @id", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
         }
     }
 }

@@ -30,11 +30,7 @@ namespace project_management.DAO
             {
                 return true;
             }
-
-
-
             return false;
-
         }
 
         public int CreateWork(WorkLog workLog)
@@ -48,12 +44,7 @@ namespace project_management.DAO
 
             return mySQLConnector.Insert("INSERT INTO work_log (user_id, task_id, work, created_at) VALUES (@user_id, @task_id , @work, @created_at)", newWorkLog);
         }
-
-
-
-
-
-
+        
         public bool Delete(int id)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>
@@ -86,9 +77,7 @@ namespace project_management.DAO
                     int task_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("task_id");
                     double work = dataReader.IsDBNull(3) ? 0.0 : dataReader.GetDouble("work");
                     DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
-
-
-
+                    
                     WorkLog workLog = new WorkLog(id, new UserDAO().Read(user_id), task_id, work, created_at);
 
                     workLogs.Add(workLog);
@@ -117,9 +106,7 @@ namespace project_management.DAO
                     int task_id = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("task_id");
                     double work = dataReader.IsDBNull(3) ? 0.0 : dataReader.GetDouble("work");
                     DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
-
-
-
+                    
                     WorkLog workLog = new WorkLog(id, new UserDAO().Read(user_id), task_id, work, created_at);
 
                     workLogs.Add(workLog);
@@ -174,6 +161,43 @@ namespace project_management.DAO
 
             return false;
         }
+
+        public MySqlDataReader GetWorkLogByProject(int projectID)
+        {
+            Dictionary<String, String> parameters = new Dictionary<String, String>
+            {
+                { "@projectID", projectID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("select sum(work) as Work, created_at as Date from work_log WHERE task_id in (SELECT id from tasks WHERE section_id in (select id from sections WHERE project_id = @projectID)) GROUP BY created_at ORDER BY created_at asc", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
+        }
+
+        public double GetWorkSum(int taskID)
+        {
+            Dictionary<String, String> parameters = new Dictionary<String, String>
+            {
+                { "@task_id", taskID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT sum(work) as WorkDone FROM work_log where task_id = @task_id", parameters);
+
+            if (dataReader.HasRows)
+            {
+                if (dataReader.Read())
+                {
+                    return dataReader.IsDBNull(0) ? 0.0 : dataReader.GetDouble("WorkDone");
+                }
+            }
+            return 0;
+        }
+
     }
 }
         

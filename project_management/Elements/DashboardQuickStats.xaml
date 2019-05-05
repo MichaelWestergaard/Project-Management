@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="project_management.Elements.DashboardQuickStats"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:project_management.Elements"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+    <Grid Height="Auto" Width="225">
+        <materialDesign:Card Name="StatCard" Background="#0091ea" Height="75" Margin="10">
+            <Grid ClipToBounds="True">
+                <materialDesign:PackIcon Name="Icon" Kind="FileDocumentBoxMultiple" Opacity="0.2" Foreground="Black" Width="75" Height="75" Margin="-10,-10,0,0"/>
+                <Grid HorizontalAlignment="Right" Margin="10 15">
+                    <TextBlock Name="Value" Foreground="White" FontSize="26" VerticalAlignment="Top" FontFamily="Roboto" FontWeight="Bold" HorizontalAlignment="Right">value</TextBlock>
+                    <TextBlock Name="Title" Foreground="White" FontSize="14" VerticalAlignment="Bottom" FontFamily="Roboto" FontWeight="Light" HorizontalAlignment="Right" Typography.Capitals="SmallCaps">text</TextBlock>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

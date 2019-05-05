@@ -37,15 +37,14 @@
                     </Rectangle>
                     <Grid>
                         <StackPanel VerticalAlignment="Bottom" Margin="10">
-                            <TextBlock Text="Opret nyt arbejde" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
-                            <TextBox Name="estimation" materialDesign:HintAssist.Hint="Estimeret tid" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
-                            <DatePicker Name="dato" materialDesign:HintAssist.Hint="Dato" FontSize="16" Margin="5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+                            <TextBlock Text="Registrer Arbejde" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
+                            <TextBox Name="estimation" materialDesign:HintAssist.Hint="Arbejde udført" TextWrapping="Wrap" AcceptsReturn="True" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
+                            <DatePicker Name="date" materialDesign:HintAssist.Hint="Dato" FontSize="16" Margin="5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Button Name="CompleteTask" Click="ButtnComplete_Click" Content="Afslut task" Background="#FF808080" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
-
-                <Button Name="ButtnUpdateWork" Click="ButtnUpdateWork_Click" Content="Opdater arbejde" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10"/>
+                <Button Name="ButtnUpdateWork" Click="ButtnUpdateWork_Click" Content="Registrer arbejde" Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="5"/>
+                <Button Name="CompleteTask" Click="ButtnComplete_Click" Content="Afslut Opgave" Background="#FF808080" Style="{StaticResource MaterialDesignRaisedButton}" Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
