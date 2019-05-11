@@ -42,6 +42,13 @@ namespace project_management.Windows
             Close();
         }
 
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            EditUser editUser = new EditUser();
+            editUser.Show();
+            Close();
+        }
+
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.Email = "";

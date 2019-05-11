@@ -27,7 +27,7 @@
                 <materialDesign:Card Margin="5" Padding="5">
                     <TextBlock HorizontalAlignment="Center" Name="UserName">Hej</TextBlock>
                 </materialDesign:Card>
-                <Button Name="Edit" Margin="5">
+                <Button Name="Edit" Margin="5" Click="Edit_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock>
                             Rediger
