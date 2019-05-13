@@ -41,9 +41,17 @@ namespace project_management.Windows
             InitializeComponent();
             date.Text = DateTime.Now.Date.ToString();
 
-            taskList = (StackPanel)taskElement.Parent;
-            StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
-            completedTaskList = ((StackPanel)lastStackPanel.Children[lastStackPanel.Children.Count - 1]);
+            if (!task.Completed)
+            {
+                taskList = (StackPanel)taskElement.Parent;
+                StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
+                completedTaskList = ((StackPanel)lastStackPanel.Children[lastStackPanel.Children.Count - 1]);
+            } else
+            {
+                completedTaskList = (StackPanel)taskElement.Parent;
+                taskList = ((StackPanel)((StackPanel)completedTaskList.Parent).Parent);
+            }
+            
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -83,8 +91,6 @@ namespace project_management.Windows
                 taskElement.Opacity = 0.5;
                 taskList.Children.Remove(taskElement);
                 completedTaskList.Children.Add(taskElement);
-
-
             }
             else
             {
@@ -92,13 +98,8 @@ namespace project_management.Windows
                 taskDAO.Update(task);
                 taskElement.Opacity = 1;
                 completedTaskList.Children.Remove(taskElement);
-                //  taskList.Children.Insert(taskList.Children.Count - 1, taskElement);
-                taskList.Children.Add(taskElement);
-
-
+                taskList.Children.Insert(taskList.Children.Count - 1, taskElement);
             }
-
-
 
             this.Close();
         }
