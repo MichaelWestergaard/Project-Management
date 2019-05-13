@@ -14,6 +14,7 @@ using project_management.DTO;
 using project_management.Elements;
 using project_management.DAO;
 using ToastNotifications.Messages;
+using project_management.Controllers;
 
 namespace project_management.Windows
 {
@@ -26,15 +27,15 @@ namespace project_management.Windows
         private TaskDAO taskDAO = new TaskDAO();
         private WorkLogDAO workLogDAO = new WorkLogDAO();
         private TaskElement taskElement;
-        private int assignedUserID = 1;
         private Board board = new Board();
-
+        private User user;
         StackPanel taskList;
         StackPanel completedTaskList;
 
 
         public AddWorkLog(TaskElement taskElement)
         {
+            user = MainController.Instance.User;
             this.taskElement = taskElement;
             task = taskDAO.Read(taskElement.taskID);
             InitializeComponent();
@@ -63,9 +64,8 @@ namespace project_management.Windows
                 double workLoad = Double.Parse(estimation.Text);
                 DateTime workDato = DateTime.Parse(date.Text);
 
-                User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
 
-                WorkLog workLog = new WorkLog(assignedUser, task.Id, workLoad, workDato);
+                WorkLog workLog = new WorkLog(user, task.Id, workLoad, workDato);
 
                 int workLogID = workLogDAO.CreateWork(workLog);
 
@@ -108,17 +108,26 @@ namespace project_management.Windows
 
         private bool ValidateInput()
         {
+            DateTime dateCheck = Convert.ToDateTime(date.Text);
             if (estimation.Text != "" && double.TryParse(estimation.Text, out double resultEstimation))
             {
                 if (date.Text != "")
                 {
-                    if (DateTime.TryParse(date.Text, out DateTime result))
+                    if (dateCheck <= DateTime.Today)
                     {
-                        return true;
+                        if (DateTime.TryParse(date.Text, out DateTime result))
+                        {
+
+                            return true;
+                        }
+                        else
+                        {
+                            new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                        }
                     }
                     else
                     {
-                        new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                        new Utilities().GetNotifier().ShowError("Forkert dato");
                     }
                 }
                 else
