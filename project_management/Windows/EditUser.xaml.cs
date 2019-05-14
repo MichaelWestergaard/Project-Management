@@ -1,26 +1,13 @@
-﻿using Microsoft.Win32;
-using project_management.Controllers;
+﻿using project_management.Controllers;
 using project_management.DAO;
 using project_management.DTO;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ToastNotifications.Messages;
-using ToastNotifications.Messages.Error;
 
 namespace project_management
 {
@@ -41,7 +28,7 @@ namespace project_management
             email.Text = user.Email;
         }
 
-        private void delPicClick(object sender, RoutedEventArgs e)
+        private void DelPicClick(object sender, RoutedEventArgs e)
         {
             this.imageBox.Visibility = Visibility.Collapsed;
             this.delPic.Visibility = Visibility.Collapsed;
@@ -51,10 +38,10 @@ namespace project_management
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
-        private void pictureUploadClick(object sender, RoutedEventArgs e)
+        private void PictureUploadClick(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
@@ -79,7 +66,7 @@ namespace project_management
             }
         }
 
-        private bool inputsReq()
+        private bool InputsReq()
         {
             string firstName = this.firstName.Text;
             string lastName = this.lastName.Text;
@@ -91,13 +78,12 @@ namespace project_management
                 repassword = user.Password;
                 password = user.Password;
                 user.Picture = filename == null ? user.Picture : filePath;
-            
             }
             string email = this.email.Text;
 
-            if (nameFieldReq(firstName) && nameFieldReq(lastName) && nameFieldReq(password) && nameFieldReq(repassword) && emailReq(email))
+            if (NameFieldReq(firstName) && NameFieldReq(lastName) && NameFieldReq(password) && NameFieldReq(repassword) && EmailReq(email))
             {
-                if (passwordReq(password) && password.Equals(repassword))
+                if (PasswordReq(password) && password.Equals(repassword))
                 {
                     return true;
                 }
@@ -105,10 +91,7 @@ namespace project_management
             return false;
         }
 
-        private void ButtonBack_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+      
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -137,44 +120,54 @@ namespace project_management
             }
             else
             {
-                 user.Password = password;
+                user.Password = password;
+
+                if (Properties.Settings.Default.AutoLogin)
+                {
+                    Properties.Settings.Default.Email = user.Email;
+                    Properties.Settings.Default.Password = user.Password;
+                    Properties.Settings.Default.Save();
+                }
             }
 
-            if (inputsReq()) {  
-            UserDAO userDAO = new UserDAO();
-            userDAO.Update(user);
-            this.Close();
-            } else { 
-            if (!nameFieldReq(firstName))
+            if (InputsReq())
+            {
+                UserDAO userDAO = new UserDAO();
+                userDAO.Update(user);
+                this.Close();
+            }
+            else
+            {
+                if (!NameFieldReq(firstName))
                 {
                     utilities.GetNotifier().ShowError("Navnfeltet må ikke være tomt");
                 }
-                else if (!nameFieldReq(lastName))
+                else if (!NameFieldReq(lastName))
                 {
                     utilities.GetNotifier().ShowError("Efternavnfeltet må ikke være tomt");
                 }
-                else if (!nameFieldReq(email))
+                else if (!NameFieldReq(email))
                 {
                     utilities.GetNotifier().ShowError("Emailfeltet må ikke være tomt");
                 }
-                else if (!emailReq(email))
+                else if (!EmailReq(email))
                 {
                     utilities.GetNotifier().ShowError("E-mailadressen er ugyldig");
                 }
-                else if (!passwordReq(password))
+                else if (!PasswordReq(password))
                 {
                     utilities.GetNotifier().ShowError("Adgangskode lever ikke op til kravene. Prøv igen");
                 }
                 else if (!(password.Equals(repassword)))
                 {
-                    utilities.GetNotifier().ShowError("Koderne er ikke ens"); 
+                    utilities.GetNotifier().ShowError("Koderne er ikke ens");
                 }
 
             }
 
-        } 
+        }
 
-        private bool nameFieldReq(string field)
+        private bool NameFieldReq(string field)
         {
             //string lastName = this.lastName.Text;
             if (field == "")
@@ -187,7 +180,7 @@ namespace project_management
             }
         }
 
-        private bool emailReq(string email)
+        private bool EmailReq(string email)
         {
             try
             {
@@ -200,7 +193,7 @@ namespace project_management
             }
         }
 
-        private bool passwordReq(string password)
+        private bool PasswordReq(string password)
         {
             var nummer = new Regex(@"[0-9]+");
             var stortBogstav = new Regex(@"[A-Z]+");
@@ -215,6 +208,7 @@ namespace project_management
             {
                 return true;
             }
+
         }
 
     }

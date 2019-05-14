@@ -28,14 +28,14 @@ namespace project_management
     {
         Utilities utilities = new Utilities();
 
-        string filename, filePath;
+        string filename = "", filePath;
             
         public createUser()
         {
             InitializeComponent();
         }
 
-        private void delPicClick(object sender, RoutedEventArgs e)
+        private void DelPicClick(object sender, RoutedEventArgs e)
         {
             this.imageBox.Visibility = Visibility.Collapsed;
             this.delPic.Visibility = Visibility.Collapsed;
@@ -48,7 +48,7 @@ namespace project_management
             Application.Current.Shutdown();
         }
 
-        private void pictureUploadClick(object sender, RoutedEventArgs e)
+        private void PictureUploadClick(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             
@@ -84,7 +84,7 @@ namespace project_management
             DragMove();
         }
 
-        private bool inputsReq()
+        private bool InputsReq()
         {
             string firstName = this.firstName.Text;
             string lastName = this.lastName.Text;
@@ -92,9 +92,9 @@ namespace project_management
             string repassword = this.repassword.Password;
             string email = this.email.Text;
 
-            if (nameFieldReq(firstName) && nameFieldReq(lastName) && nameFieldReq(password) && nameFieldReq(repassword) && emailReq(email))
+            if (NameFieldReq(firstName) && NameFieldReq(lastName) && NameFieldReq(password) && NameFieldReq(repassword) && EmailReq(email))
             {
-                if (passwordReq(password) && password.Equals(repassword))
+                if (PasswordReq(password) && password.Equals(repassword))
                 {
                     return true;
                 }
@@ -110,9 +110,9 @@ namespace project_management
             string repassword = this.repassword.Password;
             string email = this.email.Text;
 
-            inputsReq();
+            InputsReq();
 
-            if (inputsReq())
+            if (InputsReq())
             {
                 User user = new User();
                 user.Firstname = firstName;
@@ -128,27 +128,27 @@ namespace project_management
                 this.Close();
             } else
             {
-                if (!nameFieldReq(firstName))
+                if (!NameFieldReq(firstName))
                 {
                     utilities.GetNotifier().ShowError("Navnfeltet må ikke være tomt");
                 }
-                else if (!nameFieldReq(lastName))
+                else if (!NameFieldReq(lastName))
                 {
                     utilities.GetNotifier().ShowError("Efternavnfeltet må ikke være tomt");
                 }
-                else if (!nameFieldReq(email))
+                else if (!NameFieldReq(email))
                 {
                     utilities.GetNotifier().ShowError("Emailfeltet må ikke være tomt");
                 }
-                else if (!emailReq(email))
+                else if (!EmailReq(email))
                 {
                     utilities.GetNotifier().ShowError("E-mailadressen er ugyldig");
                 }
-                else if (!nameFieldReq(password) || !nameFieldReq(repassword))
+                else if (!NameFieldReq(password) || !NameFieldReq(repassword))
                 {
                     utilities.GetNotifier().ShowError("Adgangskodefeltet må ikke være tomt");
                 }
-                else if (!passwordReq(password))
+                else if (!PasswordReq(password))
                 {
                     utilities.GetNotifier().ShowError("Adgangskode lever ikke op til kravene. Prøv igen");
                 }
@@ -159,7 +159,7 @@ namespace project_management
             }
         }
 
-        private bool nameFieldReq(string field)
+        private bool NameFieldReq(string field)
         {
             //string lastName = this.lastName.Text;
             if (field == "")
@@ -172,7 +172,7 @@ namespace project_management
             }
         }
 
-        private bool emailReq(string email)
+        private bool EmailReq(string email)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace project_management
             }
         }
 
-        private bool passwordReq(string password)
+        private bool PasswordReq(string password)
         {
             var nummer = new Regex(@"[0-9]+");
             var stortBogstav = new Regex(@"[A-Z]+");

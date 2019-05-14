@@ -43,6 +43,10 @@ namespace project_management
                                 MainController.Instance.User = user;
                                 new Home().Show();
                                 this.Close();
+                            } else
+                            {
+                                new Login().Show();
+                                this.Close();
                             }
                         }
                     }

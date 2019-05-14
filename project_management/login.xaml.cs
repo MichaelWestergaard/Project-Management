@@ -57,8 +57,6 @@ namespace project_management
             {
                 User user = new UserDAO().GetUserByEmail(email);
 
-                Console.WriteLine(user.Firstname + " " + user.Id);
-
                 if(user != null)
                 {
                     if (user.Password.Equals(password))
@@ -91,6 +89,10 @@ namespace project_management
                 {
                     utilities.GetNotifier().ShowError("Email eller adgangskode er forkert");
                 }
+            } else
+            {
+                utilities.GetNotifier().ShowError("Husk og udfyld email og adgangskode!");
+
             }
         }
     }

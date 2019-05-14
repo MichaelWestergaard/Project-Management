@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Profile = project_management.Windows.Profile;
 
 namespace project_management
 {
@@ -19,6 +20,7 @@ namespace project_management
     public partial class Home : Window
     {
         Dashboard overview;
+        Utilities utilities = new Utilities();
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
@@ -171,7 +173,12 @@ namespace project_management
         }
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-            new Profile(this).Show();
+           
+            if(utilities.CheckOpen(typeof(Profile)) == false)
+            {
+                new Profile(this).Show();
+            }
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -27,7 +27,7 @@
                 <Button x:Name="ButtonMinimize" Click="ButtonMinimize_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                     <materialDesign:PackIcon Kind="WindowMinimize" Foreground="White" Width="Auto" Height="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                 </Button>
-                <Button Name="Profile" Click="Profile_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                <Button Click="Profile_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                     <materialDesign:PackIcon Kind="User" Foreground="White" Width="auto" Height="auto"/>
                 </Button>
                 <Button x:Name="ButtonClose" Click="ButtonClose_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">

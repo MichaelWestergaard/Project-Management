@@ -28,7 +28,7 @@ namespace project_management.Elements
 
             HorizontalAlignment = HorizontalAlignment.Right;
 
-            PointLabel = chartPoint => string.Format("{0} ({1}%)", chartPoint.Y, Math.Round(chartPoint.Participation*100));
+            PointLabel = chartPoint => string.Format("{1}%", chartPoint.Y, Math.Round(chartPoint.Participation * 100));
 
             DataContext = this;
             

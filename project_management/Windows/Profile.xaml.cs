@@ -55,7 +55,11 @@ namespace project_management.Windows
             Properties.Settings.Default.Password = "";
             Properties.Settings.Default.AutoLogin = false;
             Properties.Settings.Default.Save();
-            home.Close();
+            for (int intCounter = App.Current.Windows.Count - 1; intCounter >= 0; intCounter--)
+            {
+                if (!App.Current.Windows[intCounter].Equals(this))
+                    App.Current.Windows[intCounter].Close();
+            }
             new Login().Show();
             Close();
         }
