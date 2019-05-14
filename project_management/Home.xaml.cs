@@ -214,7 +214,10 @@ namespace project_management
 
         private void ButtonCreateProject_Click(object sender, RoutedEventArgs e)
         {
-            new CreateProject(this).Show();
+            if (utilities.CheckOpen(typeof(CreateProject)) == false)
+            {
+                new CreateProject(this).Show();
+            }
         }
 
     }
