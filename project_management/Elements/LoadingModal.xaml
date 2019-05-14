@@ -1,0 +1,15 @@
+﻿<Window x:Class="project_management.Elements.LoadingModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:project_management.Elements"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" BorderThickness="0" ShowInTaskbar="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterOwner" AllowsTransparency="True">
+    <StackPanel Orientation="Vertical">
+        <materialDesign:Card  Padding="5" Margin="5" UniformCornerRadius="100">
+            <ProgressBar  Style="{StaticResource MaterialDesignCircularProgressBar}" Value="50" IsIndeterminate="True" Width="70" Height="70" Margin="5"/>
+        </materialDesign:Card>
+        <TextBlock Text="Vent venligst.." TextAlignment="Center" Foreground="White" FontFamily="Roboto" FontWeight="Bold" FontSize="16"/>
+    </StackPanel>
+</Window>

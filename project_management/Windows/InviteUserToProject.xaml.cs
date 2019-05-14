@@ -28,7 +28,6 @@ namespace project_management.Windows
         ProjectDAO projectDAO;
         Object openedBy;
         Utilities utilities = new Utilities();
-        User user;
 
         public InviteUserToProject(Object openedBy)
         {
@@ -36,30 +35,6 @@ namespace project_management.Windows
             InitializeComponent();
             userDAO = new UserDAO();
             projectDAO = new ProjectDAO();
-            user = MainController.Instance.User;
-
-
-            Ellipse ellipse = new Ellipse
-            {
-                Height = 30,
-                Width = 30,
-                Margin = new Thickness(5),
-                ToolTip = user.Firstname + " " + user.Lastname
-            };
-
-            ellipse.Effect = new DropShadowEffect
-            {
-                Color = (Color)ColorConverter.ConvertFromString("#FFBBBBBB"),
-                BlurRadius = 6,
-                ShadowDepth = 1
-            };
-            Console.WriteLine("pic " + user.Picture);
-            ellipse.Fill = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri((user.Picture == "" || user.Picture == null) ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : user.Picture))
-            };
-
-            this.MemberList.Children.Add(ellipse);
         }
         
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

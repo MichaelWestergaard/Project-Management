@@ -29,6 +29,9 @@ namespace project_management
 
         public Home()
         {
+
+
+
             if (mainController.IsLoggedIn())
             {
                 InitializeComponent();
