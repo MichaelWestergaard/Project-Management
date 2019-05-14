@@ -137,7 +137,7 @@ namespace project_management
             }
             else
             {
-                 user.Password = password;
+                user.Password = utilities.EncryptPassword(password);
             }
 
             if (inputsReq()) {  

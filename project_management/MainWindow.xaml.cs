@@ -24,11 +24,8 @@ namespace project_management
                 new Home().Show();
             } else
             {
-                Console.WriteLine(Properties.Settings.Default.AutoLogin);
                 if (Properties.Settings.Default.AutoLogin == true)
                 {
-
-
                     string email = Properties.Settings.Default.Email;
                     string password = Properties.Settings.Default.Password;
 
@@ -38,7 +35,7 @@ namespace project_management
 
                         if (user != null)
                         {
-                            if (user.Password.Equals(password))
+                            if (utilities.CheckPassword(password, user.Password))
                             {
                                 MainController.Instance.User = user;
                                 new Home().Show();

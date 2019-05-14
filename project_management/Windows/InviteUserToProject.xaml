@@ -50,7 +50,7 @@
             </Rectangle>
             <Grid>
                 <StackPanel VerticalAlignment="Bottom" Margin="10">
-                    <TextBlock Text="Projektets medlemmer" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
+                    <TextBlock Text="Inviterede medlemmer" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
                         <StackPanel Name="MemberList" HorizontalAlignment="Center" Orientation="Horizontal"/>
                     </ScrollViewer>

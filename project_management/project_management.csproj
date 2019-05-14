@@ -110,6 +110,9 @@
     <Compile Include="Elements\BurndownChart.xaml.cs">
       <DependentUpon>BurndownChart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements\LoadingModal.xaml.cs">
+      <DependentUpon>LoadingModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
     </Compile>
@@ -185,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\BurndownChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\LoadingModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -323,9 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="lea0nobo.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
