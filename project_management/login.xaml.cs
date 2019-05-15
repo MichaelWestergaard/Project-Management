@@ -88,6 +88,10 @@ namespace project_management
                 {
                     utilities.GetNotifier().ShowError("Email eller adgangskode er forkert");
                 }
+            } else
+            {
+                utilities.GetNotifier().ShowError("Husk og udfyld email og adgangskode!");
+
             }
         }
     }

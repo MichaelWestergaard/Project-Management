@@ -43,6 +43,27 @@ namespace project_management
             return (Brush)new BrushConverter().ConvertFrom(hex);
         }
 
+        public bool CheckOpen(Type window)
+        {
+            bool isOpen = false;
+            for (int i = 0; i < Application.Current.Windows.Count; i++)
+            {
+                if (Application.Current.Windows[i].GetType() == window)
+                {
+                    isOpen = true;
+                    Application.Current.Windows[i].Activate();
+                    break;
+                }
+            }
+            if(isOpen)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         public string EncryptPassword(string password)
         {
             byte[] salt = new byte[12];

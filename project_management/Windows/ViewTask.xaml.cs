@@ -24,6 +24,7 @@ namespace project_management.Windows
         UserDAO userDAO = new UserDAO();
         List<WorkLog> worklogs = new List<WorkLog>();
         List<WorkLogItems> workLogsItems = new List<WorkLogItems>();
+        Utilities utilities = new Utilities();
 
 
         public ViewTask(TaskElement taskElement)
@@ -61,13 +62,17 @@ namespace project_management.Windows
             switch (action)
             {
                 case "EditTask":
-                    EditTask editTask = new EditTask(taskElement);
-                    editTask.Show();
+                    if (utilities.CheckOpen(typeof(EditTask)) == false)
+                    {
+                        new EditTask(taskElement).Show();
+                    }
                     break;
 
                 case "WorkLoad":
-                    AddWorkLog addWorkLog = new AddWorkLog(taskElement);
-                    addWorkLog.Show();
+                    if (utilities.CheckOpen(typeof(AddWorkLog)) == false)
+                    {
+                        new AddWorkLog(taskElement).Show();
+                    }
                     break;
             }
 

@@ -22,6 +22,7 @@ namespace project_management.Elements
     public partial class TaskElement : UserControl
     {
         public int taskID;
+        private Utilities utilities = new Utilities();
 
         public TaskElement(int taskID)
         {
@@ -31,9 +32,13 @@ namespace project_management.Elements
 
         private void TaskID_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ViewTask viewTask = new ViewTask(this);
-            viewTask.Show();
-            viewTask.Activate();
+           
+            if (utilities.CheckOpen(typeof(ViewTask)) == false)
+            {
+                ViewTask viewTask = new ViewTask(this);
+                viewTask.Show();
+            } 
+           
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -44,13 +49,17 @@ namespace project_management.Elements
             switch (menuItem.Uid)
             {
                 case "1":
-                    EditTask editTask = new EditTask(this);
-                    editTask.Show();
+                    if (utilities.CheckOpen(typeof(EditTask)) == false)
+                    {
+                        new EditTask(this).Show();
+                    }
                     break;
 
                 case "2":
-                    AddWorkLog addWorkLog = new AddWorkLog(this);
-                    addWorkLog.Show();
+                    if (utilities.CheckOpen(typeof(AddWorkLog)) == false)
+                    {
+                        new AddWorkLog(this).Show();
+                    }
                     break;
             }
         }
