@@ -60,7 +60,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Button Name="ButtnCreateProject" Content="Rediger projekt" Click="EditProject_Click"  Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10 5"/>
+                <Button Name="ButtnCreateProject" Content="Opdater projekt" Click="EditProject_Click"  Background="#00c853" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10 5"/>
                 <Button Name="ButtonDeleteProject" Content="Slet projekt" Click="ButtonDeleteProject_Click"  Background="#d50000" Style="{StaticResource MaterialDesignRaisedButton}" Margin="10 5"/>
             </StackPanel>
         </Grid>

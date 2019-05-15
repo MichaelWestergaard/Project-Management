@@ -110,15 +110,13 @@ namespace project_management
             string repassword = this.repassword.Password;
             string email = this.email.Text;
 
-            InputsReq();
-
-            if (InputsReq())
+            if (inputsReq())
             {
                 User user = new User();
                 user.Firstname = firstName;
                 user.Lastname = lastName;
                 user.Email = email;
-                user.Password = password;
+                user.Password = new Utilities().EncryptPassword(password);
                 user.Picture = filename.Equals("") ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : filePath;
 
                 UserDAO userDAO = new UserDAO();

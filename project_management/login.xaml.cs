@@ -59,10 +59,9 @@ namespace project_management
 
                 if(user != null)
                 {
-                    if (user.Password.Equals(password))
+                    if (utilities.CheckPassword(password, user.Password))
                     {
                         MainController.Instance.User = user;
-                        Console.WriteLine(MainController.Instance.User.Firstname + " " + MainController.Instance.User.Id);
                         if (SaveLogin.IsChecked == true)
                         {
                             Properties.Settings.Default.Email = email;

@@ -27,14 +27,17 @@ namespace project_management.Elements
     /// </summary>
     public partial class BurndownChart : UserControl
     {
+
+        int days = 0, daysFromStart = 0;
+        double totalWork = 0;
+
         public BurndownChart()
         {
             InitializeComponent();
             HorizontalAlignment = HorizontalAlignment.Left;
 
             Project project = MainController.Instance.Project;
-            int days = 0, daysFromStart = 0;
-            double totalWork = 0;
+            
 
             if(project.DueDate != DateTime.MinValue)
             {
@@ -147,13 +150,110 @@ namespace project_management.Elements
                     {
                         MinValue = 0,
                         Title = "Tidslinje",
-                        Separator = new Separator { Step = 1, Stroke = new Utilities().GetColor("#546e7a") },
+                        Separator = new Separator { Stroke = new Utilities().GetColor("#546e7a") },
                         FontSize = 14
                     });
 
+                if (days <= 12)
+                    Chart.AxisX[0].Separator.Step = 1;
 
             }
 
+        }
+
+        public void UpdateChart()
+        {
+            Project project = MainController.Instance.Project;
+
+            int days = 0, daysFromStart = 0;
+            double totalWork = 0;
+
+            if (project.DueDate != DateTime.MinValue)
+            {
+
+                MySqlDataReader dataReader = new ProjectDAO().GetBurndwonChartData(project.Id);
+
+                if (dataReader.Read())
+                {
+                    days = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("ProjectLength");
+                    totalWork = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("TotalWork");
+                    daysFromStart = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("DaysFromStart");
+                }
+
+                if(this.days != days || this.daysFromStart != daysFromStart || !this.totalWork.Equals(totalWork))
+                {
+                    this.days = days;
+                    this.daysFromStart = daysFromStart;
+                    this.totalWork = totalWork;
+
+                    // Get values for target line
+                    ChartValues<double> target = new ChartValues<double>();
+
+                    for (int i = 0; i <= days; i++)
+                    {
+                        if (target.Count == 0)
+                        {
+                            target.Add(totalWork);
+                        }
+                        else if (i == days)
+                        {
+                            target.Add(0);
+                        }
+                        else
+                        {
+                            target.Add(Math.Round(target[i - 1] - (totalWork / days), 2));
+                        }
+                    }
+
+                    // Get values for actual work done
+                    ChartValues<double> actual = new ChartValues<double>();
+                    MySqlDataReader dataReaderActual = new WorkLogDAO().GetWorkLogByProject(project.Id);
+
+                    List<WorkLog> workLogs = new List<WorkLog>();
+
+                    if (dataReaderActual != null)
+                    {
+                        while (dataReaderActual.Read())
+                        {
+                            workLogs.Add(new WorkLog(null, 0, dataReaderActual.IsDBNull(0) ? 0 : dataReaderActual.GetInt16("Work"), (DateTime)dataReaderActual.GetMySqlDateTime("Date")));
+                        }
+
+                        for (int i = 0; i <= daysFromStart; i++)
+                        {
+                            if (actual.Count == 0)
+                            {
+                                actual.Add(totalWork);
+                            }
+                            else
+                            {
+                                bool foundWork = false;
+
+                                foreach (WorkLog work in workLogs)
+                                {
+                                    if (work.CreatedAt.Date.Equals(project.CreatedAt.AddDays(i).Date))
+                                    {
+                                        actual.Add(actual[actual.Count - 1] - work.Work);
+                                        workLogs.Remove(work);
+                                        foundWork = true;
+                                        break;
+                                    }
+
+                                    if (work.Equals(workLogs.Last()))
+                                    {
+                                        foundWork = false;
+                                    }
+                                }
+
+                                if (!foundWork)
+                                    actual.Add(actual[actual.Count - 1]);
+                            }
+                        }
+                    }
+                    
+                    SeriesCollection[0].Values = target;
+                    SeriesCollection[1].Values = actual;
+                }
+            }
         }
 
         public SeriesCollection SeriesCollection { get; set; }

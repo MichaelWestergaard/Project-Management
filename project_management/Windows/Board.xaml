@@ -9,7 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Board">
 
-    <Grid Background="White">
+    <Grid Background="#E9E9E9">
         <ScrollViewer HorizontalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <StackPanel Name="SectionList" Orientation="Horizontal" Margin="10"/>
         </ScrollViewer>
