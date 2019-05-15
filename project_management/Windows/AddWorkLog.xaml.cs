@@ -78,7 +78,7 @@ namespace project_management.Windows
                 int workLogID = workLogDAO.CreateWork(workLog);
 
                 taskElement.UpdateProgress((workLogDAO.GetWorkSum(task.Id) / task.EstimatedTime) * 100);
-
+                MainController.Instance.Dashboard.UpdatePage();
                 this.Close();
             }
         }
@@ -100,7 +100,7 @@ namespace project_management.Windows
                 completedTaskList.Children.Remove(taskElement);
                 taskList.Children.Insert(taskList.Children.Count - 1, taskElement);
             }
-
+            MainController.Instance.Dashboard.UpdatePage();
             this.Close();
         }
 

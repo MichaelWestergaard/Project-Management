@@ -18,6 +18,7 @@ using Task = project_management.DTO.Task;
 using System.Text.RegularExpressions;
 using ToastNotifications;
 using ToastNotifications.Messages;
+using project_management.Controllers;
 
 namespace project_management.Windows
 {
@@ -55,8 +56,6 @@ namespace project_management.Windows
             
             foreach (User user in users)
             {
-                Console.WriteLine("User " + user.Id);
-
                 UserAvatar userAvatar = new UserAvatar(this, user.Id);
 
                 userAvatar.Uid = user.Id.ToString();
@@ -176,6 +175,7 @@ namespace project_management.Windows
                     }
 
                     currentSection.Children.Insert(currentSection.Children.Count - 1, taskElement);
+                    MainController.Instance.Dashboard.UpdatePage();
                     this.Close();
                 }
             }

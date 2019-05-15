@@ -129,6 +129,7 @@ namespace project_management.Windows
                     }
 
                     utilities.GetNotifier().ShowSuccess("Projektet blev opdateret!");
+                    mainController.Dashboard.UpdatePage();
                     Close();
                 }
             }
