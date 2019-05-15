@@ -110,7 +110,7 @@ namespace project_management
             string repassword = this.repassword.Password;
             string email = this.email.Text;
 
-            if (inputsReq())
+            if (InputsReq())
             {
                 User user = new User();
                 user.Firstname = firstName;
