@@ -23,9 +23,11 @@ namespace project_management
         Board board;
         List<string> colors = new List<string>();
         StackPanel projectList;
+        CalendarTab calendar;
 
         public Board Board { get => board; set => board = value; }
         public Dashboard Overview { get => overview; set => overview = value; }
+        public CalendarTab Calendar { get => calendar; set => calendar = value; }
 
         public Home()
         {
@@ -41,6 +43,7 @@ namespace project_management
                 {
                     board = new Board();
                     overview = new Dashboard();
+                    calendar = new CalendarTab();
                     AppContent.Content = overview;
                 } else
                 {
@@ -194,8 +197,7 @@ namespace project_management
                         break;
 
                     case 2:
-
-                        AppContent.Background = Brushes.Blue;
+                        AppContent.Content = calendar;
                         break;
 
                     case 3:
