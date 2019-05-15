@@ -29,8 +29,8 @@ namespace project_management.Elements
     {
 
         int days = 0, daysFromStart = 0;
-        double totalWork = 0;
-
+        double totalWork = 0, workDone =0;
+        MySQLConnector mySQLConnector = MySQLConnector.Instance;
         public BurndownChart()
         {
             InitializeComponent();
@@ -46,9 +46,10 @@ namespace project_management.Elements
 
                 if (dataReader.Read())
                 {
-                    days = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("ProjectLength");
+                    days = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("ProjectLength");
                     totalWork = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("TotalWork");
-                    daysFromStart = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("DaysFromStart");
+                    daysFromStart = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("DaysFromStart");
+                    workDone = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("WorkDone");
                 }
 
                 // Get values for target line
@@ -157,6 +158,9 @@ namespace project_management.Elements
                 if (days <= 12)
                     Chart.AxisX[0].Separator.Step = 1;
 
+
+                mySQLConnector.CloseConnections(dataReader);
+                mySQLConnector.CloseConnections(dataReaderActual);
             }
 
         }
@@ -165,7 +169,7 @@ namespace project_management.Elements
         {
             Project project = MainController.Instance.Project;
 
-            int days = 0, daysFromStart = 0;
+            int days = 0, daysFromStart = 0, workDone = 0;
             double totalWork = 0;
 
             if (project.DueDate != DateTime.MinValue)
@@ -175,16 +179,26 @@ namespace project_management.Elements
 
                 if (dataReader.Read())
                 {
-                    days = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("ProjectLength");
+                    days = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("ProjectLength");
                     totalWork = dataReader.IsDBNull(1) ? 0 : dataReader.GetInt16("TotalWork");
-                    daysFromStart = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("DaysFromStart");
+                    daysFromStart = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("DaysFromStart");
+                    workDone = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("WorkDone");
                 }
 
-                if(this.days != days || this.daysFromStart != daysFromStart || !this.totalWork.Equals(totalWork))
+                mySQLConnector.CloseConnections(dataReader);
+                /*
+                Console.WriteLine(this.days + " - " + days);
+                Console.WriteLine(this.daysFromStart + " - " + daysFromStart);
+                Console.WriteLine(this.totalWork + " - " + totalWork);
+                Console.WriteLine(this.workDone + " - " + workDone);
+                */
+
+                if (this.days != days || this.daysFromStart != daysFromStart || !this.totalWork.Equals(totalWork) || !this.workDone.Equals(workDone))
                 {
                     this.days = days;
                     this.daysFromStart = daysFromStart;
                     this.totalWork = totalWork;
+                    this.workDone = workDone;
 
                     // Get values for target line
                     ChartValues<double> target = new ChartValues<double>();
@@ -252,6 +266,8 @@ namespace project_management.Elements
                     
                     SeriesCollection[0].Values = target;
                     SeriesCollection[1].Values = actual;
+                    
+                    mySQLConnector.CloseConnections(dataReaderActual);
                 }
             }
         }

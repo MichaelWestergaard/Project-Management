@@ -38,12 +38,14 @@ namespace project_management.DAO
                 bool response = mySQLConnector.Execute("INSERT INTO users (firstname, lastname, password, email, picture) VALUES (@firstname, @lastname, @password, @email, @picture)", newUser);
                 if (response)
                 {
-                    mySQLConnector.CloseConnection();
+                    mySQLConnector.CloseConnections(dataReader);
+
                     return true;
                 }
 
             }
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections(dataReader);
+
             return false;
         }
         
@@ -110,6 +112,7 @@ namespace project_management.DAO
                     users.Add(user);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return users;
         }
@@ -137,10 +140,13 @@ namespace project_management.DAO
                 DateTime last_login = (DateTime)dataReader.GetMySqlDateTime("last_login");
 
                 User user = new User(id, firstname, lastname, password, email, picture, status, created_at, last_login);
+                mySQLConnector.CloseConnections(dataReader);
 
                 return user;
             }
-            
+            mySQLConnector.CloseConnections(dataReader);
+
+
             return null;
         }
 
@@ -170,9 +176,12 @@ namespace project_management.DAO
 
             if (edit)
             {
-                mySQLConnector.CloseConnection();
+                mySQLConnector.CloseConnections(dataReader);
+
                 return true;
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return false;
         }
 
@@ -189,10 +198,14 @@ namespace project_management.DAO
 
             if (dataReader.HasRows)
             {
+                mySQLConnector.CloseConnections(dataReader);
+
                 return false;
             }
             else
             {
+                mySQLConnector.CloseConnections(dataReader);
+
                 return true;
             }
         }
@@ -221,9 +234,11 @@ namespace project_management.DAO
                 user.Status = dataReader.IsDBNull(6) ? 0 : dataReader.GetInt16("status");
                 user.CreatedAt = (DateTime)dataReader.GetMySqlDateTime("created_at");
                 user.LastLogin = (DateTime)dataReader.GetMySqlDateTime("last_login");
+                mySQLConnector.CloseConnections(dataReader);
 
                 return user;
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return null;
         }

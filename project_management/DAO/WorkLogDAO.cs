@@ -83,6 +83,8 @@ namespace project_management.DAO
                     workLogs.Add(workLog);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return workLogs;
         }
 
@@ -112,6 +114,8 @@ namespace project_management.DAO
                     workLogs.Add(workLog);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return workLogs;
         }
 
@@ -135,9 +139,12 @@ namespace project_management.DAO
 
                 WorkLog workLog = new WorkLog(id, new UserDAO().Read(user_id), task_id, work, created_at);
 
+                mySQLConnector.CloseConnections(dataReader);
 
                 return workLog;
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return null;
         }
 
@@ -175,6 +182,7 @@ namespace project_management.DAO
             {
                 return dataReader;
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return null;
         }
@@ -192,9 +200,14 @@ namespace project_management.DAO
             {
                 if (dataReader.Read())
                 {
-                    return dataReader.IsDBNull(0) ? 0.0 : dataReader.GetDouble("WorkDone");
+                    double result = dataReader.IsDBNull(0) ? 0.0 : dataReader.GetDouble("WorkDone");
+
+                    mySQLConnector.CloseConnections(dataReader);
+                    return result;
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return 0;
         }
 
