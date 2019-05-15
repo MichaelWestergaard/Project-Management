@@ -33,6 +33,7 @@ namespace project_management.Windows
         StackPanel completedTaskList;
 
 
+
         public AddWorkLog(TaskElement taskElement)
         {
             user = MainController.Instance.User;
@@ -40,7 +41,7 @@ namespace project_management.Windows
             task = taskDAO.Read(taskElement.taskID);
             InitializeComponent();
             date.Text = DateTime.Now.Date.ToString();
-
+           
             if (!task.Completed)
             {
                 taskList = (StackPanel)taskElement.Parent;
@@ -52,6 +53,12 @@ namespace project_management.Windows
                 taskList = ((StackPanel)((StackPanel)completedTaskList.Parent).Parent);
             }
             
+            if(task.Completed)
+            {
+                CompleteTask.Content = "Start Opgave";
+                CompleteTask.Background = new Utilities().GetColor("#FF2196F3");
+            }
+
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

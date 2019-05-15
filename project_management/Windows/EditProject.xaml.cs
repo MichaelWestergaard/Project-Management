@@ -72,8 +72,10 @@ namespace project_management.Windows
 
         private void Add_Member_Click(object sender, RoutedEventArgs e)
         {
-            inviteUserToProject = new InviteUserToProject(this);
-            inviteUserToProject.Show();
+            if (utilities.CheckOpen(typeof(InviteUserToProject)) == false)
+            {
+                new InviteUserToProject(this).Show();
+            }
         }
 
         public void AddInvitedUser(int userID)
