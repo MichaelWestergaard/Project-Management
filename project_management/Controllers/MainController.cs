@@ -17,6 +17,7 @@ namespace project_management.Controllers
         private Home home;
 
         private ProjectDAO projectDAO = new ProjectDAO();
+        private Dashboard dashboard;
 
         private static MainController instance = null;
 
@@ -35,6 +36,7 @@ namespace project_management.Controllers
         internal User User { get => user; set => user = value; }
         internal Project Project { get => project; set => project = value; }
         public Home Home { get => home; set => home = value; }
+        public Dashboard Dashboard { get => dashboard; set => dashboard = value; }
 
         public bool IsLoggedIn()
         {
