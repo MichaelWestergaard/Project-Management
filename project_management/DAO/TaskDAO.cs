@@ -210,5 +210,22 @@ namespace project_management.DAO
             return false;
 
         }
+
+        public MySqlDataReader GetGanttTasks(int projectID)
+        {
+            Dictionary<String, String> parameters = new Dictionary<String, String>
+            {
+                { "@projectID", projectID.ToString() }
+            };
+
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectGanttInfo WHERE project_id = @projectID ORDER BY start_date ASC", parameters);
+
+            if (dataReader.HasRows)
+            {
+                return dataReader;
+            }
+
+            return null;
+        }
     }
 }

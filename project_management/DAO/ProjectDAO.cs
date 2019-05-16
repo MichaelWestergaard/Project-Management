@@ -260,22 +260,5 @@ namespace project_management.DAO
             return null;
         }
 
-        public MySqlDataReader GetGanttData(int ID)
-        {
-            var parameters = new Dictionary<string, string>
-            {
-                { "@id", ID.ToString() }
-            };
-
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectGanttInfo WHERE id = @id", parameters);
-
-            if (dataReader.HasRows)
-            {
-                return dataReader;
-            }
-
-            return null;
-        }
-
     }
 }

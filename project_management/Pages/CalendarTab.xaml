@@ -11,7 +11,7 @@
 
     <Grid Background="White">
 
-        <ScrollViewer Grid.Row="0">
+        <ScrollViewer Margin="10">
                 <lvc:CartesianChart Name="Gantt" Grid.Row="0"/>
         </ScrollViewer>
 

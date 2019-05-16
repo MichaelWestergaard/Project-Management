@@ -22,6 +22,7 @@ using project_management.Controllers;
 using project_management.DTO;
 using project_management.DAO;
 using MySql.Data.MySqlClient;
+using LiveCharts.Configurations;
 
 namespace project_management.Pages
 {
@@ -33,6 +34,7 @@ namespace project_management.Pages
 
         private readonly ChartValues<GanttPoint> _values;
         private Project project;
+        private List<DTO.Task> taskData;
 
         public CalendarTab()
         {
@@ -40,76 +42,26 @@ namespace project_management.Pages
 
             project = MainController.Instance.Project;
 
-            MySqlDataReader dataReader = new ProjectDAO().GetBurndwonChartData(project.Id);
-
-
+            MySqlDataReader dataReader = new TaskDAO().GetGanttTasks(project.Id);
 
             if(dataReader != null)
             {
                 _values = new ChartValues<GanttPoint>();
+                taskData = new List<DTO.Task>();
                 while (dataReader.Read())
                 {
-                    _values.Add(new GanttPoint(dataReader.IsDBNull(1) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("start_date")).Ticks, dataReader.IsDBNull(2) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("due_date")).Ticks));
+                    //_values.Add(new GanttPoint(dataReader.IsDBNull(1) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("start_date")).Ticks, dataReader.IsDBNull(2) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("due_date")).Ticks));
+                    taskData.Add(new DTO.Task(0, null, null, null, 0, dataReader.GetString(3), dataReader.GetString(4), 0, 0, dataReader.GetBoolean(5), (DateTime)dataReader.GetMySqlDateTime(1), (DateTime)dataReader.GetMySqlDateTime(2), DateTime.MinValue));
                 }
             }
 
 
-
-
-
-            var now = DateTime.Now;
-
-            _values = new ChartValues<GanttPoint>
+            var labels = new List<string>();
+            for (int i = 0; i < taskData.Count; i++)
             {
-                new GanttPoint(now.Ticks, now.AddDays(2).Ticks),
-                new GanttPoint(now.AddDays(1).Ticks, now.AddDays(3).Ticks),
-                new GanttPoint(now.AddDays(3).Ticks, now.AddDays(5).Ticks),
-                new GanttPoint(now.AddDays(5).Ticks, now.AddDays(8).Ticks),
-                new GanttPoint(now.AddDays(6).Ticks, now.AddDays(10).Ticks),
-                new GanttPoint(now.AddDays(7).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(12).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(10).Ticks, now.AddDays(11).Ticks),
-                new GanttPoint(now.AddDays(12).Ticks, now.AddDays(16).Ticks),
-                new GanttPoint(now.AddDays(15).Ticks, now.AddDays(17).Ticks),
-                new GanttPoint(now.AddDays(18).Ticks, now.AddDays(19).Ticks),
-                new GanttPoint(now.Ticks, now.AddDays(2).Ticks),
-                new GanttPoint(now.AddDays(1).Ticks, now.AddDays(3).Ticks),
-                new GanttPoint(now.AddDays(3).Ticks, now.AddDays(5).Ticks),
-                new GanttPoint(now.AddDays(5).Ticks, now.AddDays(8).Ticks),
-                new GanttPoint(now.AddDays(6).Ticks, now.AddDays(10).Ticks),
-                new GanttPoint(now.AddDays(7).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(12).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(10).Ticks, now.AddDays(11).Ticks),
-                new GanttPoint(now.AddDays(12).Ticks, now.AddDays(16).Ticks),
-                new GanttPoint(now.AddDays(15).Ticks, now.AddDays(17).Ticks),
-                new GanttPoint(now.AddDays(18).Ticks, now.AddDays(19).Ticks),
-                new GanttPoint(now.Ticks, now.AddDays(2).Ticks),
-                new GanttPoint(now.AddDays(1).Ticks, now.AddDays(3).Ticks),
-                new GanttPoint(now.AddDays(3).Ticks, now.AddDays(5).Ticks),
-                new GanttPoint(now.AddDays(5).Ticks, now.AddDays(8).Ticks),
-                new GanttPoint(now.AddDays(6).Ticks, now.AddDays(10).Ticks),
-                new GanttPoint(now.AddDays(7).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(12).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(10).Ticks, now.AddDays(11).Ticks),
-                new GanttPoint(now.AddDays(12).Ticks, now.AddDays(16).Ticks),
-                new GanttPoint(now.AddDays(15).Ticks, now.AddDays(17).Ticks),
-                new GanttPoint(now.AddDays(18).Ticks, now.AddDays(19).Ticks),
-                new GanttPoint(now.Ticks, now.AddDays(2).Ticks),
-                new GanttPoint(now.AddDays(1).Ticks, now.AddDays(3).Ticks),
-                new GanttPoint(now.AddDays(3).Ticks, now.AddDays(5).Ticks),
-                new GanttPoint(now.AddDays(5).Ticks, now.AddDays(8).Ticks),
-                new GanttPoint(now.AddDays(6).Ticks, now.AddDays(10).Ticks),
-                new GanttPoint(now.AddDays(7).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(12).Ticks),
-                new GanttPoint(now.AddDays(9).Ticks, now.AddDays(14).Ticks),
-                new GanttPoint(now.AddDays(10).Ticks, now.AddDays(11).Ticks),
-                new GanttPoint(now.AddDays(12).Ticks, now.AddDays(16).Ticks),
-                new GanttPoint(now.AddDays(15).Ticks, now.AddDays(17).Ticks),
-                new GanttPoint(now.AddDays(18).Ticks, now.AddDays(19).Ticks)
-            };
+                labels.Add(taskData.ElementAt(i).Name);
+                _values.Add(new GanttPoint(taskData.ElementAt(i).StartDate.Ticks, taskData.ElementAt(i).DueDate.Ticks));
+            }
 
 
             Series = new SeriesCollection
@@ -117,16 +69,11 @@ namespace project_management.Pages
                 new RowSeries
                 {
                     Values = _values,
-                    DataLabels = true
+                    DataLabels = true,
+                    
                 }
             };
             Formatter = value => new DateTime((long) value).ToString("dd MMM");
-
-            var labels = new List<string>();
-            for (int i = 0; i < _values.Count; i++)
-            {
-                labels.Add("Task " + i);
-            }
 
             DataContext = this;
 
@@ -144,8 +91,8 @@ namespace project_management.Pages
             Gantt.AxisX.Add(
                 new Axis
                 {
-                    MinValue = now.AddDays(-15).Ticks,
-                    MaxValue = now.AddDays(30).Ticks,
+                    MinValue = project.CreatedAt.AddDays(-1).Ticks,
+                    MaxValue = project.DueDate.AddDays(1).Ticks,
                     LabelFormatter = Formatter,
                     FontSize = 14,
                 });
@@ -168,10 +115,6 @@ namespace project_management.Pages
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
 
-        public void GetGanttData()
-        {
-
-        }
 
 
 
