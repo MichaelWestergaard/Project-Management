@@ -56,6 +56,9 @@
                             <TextBox Name="email" materialDesign:HintAssist.Hint="E-mailadresse" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
                             <PasswordBox Name="password" materialDesign:HintAssist.Hint="Adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5" AllowDrop="True"/>
                             <PasswordBox Name="repassword" materialDesign:HintAssist.Hint="Gentag adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5" AllowDrop="True"/>
+                            <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3,15,3,3" FontSize="13"><Run Text="Krav til"/><Run Text=" adgangskode:"/></TextBlock>
+                            <TextBlock VerticalAlignment="Top" Margin="3" FontSize="13"><Run Text="&#x9;"/><Run Text="- 8-16 tegn."/><Run Text="&#x9;"/><Run Text="&#x9;"/><Run Text="- Ét lille bogstav"/><Run Text="."/></TextBlock>
+                            <TextBlock VerticalAlignment="Top" Margin="3" FontSize="13"><Run Text="&#x9;"/><Run Text="- "/><Run Text="Ét tal"/><Run Text="."/><Run Text="&#x9;&#x9;&#x9;"/><Run Text="-"/><Run Text=" "/><Run Text="Ét stort bogstav."/></TextBlock>
                         </StackPanel>
                     </Grid>
                 </Grid>
