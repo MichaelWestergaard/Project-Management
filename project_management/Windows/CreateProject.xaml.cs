@@ -83,66 +83,64 @@ namespace project_management.Windows
 
         private void CreateProject_Click(object sender, RoutedEventArgs e)
         {
-
             string name = this.name.Text;
             string description = this.description.Text;
             DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
 
-            InputsReq();
-
-            if (InputsReq())
-            {
-
-                if (!name.Equals(""))
+            try {
+                if (InputsReq())
                 {
-                    Project project = new Project();
-                    project.Name = name;
-                    project.Description = description;
-                    project.DueDate = deadline;
-                    project.ProjectOwnerID = user.Id;
-
-                    ProjectDAO projectDAO = new ProjectDAO();
-
-                    int projectID = projectDAO.CreateProject(project);
-
-                    foreach (int userID in userList)
+                    if (!name.Equals(""))
                     {
-                        projectDAO.AddUserToProject(projectID, userID);
+                        Project project = new Project();
+                        project.Name = name;
+                        project.Description = description;
+                        project.DueDate = deadline;
+                        project.ProjectOwnerID = user.Id;
+
+                        ProjectDAO projectDAO = new ProjectDAO();
+
+                        int projectID = projectDAO.CreateProject(project);
+
+                        foreach (int userID in userList)
+                        {
+                            projectDAO.AddUserToProject(projectID, userID);
+                        }
+                        this.Close();
+
+                        if (inviteUserToProject != null)
+                            inviteUserToProject.Close();
+
+                        utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
+                        home.NewProjectElement(projectID, name);
+
+                        if (mainController.Project == null)
+                        {
+                            mainController.Project = projectDAO.Read(projectID);
+                            mainController.ChangeProject();
+                        }
+
                     }
-                    this.Close();
-
-                    if (inviteUserToProject != null)
-                        inviteUserToProject.Close();
-
-                    utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
-                    home.NewProjectElement(projectID, name);
-
-                    if (mainController.Project == null)
+                }
+                else
+                {
+                    if (!NameFieldReq(name))
                     {
-                        mainController.Project = projectDAO.Read(projectID);
-                        mainController.ChangeProject();
+                        utilities.GetNotifier().ShowError("Indtast venligst et projektnavn");
                     }
-
+                    else if (!DescripFieldReq(description))
+                    {
+                        utilities.GetNotifier().ShowError("Indtast venligst en beskrivelse");
+                    }
+                    else if (!DateFieldReq(deadline))
+                    {
+                        utilities.GetNotifier().ShowError("Vælg en gyldig deadline");
+                    }
                 }
             }
-            else
+            catch (Exception exception)
             {
-                if (!NameFieldReq(name))
-                {
-                    utilities.GetNotifier().ShowError("Indtast venligst et projektnavn");
-                }
-                else if (!DescripFieldReq(description))
-                {
-                    utilities.GetNotifier().ShowError("Indtast venligst en beskrivelse");
-                }
-                else if (!DateFieldReq(deadline))
-                {
-                    utilities.GetNotifier().ShowError("Vælg en gyldig deadline");
-                }
-       /*         else if (deadline < DateTime.Now.AddDays(-1))
-                {
-                    utilities.GetNotifier().ShowError("Vælg en gyldig deadline");
-                }*/
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 
@@ -151,7 +149,6 @@ namespace project_management.Windows
             string name = this.name.Text;
             string description = this.description.Text;
             DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
-
 
             if (NameFieldReq(name) && DescripFieldReq(description) && DateFieldReq(deadline))
             {
@@ -165,7 +162,6 @@ namespace project_management.Windows
 
         private bool NameFieldReq(string field)
         {
-            //string lastName = this.lastName.Text;
             if (field == "")
             {
                 return false;
@@ -199,16 +195,5 @@ namespace project_management.Windows
                 return true;
             }
         }
-
-
-
-
-
-
     }
-
-
-
-
-
 }

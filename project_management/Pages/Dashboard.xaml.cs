@@ -45,49 +45,9 @@ namespace project_management.Pages
             InitializeComponent();
             mainController.Dashboard = this;
 
-            if(mainController.Project != null)
+            try
             {
-                MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
-
-                if (dataReader.Read())
-                {
-                    tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
-                    tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
-                    yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
-                    daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
-                }
-
-                mySQLConnector.CloseConnections(dataReader);
-
-                SetupQuickStats();
-                SetupCharts();
-
-                worker = new BackgroundWorker();
-                worker.DoWork += WorkerUpdater;
-                Timer timer = new Timer(30000);
-                timer.Elapsed += TimerElapsed;
-                timer.Start();
-            }
-
-        }
-
-        void TimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (!worker.IsBusy)
-                worker.RunWorkerAsync();
-        }
-
-        void WorkerUpdater(object sender, DoWorkEventArgs e)
-        {
-            Console.WriteLine("Updater");
-            UpdatePage();
-        }
-
-        public void UpdatePage()
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                if (mainController.Project != null)
+                if(mainController.Project != null)
                 {
                     MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
 
@@ -101,8 +61,67 @@ namespace project_management.Pages
 
                     mySQLConnector.CloseConnections(dataReader);
 
-                    UpdateQuickStats();
-                    UpdateCharts();
+                    SetupQuickStats();
+                    SetupCharts();
+
+                    worker = new BackgroundWorker();
+                    worker.DoWork += WorkerUpdater;
+                    Timer timer = new Timer(500);
+                    timer.Elapsed += TimerElapsed;
+                    timer.Start();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!worker.IsBusy)
+                worker.RunWorkerAsync();
+        }
+
+        void WorkerUpdater(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                UpdatePage();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void UpdatePage()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    if (mainController.Project != null)
+                    {
+                        MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
+
+                        if (dataReader.Read())
+                        {
+                            tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                            tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                            yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                            daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                        }
+
+                        mySQLConnector.CloseConnections(dataReader);
+
+                        UpdateQuickStats();
+                        UpdateCharts();
+                    }
+                }
+                catch
+                {
+                    throw;
                 }
             });
         }

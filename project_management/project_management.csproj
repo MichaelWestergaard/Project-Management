@@ -94,7 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateUser.xaml.cs">
+    <Compile Include="Windows\CreateUser.xaml.cs">
       <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
@@ -103,9 +103,6 @@
     <Compile Include="DTO\WorkLog.cs" />
     <Compile Include="Elements\DashboardQuickStats.xaml.cs">
       <DependentUpon>DashboardQuickStats.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Elements\GraphCard.xaml.cs">
-      <DependentUpon>GraphCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\BurndownChart.xaml.cs">
       <DependentUpon>BurndownChart.xaml</DependentUpon>
@@ -128,11 +125,8 @@
     <Compile Include="Elements\UserAvatar.xaml.cs">
       <DependentUpon>UserAvatar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Login.xaml.cs">
+    <Compile Include="Windows\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Overview.xaml.cs">
-      <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
@@ -141,11 +135,10 @@
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModels\OverviewModel.cs" />
     <Compile Include="Windows\AddWorkLog.xaml.cs">
       <DependentUpon>AddWorkLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Board.xaml.cs">
+    <Compile Include="Pages\Board.xaml.cs">
       <DependentUpon>Board.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CreateProject.xaml.cs">
@@ -175,15 +168,11 @@
     <Compile Include="Windows\ViewTask.xaml.cs">
       <DependentUpon>ViewTask.xaml</DependentUpon>
     </Compile>
-    <Page Include="CreateUser.xaml">
+    <Page Include="Windows\CreateUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\DashboardQuickStats.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Elements\GraphCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -215,11 +204,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home.xaml">
+    <Page Include="Windows\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Login.xaml">
+    <Page Include="Windows\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,13 +224,9 @@
     <Compile Include="DTO\Section.cs" />
     <Compile Include="DTO\Task.cs" />
     <Compile Include="DTO\User.cs" />
-    <Compile Include="Home.xaml.cs">
+    <Compile Include="Windows\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Page Include="Overview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Dashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -254,7 +239,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Board.xaml">
+    <Page Include="Pages\Board.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -296,7 +281,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MySQLConnector.cs" />
+    <Compile Include="Controllers\MySQLConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

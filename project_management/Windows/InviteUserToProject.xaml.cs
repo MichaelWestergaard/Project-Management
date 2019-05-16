@@ -50,30 +50,37 @@ namespace project_management.Windows
         private void Add_Member_Click(object sender, RoutedEventArgs e)
         {
             string email = this.email.Text;
-
-            if (Utilities.IsValidEmail(email))
+            try
             {
-                if (!userDAO.IsEmailFree(email))
+                if (Utilities.IsValidEmail(email))
                 {
-                    User user = userDAO.GetUserByEmail(email);
-                    if(user != null)
+                    if (!userDAO.IsEmailFree(email))
                     {
-                        if (openedBy is CreateProject)
-                            ((CreateProject)openedBy).AddInvitedUser(user.Id);
-                        if (openedBy is EditProject)
-                            ((EditProject)openedBy).AddInvitedUser(user.Id);
-                        AddUserPicture(user);
+                        User user = userDAO.GetUserByEmail(email);
+                        if(user != null)
+                        {
+                            if (openedBy is CreateProject)
+                                ((CreateProject)openedBy).AddInvitedUser(user.Id);
+                            if (openedBy is EditProject)
+                                ((EditProject)openedBy).AddInvitedUser(user.Id);
+                            AddUserPicture(user);
+                        } else
+                        {
+                            utilities.GetNotifier().ShowError("Kunne ikke finde bruger, prøv venligst igen.");
+                        }
                     } else
                     {
-                        utilities.GetNotifier().ShowError("Kunne ikke finde bruger, prøv venligst igen.");
+                        utilities.GetNotifier().ShowError("Der findes ikke en bruger med denne email adresse");
                     }
-                } else
-                {
-                    utilities.GetNotifier().ShowError("Der findes ikke en bruger med denne email adresse");
                 }
-            } else
+                else
+                {
+                    utilities.GetNotifier().ShowError("Du bedes venligst indtaste en korrekt email adresse!");
+                }
+            }
+            catch (Exception exception)
             {
-                utilities.GetNotifier().ShowError("Du bedes venligst indtaste en korrekt email adresse!");
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 

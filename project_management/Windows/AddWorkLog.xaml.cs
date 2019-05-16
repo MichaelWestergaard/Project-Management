@@ -31,34 +31,41 @@ namespace project_management.Windows
         private User user;
         StackPanel taskList;
         StackPanel completedTaskList;
-
-
+        Utilities utilities = new Utilities();
 
         public AddWorkLog(TaskElement taskElement)
         {
-            user = MainController.Instance.User;
-            this.taskElement = taskElement;
-            task = taskDAO.Read(taskElement.taskID);
             InitializeComponent();
-            date.Text = DateTime.Now.Date.ToString();
-           
-            if (!task.Completed)
-            {
-                taskList = (StackPanel)taskElement.Parent;
-                StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
-                completedTaskList = ((StackPanel)lastStackPanel.Children[lastStackPanel.Children.Count - 1]);
-            } else
-            {
-                completedTaskList = (StackPanel)taskElement.Parent;
-                taskList = ((StackPanel)((StackPanel)completedTaskList.Parent).Parent);
-            }
-            
-            if(task.Completed)
-            {
-                CompleteTask.Content = "Start Opgave";
-                CompleteTask.Background = new Utilities().GetColor("#FF2196F3");
-            }
 
+            try
+            {
+                user = MainController.Instance.User;
+                this.taskElement = taskElement;
+                task = taskDAO.Read(taskElement.taskID);
+            
+                date.Text = DateTime.Now.Date.ToString();
+           
+                if (!task.Completed)
+                {
+                    taskList = (StackPanel)taskElement.Parent;
+                    StackPanel lastStackPanel = (StackPanel)((StackPanel)taskElement.Parent).Children[taskList.Children.Count - 1];
+                    completedTaskList = ((StackPanel)lastStackPanel.Children[lastStackPanel.Children.Count - 1]);
+                } else
+                {
+                    completedTaskList = (StackPanel)taskElement.Parent;
+                    taskList = ((StackPanel)((StackPanel)completedTaskList.Parent).Parent);
+                }
+            
+                if(task.Completed)
+                {
+                    CompleteTask.Content = "Start Opgave";
+                    CompleteTask.Background = new Utilities().GetColor("#FF2196F3");
+                }
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -73,20 +80,27 @@ namespace project_management.Windows
 
         private void ButtnUpdateWork_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateInput())
+            try
             {
+                if (ValidateInput())
+                {
 
-                double workLoad = Double.Parse(estimation.Text);
-                DateTime workDato = DateTime.Parse(date.Text);
+                    double workLoad = Double.Parse(estimation.Text);
+                    DateTime workDato = DateTime.Parse(date.Text);
 
 
-                WorkLog workLog = new WorkLog(user, task.Id, workLoad, workDato);
+                    WorkLog workLog = new WorkLog(user, task.Id, workLoad, workDato);
 
-                int workLogID = workLogDAO.CreateWork(workLog);
+                    int workLogID = workLogDAO.CreateWork(workLog);
 
-                taskElement.UpdateProgress((workLogDAO.GetWorkSum(task.Id) / task.EstimatedTime) * 100);
-                MainController.Instance.Dashboard.UpdatePage();
-                this.Close();
+                    taskElement.UpdateProgress((workLogDAO.GetWorkSum(task.Id) / task.EstimatedTime) * 100);
+                    MainController.Instance.Dashboard.UpdatePage();
+                    this.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 
@@ -107,46 +121,59 @@ namespace project_management.Windows
                 completedTaskList.Children.Remove(taskElement);
                 taskList.Children.Insert(taskList.Children.Count - 1, taskElement);
             }
-            MainController.Instance.Dashboard.UpdatePage();
-            this.Close();
+
+            try
+            {
+                MainController.Instance.Dashboard.UpdatePage();
+                this.Close();
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
-
-
-
-
+        
         private bool ValidateInput()
         {
-            DateTime dateCheck = Convert.ToDateTime(date.Text);
-            if (estimation.Text != "" && double.TryParse(estimation.Text, out double resultEstimation))
+            try
             {
-                if (date.Text != "")
+                DateTime dateCheck = Convert.ToDateTime(date.Text);
+                if (estimation.Text != "" && double.TryParse(estimation.Text, out double resultEstimation))
                 {
-                    if (dateCheck <= DateTime.Today)
+                    if (date.Text != "")
                     {
-                        if (DateTime.TryParse(date.Text, out DateTime result))
+                        if (dateCheck <= DateTime.Today)
                         {
+                            if (DateTime.TryParse(date.Text, out DateTime result))
+                            {
 
-                            return true;
+                                return true;
+                            }
+                            else
+                            {
+                                new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                            }
                         }
                         else
                         {
-                            new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                            new Utilities().GetNotifier().ShowError("Forkert dato");
                         }
                     }
                     else
                     {
-                        new Utilities().GetNotifier().ShowError("Forkert dato");
+                        new Utilities().GetNotifier().ShowError("Udfyld deadline dato");
                     }
                 }
                 else
                 {
-                    new Utilities().GetNotifier().ShowError("Udfyld deadline dato");
+                    new Utilities().GetNotifier().ShowError("Udfyld estimation");
                 }
             }
-            else
+            catch (Exception exception)
             {
-                new Utilities().GetNotifier().ShowError("Udfyld estimation");
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
+
             return false;
         }
     }

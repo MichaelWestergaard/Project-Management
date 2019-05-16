@@ -60,7 +60,7 @@ namespace project_management
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-            new createUser().Show();
+            new CreateUser().Show();
             this.Close();
         }
 

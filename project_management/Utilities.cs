@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
+using System.Net;
 
 namespace project_management
 {
@@ -110,6 +111,14 @@ namespace project_management
                 {
                     return "Kunne ikke oprette forbindelse til databasen!";
                 }
+            }
+            else if (e.GetType().Equals(typeof(FormatException)))
+            {
+                return "Fejl under parsing af input strengen, tjek venligst værdien eller kontakt support";
+            }
+            else if (e.GetType().Equals(typeof(WebException)))
+            {
+                return "Kunne ikke uploade filen til webserveren.. Prøv igen.";
             }
 
             return "Der forekom en ukendt fejl, prøv igen.";
