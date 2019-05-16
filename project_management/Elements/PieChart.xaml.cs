@@ -40,7 +40,6 @@ namespace project_management.Elements
             
             PieChartElement.Series = new SeriesCollection
             {
-
                 new PieSeries
                 {
                     Title = "Opgaver tilbage",

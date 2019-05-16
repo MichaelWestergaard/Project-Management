@@ -34,6 +34,7 @@ namespace project_management.Windows
 
         private int assignedUserID = 0;
         private UserAvatar assignedUserAvatar = null;
+        Utilities utilities = new Utilities();
 
         public NewTask()
         {
@@ -42,28 +43,34 @@ namespace project_management.Windows
 
         public NewTask(StackPanel currentSection)
         {
-            this.currentSection = currentSection;
-
-            string sectionName = currentSection.Name;
-
-            sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
-            
             InitializeComponent();
 
-            StackPanel projectUsers = (StackPanel) FindName("ProjectUsers");
-
-            List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(sectionID).ProjectId);
-            
-            foreach (User user in users)
+            try
             {
-                UserAvatar userAvatar = new UserAvatar(this, user.Id);
+                this.currentSection = currentSection;
 
-                userAvatar.Uid = user.Id.ToString();
-                userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
-                userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
-                projectUsers.Children.Add(userAvatar);
+                string sectionName = currentSection.Name;
+
+                sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
+            
+                StackPanel projectUsers = (StackPanel) FindName("ProjectUsers");
+
+                List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(sectionID).ProjectId);
+            
+                foreach (User user in users)
+                {
+                    UserAvatar userAvatar = new UserAvatar(this, user.Id);
+
+                    userAvatar.Uid = user.Id.ToString();
+                    userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
+                    userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
+                    projectUsers.Children.Add(userAvatar);
+                }
             }
-
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -145,39 +152,46 @@ namespace project_management.Windows
 
         private void ButtnCreateTask_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateInput())
+            try
             {
-                string taskName = title.Text;
-                string taskDescription = description.Text;
-                double taskEstimation = Double.Parse(estimation.Text);
-                int taskPriority = int.Parse(priority.Text);
-                DateTime taskDeadline = DateTime.Parse(deadline.Text);
-                
-                User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
-                
-                Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
-
-                int taskID = taskDAO.CreateTask(task);
-
-                if (taskDAO.Read(taskID) != null)
+                if (ValidateInput())
                 {
-                    TaskElement taskElement = new TaskElement(taskID);
+                    string taskName = title.Text;
+                    string taskDescription = description.Text;
+                    double taskEstimation = Double.Parse(estimation.Text);
+                    int taskPriority = int.Parse(priority.Text);
+                    DateTime taskDeadline = DateTime.Parse(deadline.Text);
 
-                    taskElement.TaskID.Name = "Task" + taskID;
+                    User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
 
-                    taskElement.title.Text = taskName;
-                    taskElement.description.Text = taskDescription;
+                    Task task = new Task(null, null, assignedUser, sectionID, taskName, taskDescription, taskEstimation, taskPriority, taskDeadline);
 
-                    if (assignedUser != null)
+                    int taskID = taskDAO.CreateTask(task);
+
+                    if (taskDAO.Read(taskID) != null)
                     {
-                        taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
-                        taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
-                    }
+                        TaskElement taskElement = new TaskElement(taskID);
 
-                    currentSection.Children.Insert(currentSection.Children.Count - 1, taskElement);
-                    MainController.Instance.Dashboard.UpdatePage();
-                    this.Close();
+                        taskElement.TaskID.Name = "Task" + taskID;
+
+                        taskElement.title.Text = taskName;
+                        taskElement.description.Text = taskDescription;
+
+                        if (assignedUser != null)
+                        {
+                            taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
+                            taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
+                        }
+
+                        currentSection.Children.Insert(currentSection.Children.Count - 1, taskElement);
+                        MainController.Instance.Dashboard.UpdatePage();
+                        this.Close();
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 

@@ -29,8 +29,15 @@ namespace project_management
 
         public MySqlDataReader GetData(string stmt, Dictionary<string, string> parameters)
         {
-            MySqlCommand cmd = CreateCommand(stmt, parameters);
-            return cmd.ExecuteReader();
+            try
+            {
+                MySqlCommand cmd = CreateCommand(stmt, parameters);
+                return cmd.ExecuteReader();
+            }
+            catch (MySqlException e)
+            {
+                throw;
+            }
         }
 
         public bool Execute(string stmt, Dictionary<string, string> parameters)
@@ -44,6 +51,10 @@ namespace project_management
 
                 return false;
             }
+            catch (MySqlException e)
+            {
+                throw;
+            }
             finally
             {
                 CloseConnections();
@@ -52,29 +63,44 @@ namespace project_management
 
         public int Insert(string stmt, Dictionary<string, string> parameters)
         {
-            MySqlCommand cmd = CreateCommand(stmt, parameters);
-            cmd.ExecuteNonQuery();
-            int id = (int) cmd.LastInsertedId;
-            CloseConnections();
+            try
+            {
+                MySqlCommand cmd = CreateCommand(stmt, parameters);
+                cmd.ExecuteNonQuery();
+                int id = (int) cmd.LastInsertedId;
+                CloseConnections();
 
-            return id;
-        }
+                return id;
+            }
+            catch (MySqlException e)
+            {
+                throw;
+            }
+}
 
         private MySqlCommand CreateCommand(string stmt, Dictionary<string, string> parameters)
         {
-            connection.Close();
-            connection.Open();
+            try
+            {
+                connection.Close();
+                connection.Open();
 
-            MySqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = stmt;
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = stmt;
 
-            if (parameters != null) { 
-                foreach (var element in parameters)
+                if (parameters != null)
                 {
-                    cmd.Parameters.AddWithValue(element.Key, element.Value);
+                    foreach (var element in parameters)
+                    {
+                        cmd.Parameters.AddWithValue(element.Key, element.Value);
+                    }
                 }
+                return cmd;
             }
-            return cmd;
+            catch (MySqlException e)
+            {
+                throw;
+            }
         }
 
         public void CloseConnections(MySqlDataReader mySqlDataReader = null)

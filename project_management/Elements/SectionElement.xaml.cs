@@ -41,18 +41,26 @@ namespace project_management.Elements
         private void DeleteSection_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)e.Source;
-            StackPanel currentSection = (StackPanel) ((MaterialDesignThemes.Wpf.Card) button.FindName("SectionCard")).Parent;
+            StackPanel currentSection = (StackPanel) ((Card) button.FindName("SectionCard")).Parent;
 
-            for (int i = 0; i < sectionList.Children.Count-1; i++)
+            try
             {
-                if (((StackPanel)((SectionElement)sectionList.Children[i]).Content).Name.Equals(currentSection.Name))
+                for (int i = 0; i < sectionList.Children.Count-1; i++)
                 {
-                    if(new SectionDAO().Delete(int.Parse(currentSection.Name.Replace("Section", ""))))
-                        sectionList.Children.RemoveAt(i);
+                    if (((StackPanel)((SectionElement)sectionList.Children[i]).Content).Name.Equals(currentSection.Name))
+                    {
+                        if(new SectionDAO().Delete(int.Parse(currentSection.Name.Replace("Section", ""))))
+                            sectionList.Children.RemoveAt(i);
                     
-                    break;
+                        break;
+                    }
                 }
             }
+            catch
+            {
+                throw;
+            }
+
         }
 
         private void SectionCard_MouseEnter(object sender, MouseEventArgs e)
@@ -103,19 +111,26 @@ namespace project_management.Elements
 
         public void InsertDroppedTask(IDataObject dataObject)
         {
-            TaskElement element = (TaskElement) dataObject.GetData("Task");
-            StackPanel sectionFrom = (StackPanel) dataObject.GetData("SectionFrom");
-            sectionFrom.Children.Remove(element);
-            SectionElement currentSection = this;
-            StackPanel taskList = ((StackPanel)currentSection.Content);
-            taskList.Children.Insert(taskList.Children.Count - 1, element);
+            try
+            {
+                TaskElement element = (TaskElement) dataObject.GetData("Task");
+                StackPanel sectionFrom = (StackPanel) dataObject.GetData("SectionFrom");
+                sectionFrom.Children.Remove(element);
+                SectionElement currentSection = this;
+                StackPanel taskList = ((StackPanel)currentSection.Content);
+                taskList.Children.Insert(taskList.Children.Count - 1, element);
 
-            TaskDAO taskDAO = new TaskDAO();
+                TaskDAO taskDAO = new TaskDAO();
 
-            Task task = taskDAO.Read(element.taskID);
-            task.SectionID = int.Parse(currentSection.Name.Replace("Section", ""));
+                Task task = taskDAO.Read(element.taskID);
+                task.SectionID = int.Parse(currentSection.Name.Replace("Section", ""));
 
-            taskDAO.Update(task);
+                taskDAO.Update(task);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace project_management.Windows
     {
         private int projectID;
         private StackPanel sectionList;
+        Utilities utilities = new Utilities();
 
         public NewSection(int projectID, StackPanel sectionList)
         {
@@ -35,30 +36,38 @@ namespace project_management.Windows
 
         private void ButtonCreateSection_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateInput())
+            try
             {
-                Section section = new Section
+                if (ValidateInput())
                 {
-                    Name = name.Text,
-                    ProjectId = projectID,
-                    DueDate = DateTime.Parse(deadline.Text)
-                };
+                    Section section = new Section
+                    {
+                        Name = name.Text,
+                        ProjectId = projectID,
+                        DueDate = DateTime.Parse(deadline.Text)
+                    };
 
-                SectionDAO sectionDAO = new SectionDAO();
+                    SectionDAO sectionDAO = new SectionDAO();
 
-                int sectionID = sectionDAO.CreateSection(section);
+                    int sectionID = sectionDAO.CreateSection(section);
 
-                if (sectionDAO.Read(sectionID) != null)
-                {
-                    SectionElement sectionElement = new SectionElement(sectionList);
+                    if (sectionDAO.Read(sectionID) != null)
+                    {
+                        SectionElement sectionElement = new SectionElement(sectionList);
 
-                    sectionElement.SectionID.Name = "Section" + sectionID;
-                    sectionElement.SectionName.Text = name.Text;
+                        sectionElement.SectionID.Name = "Section" + sectionID;
+                        sectionElement.SectionName.Text = name.Text;
                     
-                    sectionList.Children.Insert(sectionList.Children.Count - 1, sectionElement);
-                    this.Close();
+                        sectionList.Children.Insert(sectionList.Children.Count - 1, sectionElement);
+                        this.Close();
+                    }
                 }
             }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
+
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)

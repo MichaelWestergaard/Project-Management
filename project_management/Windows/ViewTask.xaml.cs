@@ -1,6 +1,7 @@
 ﻿using project_management.DAO;
 using project_management.DTO;
 using project_management.Elements;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ToastNotifications.Messages;
 
 namespace project_management.Windows
 {
@@ -26,22 +28,28 @@ namespace project_management.Windows
         List<WorkLogItems> workLogsItems = new List<WorkLogItems>();
         Utilities utilities = new Utilities();
 
-
         public ViewTask(TaskElement taskElement)
         {
-            this.taskElement = taskElement;
-            task = new TaskDAO().Read(taskElement.taskID);
             InitializeComponent();
-
-            worklogs = workLogDAO.GetList(task.Id);
-            System.Console.WriteLine("Hvor mange elementer : " + worklogs.Capacity);
-            foreach (WorkLog workLog in worklogs)
+            try
             {
-                workLogsItems.Add(new WorkLogItems() { Work = workLog.Work, Name = workLog.AssignedUser.Firstname + " " + workLog.AssignedUser.Lastname, Date = workLog.CreatedAt.Day.ToString() + "-" + workLog.CreatedAt.Month.ToString() + "-" + workLog.CreatedAt.Year.ToString() });
+                this.taskElement = taskElement;
+                task = new TaskDAO().Read(taskElement.taskID);
+
+
+                worklogs = workLogDAO.GetList(task.Id);
+
+                foreach (WorkLog workLog in worklogs)
+                {
+                    workLogsItems.Add(new WorkLogItems() { Work = workLog.Work, Name = workLog.AssignedUser.Firstname + " " + workLog.AssignedUser.Lastname, Date = workLog.CreatedAt.Day.ToString() + "-" + workLog.CreatedAt.Month.ToString() + "-" + workLog.CreatedAt.Year.ToString() });
+                }
+
+                workloads.ItemsSource = workLogsItems;
             }
-
-
-            workloads.ItemsSource = workLogsItems;
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -87,8 +95,6 @@ namespace project_management.Windows
 
             public string Date { get; set; }
         }
-
-
-
+        
     }
 }

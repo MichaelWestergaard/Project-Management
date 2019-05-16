@@ -26,6 +26,7 @@ namespace project_management.Windows
 
         private int assignedUserID = 0;
         private UserAvatar assignedUserAvatar = null;
+        Utilities utilities = new Utilities();
         
         public EditTask(TaskElement taskElement)
         {
@@ -39,26 +40,31 @@ namespace project_management.Windows
             estimation.Text = task.EstimatedTime.ToString();
             priority.Text = task.Priority.ToString();
 
-
-            StackPanel projectUsers = (StackPanel)FindName("ProjectUsers");
-
-            List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(task.SectionID).ProjectId);
-
-            foreach (User user in users)
+            try
             {
-                UserAvatar userAvatar = new UserAvatar(this, user.Id);
+                StackPanel projectUsers = (StackPanel)FindName("ProjectUsers");
 
-                userAvatar.Uid = user.Id.ToString();
-                userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
-                userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
+                List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(task.SectionID).ProjectId);
 
-                if (task.AssignedUser != null)
-                    if (task.AssignedUser.Id == user.Id)
-                        AssignUser(userAvatar, user.Id);
+                foreach (User user in users)
+                {
+                    UserAvatar userAvatar = new UserAvatar(this, user.Id);
 
-                projectUsers.Children.Add(userAvatar);
+                    userAvatar.Uid = user.Id.ToString();
+                    userAvatar.UserImage.ImageSource = new BitmapImage(new Uri(user.Picture));
+                    userAvatar.ToolTip = user.Firstname + " " + user.Lastname;
+
+                    if (task.AssignedUser != null)
+                        if (task.AssignedUser.Id == user.Id)
+                            AssignUser(userAvatar, user.Id);
+
+                    projectUsers.Children.Add(userAvatar);
+                }
             }
-
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
 
         private void Toolbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -106,7 +112,7 @@ namespace project_management.Windows
                                 }
                                 else
                                 {
-                                    new Utilities().GetNotifier().ShowError("Vælg venligst en korrekt dato");
+                                    utilities.GetNotifier().ShowError("Vælg venligst en korrekt dato");
                                 }
                             }
                             else
@@ -147,31 +153,38 @@ namespace project_management.Windows
                 int taskPriority = int.Parse(priority.Text);
                 DateTime taskDeadline = DateTime.Parse(deadline.Text);
 
-                User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
-
-                task.Name = taskName;
-                task.AssignedUser = assignedUser;
-                task.Description = taskDescription;
-                task.EstimatedTime = taskEstimation;
-                task.Priority = taskPriority;
-                task.DueDate = taskDeadline;
-                
-                if (taskDAO.Update(task))
+                try
                 {
-                    taskElement.title.Text = taskName;
-                    taskElement.description.Text = taskDescription;
+                    User assignedUser = assignedUserID != 0 ? new UserDAO().Read(assignedUserID) : null;
 
-                    if (assignedUser != null)
+                    task.Name = taskName;
+                    task.AssignedUser = assignedUser;
+                    task.Description = taskDescription;
+                    task.EstimatedTime = taskEstimation;
+                    task.Priority = taskPriority;
+                    task.DueDate = taskDeadline;
+                
+                    if (taskDAO.Update(task))
                     {
-                        taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
-                        taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
-                    } else
-                    {
-                        taskElement.avatar.ImageSource = null;
-                        taskElement.UserButton.ToolTip = null;
-                    }
+                        taskElement.title.Text = taskName;
+                        taskElement.description.Text = taskDescription;
+
+                        if (assignedUser != null)
+                        {
+                            taskElement.avatar.ImageSource = new BitmapImage(new Uri(assignedUser.Picture));
+                            taskElement.UserButton.ToolTip = assignedUser.Firstname + " " + assignedUser.Lastname;
+                        } else
+                        {
+                            taskElement.avatar.ImageSource = null;
+                            taskElement.UserButton.ToolTip = null;
+                        }
                     
-                    this.Close();
+                        this.Close();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    utilities.GetNotifier().ShowError(utilities.HandleException(exception));
                 }
             }
         }
@@ -183,10 +196,17 @@ namespace project_management.Windows
 
         private void ButtonDeleteTask_Click(object sender, RoutedEventArgs e)
         {
-            if (taskDAO.Delete(task.Id))
+            try
             {
-                this.Close();
-                ((StackPanel) taskElement.Parent).Children.Remove(taskElement);
+                if (taskDAO.Delete(task.Id))
+                {
+                    this.Close();
+                    ((StackPanel) taskElement.Parent).Children.Remove(taskElement);
+                }
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
     }

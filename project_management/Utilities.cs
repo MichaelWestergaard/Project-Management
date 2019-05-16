@@ -6,6 +6,8 @@ using ToastNotifications.Position;
 using System.Windows;
 using System.Windows.Media;
 using System.Security.Cryptography;
+using MySql.Data.MySqlClient;
+using System.Net;
 
 namespace project_management
 {
@@ -98,6 +100,28 @@ namespace project_management
                 return true;
 
             return false;
+        }
+
+        public string HandleException(Exception e)
+        {
+            if (e.GetType().Equals(typeof(MySqlException)))
+            {
+                MySqlException exception = (MySqlException)e;
+                if (exception.Code == 0)
+                {
+                    return "Kunne ikke oprette forbindelse til databasen!";
+                }
+            }
+            else if (e.GetType().Equals(typeof(FormatException)))
+            {
+                return "Fejl under parsing af input strengen, tjek venligst værdien eller kontakt support";
+            }
+            else if (e.GetType().Equals(typeof(WebException)))
+            {
+                return "Kunne ikke uploade filen til webserveren.. Prøv igen.";
+            }
+
+            return "Der forekom en ukendt fejl, prøv igen.";
         }
     }
 }
