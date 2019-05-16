@@ -81,6 +81,7 @@ namespace project_management.DAO
                     sections.Add(section);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return sections;
         }
@@ -112,6 +113,8 @@ namespace project_management.DAO
                     sections.Add(section);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return sections;
         }
 
@@ -135,10 +138,11 @@ namespace project_management.DAO
                 DateTime created_at = (DateTime)dataReader.GetMySqlDateTime("created_at");
 
                 Section section = new Section(id, project_id, name, completed, created_at, due_date, null);
+                mySQLConnector.CloseConnections(dataReader);
 
                 return section;
             }
-
+            mySQLConnector.CloseConnections(dataReader);
 
             return null;
         }

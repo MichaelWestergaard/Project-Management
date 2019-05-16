@@ -105,6 +105,8 @@ namespace project_management.DAO
                     tasks.Add(task);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return tasks;
         }
 
@@ -145,6 +147,8 @@ namespace project_management.DAO
                     tasks.Add(task);
                 }
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return tasks;
         }
 
@@ -177,9 +181,12 @@ namespace project_management.DAO
                 Task requiredTask = requires_task_id == 0 ? null : this.Read(requires_task_id);
 
                 Task task = new Task(id, parentTask, requiredTask, new UserDAO().Read(user_id), section_id, name, description, estimated_time, priority, completed, start_date, due_date, created_at);
+                mySQLConnector.CloseConnections(dataReader);
 
                 return task;
             }
+            mySQLConnector.CloseConnections(dataReader);
+
             return null;
         }
 

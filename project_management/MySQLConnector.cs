@@ -29,18 +29,25 @@ namespace project_management
 
         public MySqlDataReader GetData(string stmt, Dictionary<string, string> parameters)
         {
-           return CreateCommand(stmt, parameters).ExecuteReader();
+            MySqlCommand cmd = CreateCommand(stmt, parameters);
+            return cmd.ExecuteReader();
         }
 
         public bool Execute(string stmt, Dictionary<string, string> parameters)
         {
-            int rowsAffected = CreateCommand(stmt, parameters).ExecuteNonQuery();
-            connection.Close();
+            try
+            {
+                int rowsAffected = CreateCommand(stmt, parameters).ExecuteNonQuery();
 
-            if (rowsAffected > 0)
-                return true;
+                if (rowsAffected > 0)
+                    return true;
 
-            return false;
+                return false;
+            }
+            finally
+            {
+                CloseConnections();
+            }
         }
 
         public int Insert(string stmt, Dictionary<string, string> parameters)
@@ -48,7 +55,7 @@ namespace project_management
             MySqlCommand cmd = CreateCommand(stmt, parameters);
             cmd.ExecuteNonQuery();
             int id = (int) cmd.LastInsertedId;
-            connection.Close();
+            CloseConnections();
 
             return id;
         }
@@ -62,12 +69,23 @@ namespace project_management
             cmd.CommandText = stmt;
 
             if (parameters != null) { 
-            foreach (var element in parameters)
-            {
-                cmd.Parameters.AddWithValue(element.Key, element.Value);
-            }
+                foreach (var element in parameters)
+                {
+                    cmd.Parameters.AddWithValue(element.Key, element.Value);
+                }
             }
             return cmd;
+        }
+
+        public void CloseConnections(MySqlDataReader mySqlDataReader = null)
+        {
+            if (mySqlDataReader != null)
+            {
+                mySqlDataReader.Dispose();
+                mySqlDataReader.Close();
+            }
+
+            connection.Close();
         }
 
         public void CloseConnection()

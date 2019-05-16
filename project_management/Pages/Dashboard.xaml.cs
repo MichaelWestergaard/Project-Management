@@ -27,6 +27,8 @@ namespace project_management.Pages
     /// </summary>
     public partial class Dashboard : Page
     {
+
+        MySQLConnector mySQLConnector = MySQLConnector.Instance;
         Utilities utilities = new Utilities();
         MainController mainController = MainController.Instance;
         DashboardQuickStats tasksLeftElement, completedTaskElement, yourTasksElement, deadlineElement;
@@ -54,6 +56,8 @@ namespace project_management.Pages
                     yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
                     daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
                 }
+
+                mySQLConnector.CloseConnections(dataReader);
 
                 SetupQuickStats();
                 SetupCharts();
@@ -94,6 +98,8 @@ namespace project_management.Pages
                         yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
                         daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
                     }
+
+                    mySQLConnector.CloseConnections(dataReader);
 
                     UpdateQuickStats();
                     UpdateCharts();
