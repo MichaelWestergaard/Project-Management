@@ -66,7 +66,7 @@ namespace project_management.Pages
 
                     worker = new BackgroundWorker();
                     worker.DoWork += WorkerUpdater;
-                    Timer timer = new Timer(500);
+                    Timer timer = new Timer(30000);
                     timer.Elapsed += TimerElapsed;
                     timer.Start();
                 }
