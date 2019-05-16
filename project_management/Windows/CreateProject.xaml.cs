@@ -3,13 +3,7 @@ using project_management.DAO;
 using project_management.DTO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -37,7 +31,7 @@ namespace project_management.Windows
             this.home = home;
             user = mainController.User;
             InitializeComponent();
-            
+
             AddInvitedUser(user.Id);
 
             Ellipse ellipse = new Ellipse
@@ -68,7 +62,7 @@ namespace project_management.Windows
         {
             DragMove();
         }
-        
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -76,8 +70,10 @@ namespace project_management.Windows
 
         private void Add_Member_Click(object sender, RoutedEventArgs e)
         {
-            inviteUserToProject = new InviteUserToProject(this);
-            inviteUserToProject.Show();
+            if (utilities.CheckOpen(typeof(InviteUserToProject)) == false)
+            {
+                new InviteUserToProject(this).Show();
+            }
         }
 
         public void AddInvitedUser(int userID)
@@ -89,44 +85,115 @@ namespace project_management.Windows
         {
             string name = this.name.Text;
             string description = this.description.Text;
-            DateTime deadline = this.deadline.SelectedDate.Value;
+            DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
 
-            if (!name.Equals(""))
-            {
-                Project project = new Project();
-                project.Name = name;
-                project.Description = description;
-                project.DueDate = deadline;
-                project.ProjectOwnerID = user.Id;
-
-                ProjectDAO projectDAO = new ProjectDAO();
-
-                int projectID = projectDAO.CreateProject(project);
-                
-                foreach (int userID in userList)
+            try {
+                if (InputsReq())
                 {
-                    projectDAO.AddUserToProject(projectID, userID);
+                    if (!name.Equals(""))
+                    {
+                        Project project = new Project();
+                        project.Name = name;
+                        project.Description = description;
+                        project.DueDate = deadline;
+                        project.ProjectOwnerID = user.Id;
+
+                        ProjectDAO projectDAO = new ProjectDAO();
+
+                        int projectID = projectDAO.CreateProject(project);
+
+                        foreach (int userID in userList)
+                        {
+                            projectDAO.AddUserToProject(projectID, userID);
+                        }
+                        this.Close();
+
+                        if (inviteUserToProject != null)
+                            inviteUserToProject.Close();
+
+                        utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
+                        home.NewProjectElement(projectID, name);
+
+                        if (mainController.Project == null)
+                        {
+                            mainController.Project = projectDAO.Read(projectID);
+                            mainController.ChangeProject();
+                        }
+
+                    }
                 }
-                this.Close();
-                
-                if(inviteUserToProject != null)
-                    inviteUserToProject.Close();
-
-                utilities.GetNotifier().ShowSuccess("Projektet blev oprettet!");
-                home.NewProjectElement(projectID, name);
-
-                if (mainController.Project == null)
+                else
                 {
-                    mainController.Project = projectDAO.Read(projectID);
-                    mainController.ChangeProject();
+                    if (!NameFieldReq(name))
+                    {
+                        utilities.GetNotifier().ShowError("Indtast venligst et projektnavn");
+                    }
+                    else if (!DescripFieldReq(description))
+                    {
+                        utilities.GetNotifier().ShowError("Indtast venligst en beskrivelse");
+                    }
+                    else if (!DateFieldReq(deadline))
+                    {
+                        utilities.GetNotifier().ShowError("Vælg en gyldig deadline");
+                    }
                 }
-
-            } else
+            }
+            catch (Exception exception)
             {
-                utilities.GetNotifier().ShowError("Indtast venligst et projektnavn");
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
+        }
+
+        private bool InputsReq()
+        {
+            string name = this.name.Text;
+            string description = this.description.Text;
+            DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
+
+            if (NameFieldReq(name) && DescripFieldReq(description) && DateFieldReq(deadline))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool NameFieldReq(string field)
+        {
+            if (field == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool DescripFieldReq(string field)
+        {
+            if (field == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool DateFieldReq(DateTime date)
+        {
+            if (date.ToString() == "" || date < DateTime.Now.AddDays(-1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }
-
-    
 }

@@ -22,27 +22,24 @@ namespace project_management.Elements
     /// </summary>
     public partial class PieChart : UserControl
     {
+        int tasksLeft, tasksCompleted;
+
         public PieChart(int tasksLeft, int tasksCompleted)
         {
+            this.tasksLeft = tasksLeft;
+            this.tasksCompleted = tasksCompleted;
+
             InitializeComponent();
+
 
             HorizontalAlignment = HorizontalAlignment.Right;
 
-            PointLabel = chartPoint => string.Format("{0} ({1}%)", chartPoint.Y, Math.Round(chartPoint.Participation*100));
+            PointLabel = chartPoint => string.Format("{1}%", chartPoint.Y, Math.Round(chartPoint.Participation * 100));
 
             DataContext = this;
             
             PieChartElement.Series = new SeriesCollection
             {
-                new PieSeries
-                {
-                    Title = "Udførte opgaver",
-                    Values = new ChartValues<int> { tasksCompleted },
-                    DataLabels = true,
-                    LabelPoint = PointLabel,
-                    FontSize = 14,
-                    ToolTip = "Udførte opgaver"
-                },
                 new PieSeries
                 {
                     Title = "Opgaver tilbage",
@@ -51,10 +48,31 @@ namespace project_management.Elements
                     LabelPoint = PointLabel,
                     FontSize = 14,
                     ToolTip = "Opgaver tilbage"
+                },
+                new PieSeries
+                {
+                    Title = "Udførte opgaver",
+                    Values = new ChartValues<int> { tasksCompleted },
+                    DataLabels = true,
+                    LabelPoint = PointLabel,
+                    FontSize = 14,
+                    ToolTip = "Udførte opgaver"
                 }
             };
             
 
+        }
+
+        public void UpdateChart(int tasksLeft, int tasksCompleted)
+        {
+            if(this.tasksLeft != tasksLeft || this.tasksCompleted != tasksCompleted)
+            {
+                this.tasksLeft = tasksLeft;
+                this.tasksCompleted = tasksCompleted;
+                
+                PieChartElement.Series[0].Values = new ChartValues<int> { tasksLeft };
+                PieChartElement.Series[1].Values = new ChartValues<int> { tasksCompleted };
+            }
         }
 
         public Func<ChartPoint, string> PointLabel { get; set; }

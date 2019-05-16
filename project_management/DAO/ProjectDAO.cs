@@ -76,6 +76,8 @@ namespace project_management.DAO
                 }
             }
 
+            mySQLConnector.CloseConnections(dataReader);
+
             return projects;
         }
 
@@ -107,6 +109,8 @@ namespace project_management.DAO
                 }
             }
 
+            mySQLConnector.CloseConnections(dataReader);
+
             return projects;
         }
 
@@ -131,10 +135,10 @@ namespace project_management.DAO
                 DateTime due_date = (DateTime)dataReader.GetMySqlDateTime("due_date");
                 
                 Project project = new Project(id, parent_project_id, user_id, name, description, completed, created_at, due_date);
-
+                mySQLConnector.CloseConnections(dataReader);
                 return project;
             }
-            
+            mySQLConnector.CloseConnections(dataReader);
             return null;
         }
         
@@ -171,8 +175,6 @@ namespace project_management.DAO
 
             int projectID = mySQLConnector.Insert("INSERT INTO projects (user_id, name, description, due_date) VALUES (@user_id, @name, @description, @due_date)", newProject);
 
-            mySQLConnector.CloseConnection();
-
             return projectID;
         }
 
@@ -196,6 +198,7 @@ namespace project_management.DAO
                     mySQLConnector.CloseConnection();
                     return true;
                 }
+                mySQLConnector.CloseConnection();
                 return false;
             }
 
@@ -222,7 +225,9 @@ namespace project_management.DAO
                     users.Add(userDAO.Read(id));
                 }
             }
-            
+
+            mySQLConnector.CloseConnections(dataReader);
+
             return users;
         }
 
@@ -239,6 +244,7 @@ namespace project_management.DAO
             {
                 return dataReader;
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return null;
         }
@@ -256,6 +262,7 @@ namespace project_management.DAO
             {
                 return dataReader;
             }
+            mySQLConnector.CloseConnections(dataReader);
 
             return null;
         }

@@ -94,8 +94,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="createUser.xaml.cs">
-      <DependentUpon>createUser.xaml</DependentUpon>
+    <Compile Include="Windows\CreateUser.xaml.cs">
+      <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="DAO\TaskDAO.cs" />
@@ -104,11 +104,11 @@
     <Compile Include="Elements\DashboardQuickStats.xaml.cs">
       <DependentUpon>DashboardQuickStats.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Elements\GraphCard.xaml.cs">
-      <DependentUpon>GraphCard.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Elements\BurndownChart.xaml.cs">
       <DependentUpon>BurndownChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\LoadingModal.xaml.cs">
+      <DependentUpon>LoadingModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\NewSectionElement.xaml.cs">
       <DependentUpon>NewSectionElement.xaml</DependentUpon>
@@ -125,11 +125,8 @@
     <Compile Include="Elements\UserAvatar.xaml.cs">
       <DependentUpon>UserAvatar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="login.xaml.cs">
-      <DependentUpon>login.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Overview.xaml.cs">
-      <DependentUpon>Overview.xaml</DependentUpon>
+    <Compile Include="Windows\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Dashboard.xaml.cs">
       <DependentUpon>Dashboard.xaml</DependentUpon>
@@ -138,11 +135,10 @@
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Compile Include="ViewModels\OverviewModel.cs" />
     <Compile Include="Windows\AddWorkLog.xaml.cs">
       <DependentUpon>AddWorkLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Board.xaml.cs">
+    <Compile Include="Pages\Board.xaml.cs">
       <DependentUpon>Board.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CreateProject.xaml.cs">
@@ -172,7 +168,7 @@
     <Compile Include="Windows\ViewTask.xaml.cs">
       <DependentUpon>ViewTask.xaml</DependentUpon>
     </Compile>
-    <Page Include="createUser.xaml">
+    <Page Include="Windows\CreateUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,11 +176,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Elements\GraphCard.xaml">
+    <Page Include="Elements\BurndownChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Elements\BurndownChart.xaml">
+    <Page Include="Elements\LoadingModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -208,17 +204,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home.xaml">
+    <Page Include="Windows\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="login.xaml">
+    <Page Include="Windows\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -232,17 +224,9 @@
     <Compile Include="DTO\Section.cs" />
     <Compile Include="DTO\Task.cs" />
     <Compile Include="DTO\User.cs" />
-    <Compile Include="Home.xaml.cs">
+    <Compile Include="Windows\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Overview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Dashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -255,7 +239,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Board.xaml">
+    <Page Include="Pages\Board.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,7 +281,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MySQLConnector.cs" />
+    <Compile Include="Controllers\MySQLConnector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -323,9 +307,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="lea0nobo.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

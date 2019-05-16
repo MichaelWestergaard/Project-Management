@@ -33,8 +33,10 @@ namespace project_management.Elements
         private void NewSection_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)e.Source;
-            
-            new NewSection(MainController.Instance.Project.Id, sectionList).Show();
+            if (new Utilities().CheckOpen(typeof(NewSection)) == false)
+            {
+                new NewSection(MainController.Instance.Project.Id, sectionList).Show();
+            }
         }
     }
 }

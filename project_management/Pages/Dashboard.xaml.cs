@@ -5,9 +5,11 @@ using project_management.DAO;
 using project_management.Elements;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,9 +27,15 @@ namespace project_management.Pages
     /// </summary>
     public partial class Dashboard : Page
     {
+
+        MySQLConnector mySQLConnector = MySQLConnector.Instance;
         Utilities utilities = new Utilities();
         MainController mainController = MainController.Instance;
         DashboardQuickStats tasksLeftElement, completedTaskElement, yourTasksElement, deadlineElement;
+        StackPanel quickStatsList;
+        Grid grid;
+
+        private BackgroundWorker worker;
 
         int tasksLeft, tasksCompleted, yourTasks;
         string daysLeft;
@@ -35,28 +43,92 @@ namespace project_management.Pages
         public Dashboard()
         {
             InitializeComponent();
+            mainController.Dashboard = this;
 
-            if(mainController.Project != null)
+            try
             {
-                MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
-
-                if (dataReader.Read())
+                if(mainController.Project != null)
                 {
-                    tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
-                    tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
-                    yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
-                    daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                    MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
+
+                    if (dataReader.Read())
+                    {
+                        tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                        tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                        yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                        daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                    }
+
+                    mySQLConnector.CloseConnections(dataReader);
+
+                    SetupQuickStats();
+                    SetupCharts();
+
+                    worker = new BackgroundWorker();
+                    worker.DoWork += WorkerUpdater;
+                    Timer timer = new Timer(500);
+                    timer.Elapsed += TimerElapsed;
+                    timer.Start();
                 }
-
-                SetupQuickStats();
-                SetupCharts();
             }
+            catch
+            {
+                throw;
+            }
+        }
 
+        void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!worker.IsBusy)
+                worker.RunWorkerAsync();
+        }
+
+        void WorkerUpdater(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                UpdatePage();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public void UpdatePage()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    if (mainController.Project != null)
+                    {
+                        MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
+
+                        if (dataReader.Read())
+                        {
+                            tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                            tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                            yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                            daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                        }
+
+                        mySQLConnector.CloseConnections(dataReader);
+
+                        UpdateQuickStats();
+                        UpdateCharts();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+            });
         }
 
         private void SetupCharts()
         {
-            Grid grid = new Grid();
+            grid = new Grid();
             grid.Width = 900;
             grid.Children.Add(new BurndownChart());
             grid.Children.Add(new PieChart(tasksLeft, tasksCompleted));
@@ -66,12 +138,12 @@ namespace project_management.Pages
         private void SetupQuickStats()
         {
 
-            StackPanel quickStatsList = (StackPanel) FindName("QuickStatsList");
+            quickStatsList = (StackPanel)FindName("QuickStatsList");
 
-            tasksLeftElement        = (DashboardQuickStats) quickStatsList.Children[0];
-            completedTaskElement    = (DashboardQuickStats) quickStatsList.Children[1];
-            yourTasksElement        = (DashboardQuickStats) quickStatsList.Children[2];
-            deadlineElement         = (DashboardQuickStats) quickStatsList.Children[3];
+            tasksLeftElement = (DashboardQuickStats)quickStatsList.Children[0];
+            completedTaskElement = (DashboardQuickStats)quickStatsList.Children[1];
+            yourTasksElement = (DashboardQuickStats)quickStatsList.Children[2];
+            deadlineElement = (DashboardQuickStats)quickStatsList.Children[3];
 
             tasksLeftElement.Value.Text = tasksLeft.ToString();
             tasksLeftElement.Icon.Kind = PackIconKind.FileDocumentBoxMultiple;
@@ -93,6 +165,20 @@ namespace project_management.Pages
             deadlineElement.StatCard.Background = utilities.GetColor("#546e7a");
             deadlineElement.Title.Text = "deadline";
         }
-        
+
+        private void UpdateQuickStats()
+        {
+            tasksLeftElement.Value.Text = tasksLeft.ToString();
+            completedTaskElement.Value.Text = tasksCompleted.ToString();
+            yourTasksElement.Value.Text = yourTasks.ToString();
+            deadlineElement.Value.Text = daysLeft;
+        }
+
+        private void UpdateCharts()
+        {
+            ((BurndownChart)grid.Children[0]).UpdateChart();
+            ((PieChart)grid.Children[1]).UpdateChart(tasksLeft, tasksCompleted);
+        }
+
     }
 }

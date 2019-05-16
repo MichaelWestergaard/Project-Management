@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ToastNotifications.Messages;
+using Profile = project_management.Windows.Profile;
 
 namespace project_management
 {
@@ -19,6 +21,7 @@ namespace project_management
     public partial class Home : Window
     {
         Dashboard overview;
+        Utilities utilities = new Utilities();
         MainController mainController = MainController.Instance;
         Board board;
         List<string> colors = new List<string>();
@@ -29,27 +32,36 @@ namespace project_management
 
         public Home()
         {
-            if (mainController.IsLoggedIn())
+            try
             {
-                InitializeComponent();
-                mainController.Home = this;
-                projectList = (StackPanel)FindName("ProjectList");
-                AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
+                if (mainController.IsLoggedIn())
+                {
+                    InitializeComponent();
+                    mainController.Home = this;
+                    projectList = (StackPanel)FindName("ProjectList");
+                    AppContent.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
 
-                GetProjectList();
-                if(mainController.Project != null)
-                {
-                    board = new Board();
-                    overview = new Dashboard();
-                    AppContent.Content = overview;
-                } else
-                {
-                    AppContent.Content = new WelcomePage();
+                    GetProjectList();
+                    if (mainController.Project != null)
+                    {
+                        board = new Board();
+                        overview = new Dashboard();
+                        AppContent.Content = overview;
+                    }
+                    else
+                    {
+                        AppContent.Content = new WelcomePage();
+                    }
                 }
-            } else
+                else
+                {
+                    new Login().Show();
+                    Close();
+                }
+            }
+            catch (Exception exception)
             {
-                new Login().Show();
-                Close();
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 
@@ -70,16 +82,24 @@ namespace project_management
 
         private void GetProjectList()
         {
-            List<Project> projects = mainController.UserProjects();
-
-            if (projects.Count > 0)
+            try
             {
-                mainController.Project = projects[0];
 
-                foreach (Project project in projects)
+                List<Project> projects = mainController.UserProjects();
+
+                if (projects.Count > 0)
                 {
-                    NewProjectElement(project.Id, project.Name);
+                    mainController.Project = projects[0];
+
+                    foreach (Project project in projects)
+                    {
+                        NewProjectElement(project.Id, project.Name);
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }
 
@@ -149,10 +169,18 @@ namespace project_management
 
         private void ChangeProject_Click(object sender, RoutedEventArgs e)
         {
-            Button source = (Button)e.Source;
-            int projectID = int.Parse(source.Uid);
-            mainController.Project = new ProjectDAO().Read(projectID);
-            mainController.ChangeProject();
+            try
+            {
+
+                Button source = (Button)e.Source;
+                int projectID = int.Parse(source.Uid);
+                mainController.Project = new ProjectDAO().Read(projectID);
+                mainController.ChangeProject();
+            }
+            catch (Exception exception)
+            {
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
+            }
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -171,7 +199,12 @@ namespace project_management
         }
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-            new Profile(this).Show();
+           
+            if(utilities.CheckOpen(typeof(Profile)) == false)
+            {
+                new Profile(this).Show();
+            }
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -207,7 +240,10 @@ namespace project_management
 
         private void ButtonCreateProject_Click(object sender, RoutedEventArgs e)
         {
-            new CreateProject(this).Show();
+            if (utilities.CheckOpen(typeof(CreateProject)) == false)
+            {
+                new CreateProject(this).Show();
+            }
         }
 
     }

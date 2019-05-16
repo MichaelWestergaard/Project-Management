@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:project_management.Windows"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Home" BorderBrush="#FF222425" BorderThickness=".5" SizeToContent="Height" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="Profile" BorderBrush="#FF222425" BorderThickness=".5" SizeToContent="Height" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

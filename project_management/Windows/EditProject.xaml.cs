@@ -72,8 +72,10 @@ namespace project_management.Windows
 
         private void Add_Member_Click(object sender, RoutedEventArgs e)
         {
-            inviteUserToProject = new InviteUserToProject(this);
-            inviteUserToProject.Show();
+            if (utilities.CheckOpen(typeof(InviteUserToProject)) == false)
+            {
+                new InviteUserToProject(this).Show();
+            }
         }
 
         public void AddInvitedUser(int userID)
@@ -85,59 +87,69 @@ namespace project_management.Windows
         {
             string name = this.name.Text;
             string description = this.description.Text;
-            DateTime deadline = this.deadline.SelectedDate.Value;
+            DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
 
-            if (!name.Equals(""))
+            try
             {
-                project.Name = name;
-                project.Description = description;
-                project.DueDate = deadline;
-
-                if (projectDAO.Update(project))
+                if (InputsReq())
                 {
 
-                    foreach(User projectUser in projectUsers)
+                    project.Name = name;
+                    project.Description = description;
+                    project.DueDate = deadline;
+
+                    if (projectDAO.Update(project))
                     {
-                        if (userList.Contains(projectUser.Id))
+
+                        foreach(User projectUser in projectUsers)
                         {
-                            userList.Remove(projectUser.Id);
+                            if (userList.Contains(projectUser.Id))
+                            {
+                                userList.Remove(projectUser.Id);
+                            }
                         }
-                    }
 
-                    foreach (int userID in userList)
-                    {
-                        projectDAO.AddUserToProject(project.Id, userID);
-                    }
-
-                    if (inviteUserToProject != null)
-                        inviteUserToProject.Close();
-
-                    string content = "";
-
-                    content += name[0];
-
-                    if (name.Length > 1)
-                        content += name[1];
-
-                    foreach (UIElement element in projectList.Children)
-                    {
-                        if (element.Uid.Equals(project.Id.ToString()))
+                        foreach (int userID in userList)
                         {
-                            ((Button)element).Content = content.ToUpper();
-                            break;
+                            projectDAO.AddUserToProject(project.Id, userID);
                         }
-                    }
 
-                    utilities.GetNotifier().ShowSuccess("Projektet blev opdateret!");
-                    Close();
+                        if (inviteUserToProject != null)
+                            inviteUserToProject.Close();
+
+                        string content = "";
+
+                        content += name[0];
+
+                        if (name.Length > 1)
+                            content += name[1];
+
+                        foreach (UIElement element in projectList.Children)
+                        {
+                            if (element.Uid.Equals(project.Id.ToString()))
+                            {
+                                ((Button)element).Content = content.ToUpper();
+                                break;
+                            }
+                        }
+
+                        utilities.GetNotifier().ShowSuccess("Projektet blev opdateret!");
+                        mainController.Dashboard.UpdatePage();
+                        Close();
+                    }
+                }
+                else
+                {
+                    utilities.GetNotifier().ShowError("Udfyld venligst alle felter!");
                 }
             }
-            else
+            catch (Exception exception)
             {
-                utilities.GetNotifier().ShowError("Indtast venligst et projektnavn");
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
-        }
 
+        }
+        
         private void AddUserPicture(User user)
         {
             Ellipse ellipse = new Ellipse
@@ -201,6 +213,58 @@ namespace project_management.Windows
                     }
                     Close();
                 }
+            }
+        }
+
+        private bool InputsReq()
+        {
+            string name = this.name.Text;
+            string description = this.description.Text;
+            DateTime deadline = this.deadline.SelectedDate.ToString() == "" ? DateTime.MinValue : this.deadline.SelectedDate.Value;
+
+            if (NameFieldReq(name) && DescripFieldReq(description) && DateFieldReq(deadline))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool NameFieldReq(string field)
+        {
+            if (field == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool DescripFieldReq(string field)
+        {
+            if (field == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool DateFieldReq(DateTime date)
+        {
+            if (date.ToString() == "" || date < DateTime.Now.AddDays(-1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

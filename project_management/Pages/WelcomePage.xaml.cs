@@ -25,7 +25,14 @@ namespace project_management.Pages
         public WelcomePage()
         {
             InitializeComponent();
-            Title.Text = "Hej, " + MainController.Instance.User.Firstname + "!";
+            try
+            {
+                Title.Text = "Hej, " + MainController.Instance.User.Firstname + "!";
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
