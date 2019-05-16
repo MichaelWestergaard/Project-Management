@@ -231,10 +231,6 @@ namespace project_management
                     case 2:
                         AppContent.Content = calendar;
                         break;
-
-                    case 3:
-                        AppContent.Background = Brushes.Brown;
-                        break;
                 }
             }
         }
