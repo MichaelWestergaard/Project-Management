@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using project_management.Controllers;
 using project_management.DAO;
 using project_management.DTO;

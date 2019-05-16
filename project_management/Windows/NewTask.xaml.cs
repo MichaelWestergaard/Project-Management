@@ -113,9 +113,17 @@ namespace project_management.Windows
                         {
                             if (deadline.Text != "")
                             {
-                                if (DateTime.TryParse(deadline.Text, out DateTime result))
+                                DateTime result;
+                                if (DateTime.TryParse(deadline.Text, out result))
                                 {
-                                    return true;
+                                    if(result >= DateTime.Today)
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        new Utilities().GetNotifier().ShowError("Du kan ikke vælge en deadline der allerede er overskredet");
+                                    }
                                 }
                                 else
                                 {
