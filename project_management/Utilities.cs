@@ -6,6 +6,7 @@ using ToastNotifications.Position;
 using System.Windows;
 using System.Windows.Media;
 using System.Security.Cryptography;
+using MySql.Data.MySqlClient;
 
 namespace project_management
 {
@@ -98,6 +99,20 @@ namespace project_management
                 return true;
 
             return false;
+        }
+
+        public string HandleException(Exception e)
+        {
+            if (e.GetType().Equals(typeof(MySqlException)))
+            {
+                MySqlException exception = (MySqlException)e;
+                if (exception.Code == 0)
+                {
+                    return "Kunne ikke oprette forbindelse til databasen!";
+                }
+            }
+
+            return "Der forekom en ukendt fejl, prøv igen.";
         }
     }
 }
