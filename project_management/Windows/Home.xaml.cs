@@ -26,9 +26,11 @@ namespace project_management
         Board board;
         List<string> colors = new List<string>();
         StackPanel projectList;
+        CalendarTab calendar;
 
         public Board Board { get => board; set => board = value; }
         public Dashboard Overview { get => overview; set => overview = value; }
+        public CalendarTab Calendar { get => calendar; set => calendar = value; }
 
         public Home()
         {
@@ -46,6 +48,7 @@ namespace project_management
                     {
                         board = new Board();
                         overview = new Dashboard();
+                        calendar = new CalendarTab();
                         AppContent.Content = overview;
                     }
                     else
@@ -53,8 +56,7 @@ namespace project_management
                         AppContent.Content = new WelcomePage();
                     }
                 }
-                else
-                {
+                else{
                     new Login().Show();
                     Close();
                 }
@@ -187,7 +189,7 @@ namespace project_management
         {
             Application.Current.Shutdown();
         }
-        
+
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -199,12 +201,12 @@ namespace project_management
         }
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-           
+
             if(utilities.CheckOpen(typeof(Profile)) == false)
             {
                 new Profile(this).Show();
             }
-            
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -227,8 +229,7 @@ namespace project_management
                         break;
 
                     case 2:
-
-                        AppContent.Background = Brushes.Blue;
+                        AppContent.Content = calendar;
                         break;
 
                     case 3:
