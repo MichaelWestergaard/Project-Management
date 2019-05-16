@@ -18,6 +18,10 @@ using System.Windows.Shapes;
 using Separator = LiveCharts.Wpf.Separator;
 using LiveCharts.Wpf.Charts.Base;
 using LiveCharts.Dtos;
+using project_management.Controllers;
+using project_management.DTO;
+using project_management.DAO;
+using MySql.Data.MySqlClient;
 
 namespace project_management.Pages
 {
@@ -27,12 +31,31 @@ namespace project_management.Pages
     public partial class CalendarTab : Page
     {
 
-        private double _from, _to;
         private readonly ChartValues<GanttPoint> _values;
+        private Project project;
 
         public CalendarTab()
         {
             InitializeComponent();
+
+            project = MainController.Instance.Project;
+
+            MySqlDataReader dataReader = new ProjectDAO().GetBurndwonChartData(project.Id);
+
+
+
+            if(dataReader != null)
+            {
+                _values = new ChartValues<GanttPoint>();
+                while (dataReader.Read())
+                {
+                    _values.Add(new GanttPoint(dataReader.IsDBNull(1) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("start_date")).Ticks, dataReader.IsDBNull(2) ? 0 : ((DateTime)dataReader.GetMySqlDateTime("due_date")).Ticks));
+                }
+            }
+
+
+
+
 
             var now = DateTime.Now;
 
@@ -93,7 +116,8 @@ namespace project_management.Pages
             {
                 new RowSeries
                 {
-                    Values = _values
+                    Values = _values,
+                    DataLabels = true
                 }
             };
             Formatter = value => new DateTime((long) value).ToString("dd MMM");
@@ -142,21 +166,12 @@ namespace project_management.Pages
         public SeriesCollection Series { get; set; }
         public double AxisStep { get; set; }
         public string[] Labels { get; set; }
-        public Func<double, string> Formatter { get; set; }/*
+        public Func<double, string> Formatter { get; set; }
 
-        public double From
+        public void GetGanttData()
         {
-            get { return _from; }
-            set { _from = value; }
-        }
 
-        public double To
-        {
-            get { return _to; }
-            set { _to = value; }
         }
-
-    */
 
 
 
