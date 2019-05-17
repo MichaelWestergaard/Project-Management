@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ToastNotifications.Messages;
+using project_management.Controllers;
 
 namespace project_management.Windows
 {
@@ -27,7 +28,8 @@ namespace project_management.Windows
         private int assignedUserID = 0;
         private UserAvatar assignedUserAvatar = null;
         Utilities utilities = new Utilities();
-        
+        Section section;
+
         public EditTask(TaskElement taskElement)
         {
             this.taskElement = taskElement;
@@ -44,7 +46,9 @@ namespace project_management.Windows
             {
                 StackPanel projectUsers = (StackPanel)FindName("ProjectUsers");
 
-                List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(task.SectionID).ProjectId);
+                section = new SectionDAO().Read(task.SectionID);
+
+                List<User> users = new ProjectDAO().GetProjectUsers(section.ProjectId);
 
                 foreach (User user in users)
                 {
@@ -109,9 +113,17 @@ namespace project_management.Windows
                                 DateTime result;
                                 if (DateTime.TryParse(deadline.Text, out result))
                                 {
-                                    if (result >= task.CreatedAt)
+                                    if (result >= DateTime.Today)
                                     {
-                                        return true;
+                                        DateTime projectDeadLine = new ProjectDAO().Read(section.ProjectId).DueDate;
+                                        if (result <= projectDeadLine)
+                                        {
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            new Utilities().GetNotifier().ShowError("Opgaven overskrider projektets deadline d. " + projectDeadLine.ToString("dd/MM/yyyy"));
+                                        }
                                     }
                                     else
                                     {
@@ -186,7 +198,8 @@ namespace project_management.Windows
                             taskElement.avatar.ImageSource = null;
                             taskElement.UserButton.ToolTip = null;
                         }
-                    
+                        MainController.Instance.Dashboard.UpdatePage();
+
                         this.Close();
                     }
                 }

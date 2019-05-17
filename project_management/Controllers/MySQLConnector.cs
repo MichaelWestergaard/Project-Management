@@ -118,10 +118,5 @@ namespace project_management
             connection.Close();
             connection.ClearAllPoolsAsync();
         }
-
-        public void CloseConnection()
-        {
-            connection.Close();
-        }
     }
 }

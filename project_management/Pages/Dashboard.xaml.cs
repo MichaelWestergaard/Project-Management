@@ -50,7 +50,7 @@ namespace project_management.Pages
             {
                 if(mainController.Project != null)
                 {
-                    using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id))
+                    using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id, mainController.User.Id))
                     {
                         if (dataReader.Read())
                         {
@@ -105,7 +105,7 @@ namespace project_management.Pages
                 {
                     if (mainController.Project != null)
                     {
-                        using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id))
+                        using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id, mainController.User.Id))
                         {
                             if (dataReader.Read())
                             {

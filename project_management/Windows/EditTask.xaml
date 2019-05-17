@@ -46,7 +46,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <Grid Margin="10, 20">
+                <Grid Margin="10 5 10 40">
                     <Rectangle Fill="White" RadiusY="10" RadiusX="10">
                         <Rectangle.Effect>
                             <DropShadowEffect Color="#FFBBBBBB" BlurRadius="10" RenderingBias="Quality" ShadowDepth="3"/>

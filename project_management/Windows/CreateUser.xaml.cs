@@ -105,20 +105,28 @@ namespace project_management
             string email = this.email.Text;
             try
             {
+                
                 if (InputsReq())
                 {
-                    User user = new User();
-                    user.Firstname = firstName;
-                    user.Lastname = lastName;
-                    user.Email = email;
-                    user.Password = new Utilities().EncryptPassword(password);
-                    user.Picture = filename.Equals("") ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : filePath;
 
                     UserDAO userDAO = new UserDAO();
-                    int userID = userDAO.CreateUser(user);
+                    if (userDAO.IsEmailFree(email))
+                    {
+                        User user = new User();
+                        user.Firstname = firstName;
+                        user.Lastname = lastName;
+                        user.Email = email;
+                        user.Password = new Utilities().EncryptPassword(password);
+                        user.Picture = filename.Equals("") ? "https://pixelmator-pro.s3.amazonaws.com/community/avatar_empty@2x.png" : filePath;
 
-                    new Login().Show();
-                    this.Close();
+                        int userID = userDAO.CreateUser(user);
+
+                        new Login().Show();
+                        this.Close();
+                    } else
+                    {
+                        utilities.GetNotifier().ShowError("Email adressen er allerede i brug!");
+                    }
                 }
                 else
                 {

@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using ToastNotifications;
 using ToastNotifications.Messages;
 using project_management.Controllers;
+using Section = project_management.DTO.Section;
 
 namespace project_management.Windows
 {
@@ -35,6 +36,7 @@ namespace project_management.Windows
         private int assignedUserID = 0;
         private UserAvatar assignedUserAvatar = null;
         Utilities utilities = new Utilities();
+        Section section;
 
         public NewTask()
         {
@@ -54,8 +56,9 @@ namespace project_management.Windows
                 sectionID = int.Parse(sectionName.Remove(0, "Section".Length));
             
                 StackPanel projectUsers = (StackPanel) FindName("ProjectUsers");
+                section = new SectionDAO().Read(sectionID);
 
-                List<User> users = new ProjectDAO().GetProjectUsers(new SectionDAO().Read(sectionID).ProjectId);
+                List<User> users = new ProjectDAO().GetProjectUsers(section.ProjectId);
             
                 foreach (User user in users)
                 {
@@ -118,7 +121,14 @@ namespace project_management.Windows
                                 {
                                     if(result >= DateTime.Today)
                                     {
-                                        return true;
+                                        DateTime projectDeadLine = new ProjectDAO().Read(section.ProjectId).DueDate;
+                                        if (result <= projectDeadLine)
+                                        {
+                                            return true;
+                                        } else
+                                        {
+                                            new Utilities().GetNotifier().ShowError("Opgaven overskrider projektets deadline d. " + projectDeadLine);
+                                        }
                                     }
                                     else
                                     {

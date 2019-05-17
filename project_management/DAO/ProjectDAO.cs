@@ -230,14 +230,15 @@ namespace project_management.DAO
             return users;
         }
 
-        public MySqlDataReader GetDashboardStats(int ID)
+        public MySqlDataReader GetDashboardStats(int projectID, int userID)
         {
             var parameters = new Dictionary<string, string>
             {
-                { "@id", ID.ToString() }
+                { "@id", projectID.ToString() },
+                { "@userID", userID.ToString() }
             };
 
-            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectDashboardStats WHERE ProjectID = @id", parameters);
+            MySqlDataReader dataReader = mySQLConnector.GetData("SELECT * FROM v_ProjectDashboardStats WHERE ProjectID = @id AND UserID = @userID", parameters);
 
             if (dataReader.HasRows)
             {

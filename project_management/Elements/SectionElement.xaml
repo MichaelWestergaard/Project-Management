@@ -6,8 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignWidth="250">
-    <StackPanel Name="SectionID" Orientation="Vertical" Width="250" Height="Auto" AllowDrop="True" Drop="SectionID_Drop">
-        <materialDesign:Card Name="SectionCard" Width="Auto" Background="White" Margin="5" MouseEnter="SectionCard_MouseEnter" MouseLeave="SectionCard_MouseLeave">
+    <StackPanel Name="SectionID" Orientation="Vertical" Width="250" Height="Auto" >
+        <materialDesign:Card Name="SectionCard" Width="Auto" Background="White" AllowDrop="True" Drop="SectionID_Drop" Margin="5" MouseEnter="SectionCard_MouseEnter" MouseLeave="SectionCard_MouseLeave">
             <Grid Margin="5">
                 <TextBlock Name="SectionName" Text="Sektion her" TextAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" VerticalAlignment="Center"/>
                 <Button VerticalAlignment="Center" Opacity="0" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Name="DeleteSection" Click="DeleteSection_Click">
