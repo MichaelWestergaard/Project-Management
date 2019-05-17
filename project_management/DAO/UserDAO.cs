@@ -12,10 +12,10 @@ namespace project_management.DAO
 {
     class UserDAO : BaseDAO<User>
     {
+        MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
         public bool Create(User user)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {
@@ -51,7 +51,6 @@ namespace project_management.DAO
         
         public int CreateUser(User user)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             var newUser = new Dictionary<string, string>();
             newUser.Add("@firstName", user.Firstname);
@@ -62,14 +61,13 @@ namespace project_management.DAO
 
             int userID = mySQLConnector.Insert("INSERT INTO users (firstName, lastName, email, password, picture) VALUES (@firstName, @lastName, @email, @password, @picture)", newUser);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             return userID;
         }
 
         public bool Delete(int ID)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {
@@ -78,7 +76,7 @@ namespace project_management.DAO
 
             bool reponse = mySQLConnector.Execute("DELETE FROM users WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (reponse)
                 return true;
@@ -88,7 +86,6 @@ namespace project_management.DAO
 
         public List<User> List()
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             List<User> users = new List<User>();
 
@@ -119,7 +116,6 @@ namespace project_management.DAO
 
         public User Read(int ID)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             var parameters = new Dictionary<string, string>();
 
@@ -152,7 +148,6 @@ namespace project_management.DAO
 
         public bool Update(User user)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             var parameters = new Dictionary<string, string>();
 
@@ -187,7 +182,7 @@ namespace project_management.DAO
 
         public bool IsEmailFree(string email)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+            
 
             var parameters = new Dictionary<string, string>
             {
@@ -213,8 +208,7 @@ namespace project_management.DAO
         public User GetUserByEmail(string email)
         {
             User user = new User();
-
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
+            
 
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {

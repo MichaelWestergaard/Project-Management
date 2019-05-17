@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid x:Name="Toolbar" MouseDown="Toolbar_MouseDown" Grid.ColumnSpan="2" Background="#FF222425">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0">
-                <TextBlock FontSize="18" Text="Project Manager" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock FontSize="18" Text="Se Profil" Foreground="white" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0">
                 <Button x:Name="ButtonClose" Click="ButtonClose_Click" Width="25" Height="25" Background="{x:Null}" BorderBrush="{x:Null}"  Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">

@@ -15,7 +15,11 @@ namespace project_management
 
         private MySQLConnector()
         {
-            connection = new MySqlConnection("SERVER=mysql25.unoeuro.com;DATABASE=michaelwestergaard_dk_db;UID=michaelwest_dk;PASSWORD=tim;");
+            connection = new MySqlConnection(
+                "SERVER=mysql25.unoeuro.com;" +
+                "DATABASE=michaelwestergaard_dk_db;" +
+                "UID=michaelwest_dk;" +
+                "PASSWORD=tim;");
         }
 
         public static MySQLConnector Instance
@@ -82,7 +86,7 @@ namespace project_management
         {
             try
             {
-                connection.Close();
+                CloseConnections();
                 connection.Open();
 
                 MySqlCommand cmd = connection.CreateCommand();
@@ -112,6 +116,7 @@ namespace project_management
             }
 
             connection.Close();
+            connection.ClearAllPoolsAsync();
         }
 
         public void CloseConnection()

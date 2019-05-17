@@ -48,8 +48,7 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <Button Uid="0" Width="150" Height="40" Content="Oversigt" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#2962ff" Click="Button_Click"/>
                 <Button Uid="1" Width="150" Height="40" Content="Scrum Board" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#2962ff" Click="Button_Click"/>
-                <Button Uid="2" Width="150" Height="40" Content="Kalender" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#2962ff" Click="Button_Click"/>
-                <Button Uid="3" Width="150" Height="40" Content="Andet?" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#2962ff" Click="Button_Click"/>
+                <Button Uid="2" Width="150" Height="40" Content="Gantt Diagram" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#2962ff" Click="Button_Click"/>
             </StackPanel>
             <Grid x:Name="MenuTabIndicator" Width="150" Height="3" Background="#2962ff" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         </Grid>

@@ -21,7 +21,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("INSERT INTO sections (project_id, name, due_date) VALUES (@project_id, @name, @due_date)", newSection);
             
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
             {
@@ -51,7 +51,7 @@ namespace project_management.DAO
 
             bool reponse = mySQLConnector.Execute("DELETE FROM sections WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (reponse)
                 return true;
@@ -120,7 +120,6 @@ namespace project_management.DAO
 
         public Section Read(int id)
         {
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             var parameters = new Dictionary<string, string>();
 
@@ -161,7 +160,7 @@ namespace project_management.DAO
 
             bool edit = mySQLConnector.Execute("UPDATE sections SET project_id = @project_id, name = @name, completed = @completed, due_date = @due_date WHERE id = @id", newSection);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (edit)
             {

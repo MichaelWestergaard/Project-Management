@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using ToastNotifications.Messages;
 
 namespace project_management.Windows
 {
@@ -15,6 +16,9 @@ namespace project_management.Windows
     /// </summary>
     public partial class Board : Page
     {
+
+        Utilities utilities = new Utilities();
+
         public Board()
         {
 
@@ -78,9 +82,9 @@ namespace project_management.Windows
                     sectionList.Children.Add(new NewSectionElement(sectionList));
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                throw;
+                utilities.GetNotifier().ShowError(utilities.HandleException(exception));
             }
         }        
     }

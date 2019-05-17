@@ -27,11 +27,11 @@ namespace project_management.DAO
             bool response = mySQLConnector.Execute("INSERT INTO projects (parent_project_id, user_id , name, description, due_date) VALUES (@parent_project_id, @user_id, @name, @description, @due_date)", newProject);
             if (response)
             {
-                mySQLConnector.CloseConnection();
+                mySQLConnector.CloseConnections();
                 return true;
             }
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
             return false;
         }
         
@@ -44,7 +44,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("DELETE FROM projects WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
                 return true;
@@ -154,7 +154,7 @@ namespace project_management.DAO
             
             bool edit = mySQLConnector.Execute("UPDATE projects SET name = @name, description = @description, completed = @completed, created_at = @created_at, due_date = @due_date WHERE id = @id", newProject);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (edit)
             {
@@ -181,7 +181,6 @@ namespace project_management.DAO
         public bool AddUserToProject(int projectID, int userID)
         {
             UserDAO userDAO = new UserDAO();
-            MySQLConnector mySQLConnector = MySQLConnector.Instance;
 
             if (Read(projectID) != null && userDAO.Read(userID) != null)
             {
@@ -195,10 +194,10 @@ namespace project_management.DAO
 
                 if (response)
                 {
-                    mySQLConnector.CloseConnection();
+                    mySQLConnector.CloseConnections();
                     return true;
                 }
-                mySQLConnector.CloseConnection();
+                mySQLConnector.CloseConnections();
                 return false;
             }
 
@@ -266,5 +265,6 @@ namespace project_management.DAO
 
             return null;
         }
+
     }
 }
