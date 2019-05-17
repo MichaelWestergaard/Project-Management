@@ -193,12 +193,12 @@ namespace project_management
 
         private bool PasswordReq(string password)
         {
-            var nummer = new Regex(@"[0-9]+");
-            var stortBogstav = new Regex(@"[A-Z]+");
-            var lilleBogstav = new Regex(@"[a-z]+");
-            var antalChar = new Regex(@".{8,16}");
+            var number = new Regex(@"[0-9]+");
+            var uppercaseLetter = new Regex(@"[A-Z]+");
+            var lowercaseLetter = new Regex(@"[a-z]+");
+            var length = new Regex(@".{8,16}");
 
-            if (!nummer.IsMatch(password) || !stortBogstav.IsMatch(password) || !lilleBogstav.IsMatch(password) || !antalChar.IsMatch(password))
+            if (!number.IsMatch(password) || !uppercaseLetter.IsMatch(password) || !lowercaseLetter.IsMatch(password) || !length.IsMatch(password))
             {
                 return false;
             }
