@@ -24,7 +24,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("INSERT INTO work_log (user_id, task_id, work, created_at) VALUES (@user_id, @task_id , @work, @created_at)", newWorkLog);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
             {
@@ -54,7 +54,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("DELETE FROM work_log WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
                 return true;
@@ -161,7 +161,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("UPDATE work_log SET user_id = @user_id, task_id = @task_id, work = @work", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
                 return true;

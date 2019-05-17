@@ -28,7 +28,7 @@ namespace project_management.DAO
             
             bool response = mySQLConnector.Execute("INSERT INTO tasks (parent_task_id, requires_task_id, section_id, user_id, name, description, due_date, estimated_time, priority) VALUES (@parent_task_id, @requires_task_id , @section_id, @user_id, @name, @description, @due_date, @estimated_time, @priority)", newTask);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
             {
@@ -65,7 +65,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("DELETE FROM tasks WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
                 return true;
@@ -209,7 +209,7 @@ namespace project_management.DAO
 
             bool response = mySQLConnector.Execute("UPDATE tasks SET parent_task_id = @parent_task_id, requires_task_id = @requires_task_id, section_id = @section_id, user_id = @user_id, name = @name, description = @description, due_date = @due_date, completed = @completed, estimated_time = @estimated_time, priority = @priority WHERE id = @id", parameters);
 
-            mySQLConnector.CloseConnection();
+            mySQLConnector.CloseConnections();
 
             if (response)
                 return true;

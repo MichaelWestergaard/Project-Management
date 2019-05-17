@@ -169,7 +169,7 @@ namespace project_management.Elements
                     mySQLConnector.CloseConnections(dataReaderActual);
                 }
             }
-            catch (Exception exception)
+            catch
             {
                 throw;
             }
@@ -277,7 +277,7 @@ namespace project_management.Elements
                     }
                 }
             }
-            catch (Exception exception)
+            catch
             {
                 throw;
             }

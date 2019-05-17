@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToastNotifications.Messages;
 
 namespace project_management.Pages
 {
@@ -49,24 +50,25 @@ namespace project_management.Pages
             {
                 if(mainController.Project != null)
                 {
-                    MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
-
-                    if (dataReader.Read())
+                    using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id))
                     {
-                        tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
-                        tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
-                        yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
-                        daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                        if (dataReader.Read())
+                        {
+                            tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                            tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                            yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                            daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                        }
                     }
-
-                    mySQLConnector.CloseConnections(dataReader);
+                    
+                    mySQLConnector.CloseConnections();
 
                     SetupQuickStats();
                     SetupCharts();
-
+                    
                     worker = new BackgroundWorker();
                     worker.DoWork += WorkerUpdater;
-                    Timer timer = new Timer(30000);
+                    Timer timer = new Timer(60000);
                     timer.Elapsed += TimerElapsed;
                     timer.Start();
                 }
@@ -103,25 +105,26 @@ namespace project_management.Pages
                 {
                     if (mainController.Project != null)
                     {
-                        MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id);
-
-                        if (dataReader.Read())
+                        using (MySqlDataReader dataReader = new ProjectDAO().GetDashboardStats(mainController.Project.Id))
                         {
-                            tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
-                            tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
-                            yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
-                            daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                            if (dataReader.Read())
+                            {
+                                tasksLeft = dataReader.IsDBNull(2) ? 0 : dataReader.GetInt16("TasksLeft");
+                                tasksCompleted = dataReader.IsDBNull(3) ? 0 : dataReader.GetInt16("TasksCompleted");
+                                yourTasks = dataReader.IsDBNull(4) ? 0 : dataReader.GetInt16("YourTasks");
+                                daysLeft = dataReader.IsDBNull(5) ? "Ingen" : dataReader.GetInt16("DaysLeft") + " dage";
+                            }
                         }
 
-                        mySQLConnector.CloseConnections(dataReader);
+                        mySQLConnector.CloseConnections();
 
                         UpdateQuickStats();
                         UpdateCharts();
                     }
                 }
-                catch
+                catch (Exception exception)
                 {
-                    throw;
+                    utilities.GetNotifier().ShowError(utilities.HandleException(exception));
                 }
             });
         }

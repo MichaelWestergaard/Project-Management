@@ -82,7 +82,7 @@ namespace project_management
         {
             try
             {
-                connection.Close();
+                CloseConnections();
                 connection.Open();
 
                 MySqlCommand cmd = connection.CreateCommand();
@@ -112,6 +112,7 @@ namespace project_management
             }
 
             connection.Close();
+            connection.ClearAllPoolsAsync();
         }
 
         public void CloseConnection()
