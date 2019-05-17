@@ -51,6 +51,7 @@ namespace project_management.Windows
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
+            MainController.Instance.User = null;
             Properties.Settings.Default.Email = "";
             Properties.Settings.Default.Password = "";
             Properties.Settings.Default.AutoLogin = false;
