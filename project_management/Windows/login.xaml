@@ -39,8 +39,8 @@
                     <Grid>
                         <StackPanel VerticalAlignment="Bottom" Margin="10">
                             <TextBlock Text="Project management" FontSize="23" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="3"/>
-                            <TextBox Name="EmailInput" materialDesign:HintAssist.Hint="E-mailadresse" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
-                            <PasswordBox Name="PasswordInput" materialDesign:HintAssist.Hint="Adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5"/>
+                            <TextBox Text="Testbruger@hotmail.com" Name="EmailInput" materialDesign:HintAssist.Hint="E-mailadresse" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5"/>
+                            <PasswordBox Password="Testbruger1" Name="PasswordInput" materialDesign:HintAssist.Hint="Adgangskode" Background="Transparent" FontSize="16" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="5"/>
                             <CheckBox Style="{StaticResource MaterialDesignCheckBox}" Content="Forbliv logget ind" Name="SaveLogin" Margin="5 10" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </Grid>
